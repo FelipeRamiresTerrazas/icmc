@@ -1,0 +1,87 @@
+\section{\tr{Metodologia}{Methodology}}
+\label{sec:metodologia}
+
+\subsection{\tr{Etapa 1: integração e painel}{Stage 1: integration and panel}}
+
+\pt{%
+As três fontes serão integradas num painel com uma linha por veículo e mês. Para cada linha: o número de acidentes relatados, a exposição (horas com motor ligado e distância percorrida), as contagens de cada tipo de evento de condução, características do veículo (tipo de uso, combustível) e a unidade em que o veículo estava. A ligação entre relatos e veículos usa regras determinísticas (normalização do número do veículo) e, para os casos restantes, comparação aproximada inspirada em \textcite{fellegi1969}. A qualidade será medida numa amostra revisada manualmente (precisão e cobertura da ligação), e os modelos serão reajustados só com ligações exatas, como teste de sensibilidade.
+}
+\en{%
+The three sources will be integrated into a panel with one row per vehicle and month. For each row: the number of reported accidents, exposure (engine hours and distance traveled), the counts of each type of driving event, vehicle characteristics (use type, fuel) and the site where the vehicle was. Linking reports to vehicles uses deterministic rules (normalizing the vehicle number) and, for the remaining cases, approximate matching inspired by \textcite{fellegi1969}. Linkage quality will be measured on a manually reviewed sample (precision and coverage), and models will be refitted with exact links only as a sensitivity check.
+}
+
+\subsection{\tr{Etapa 2: modelos de risco}{Stage 2: risk models}}
+
+\pt{%
+O modelo principal é uma binomial negativa hierárquica:
+}
+\en{%
+The main model is a hierarchical negative binomial:
+}
+\begin{equation}
+\label{eq:modelo}
+\begin{aligned}
+Y_{it} &\sim \text{NB}(\mu_{it}, \phi), \\
+\log \mu_{it} &= \log E_{it} + \mathbf{x}_{it}^\top \bm{\beta} + \gamma_{t} + u_{s(i,t)} + v_i, \\
+u_s &\sim \mathcal{N}(0, \sigma_u^2), \qquad v_i \sim \mathcal{N}(0, \sigma_v^2),
+\end{aligned}
+\end{equation}
+\pt{%
+em que $s(i,t)$ é a unidade do veículo $i$ no mês $t$, $\mathbf{x}_{it}$ reúne as taxas de eventos de condução por unidade de exposição e as características do veículo, $\gamma_t$ é um efeito de calendário (tendência e sazonalidade) e $\phi$ é o parâmetro de dispersão. O modelo será comparado a alternativas mais simples (Poisson, sem efeitos aleatórios, sem telemetria) e a versões com inflação de zeros. O diagnóstico usará resíduos quantílicos aleatorizados \parencite{dunn1996}.
+}
+\en{%
+where $s(i,t)$ is the site of vehicle $i$ in month $t$, $\mathbf{x}_{it}$ holds the driving event rates per unit of exposure and the vehicle characteristics, $\gamma_t$ is a calendar effect (trend and seasonality) and $\phi$ is the dispersion parameter. The model will be compared with simpler alternatives (Poisson, without random effects, without telematics) and with zero-inflated versions. Diagnostics will use randomized quantile residuals \parencite{dunn1996}.
+}
+
+\pt{%
+Os coeficientes de telemetria serão lidos como associações, não como efeitos causais: o mesmo motorista, a mesma unidade e o mesmo tipo de manobra podem gerar ao mesmo tempo mais eventos e mais acidentes. A definição de \enquote{acidente} também será fixada antes da modelagem (por exemplo, separar colisões com dano material de lesões e de quase-acidentes) e testada com definições alternativas.
+}
+\en{%
+Telematics coefficients will be read as associations, not causal effects: the same driver, the same site and the same type of maneuver can generate both more events and more accidents. The definition of \enquote{accident} will also be fixed before modeling (for example, separating property-damage collisions from injuries and near misses) and tested with alternative definitions.
+}
+
+\subsection{\tr{Etapa 3: validação}{Stage 3: validation}}
+
+\pt{%
+A avaliação será fora da amostra, de duas formas: validação temporal (ajuste nos meses iniciais, previsão dos últimos meses) e validação por unidade (deixando uma unidade de fora por vez). As métricas serão o escore logarítmico e a calibração da distribuição prevista \parencite{gneiting2007}, além da fração de acidentes concentrada nos veículos e unidades classificados como de maior risco. Para H1, cada indicador por unidade (contagem bruta, taxa bruta e taxa estimada pelo modelo~\eqref{eq:modelo}) calculado num semestre será usado para prever a taxa observada no semestre seguinte, com erro ponderado pela exposição; a correlação de cada indicador com o tamanho da unidade também será reportada, porque contagens brutas são estáveis justamente por refletirem o tamanho.
+}
+\en{%
+Evaluation will be out of sample, in two ways: temporal validation (fit on the early months, predict the last months) and site-level validation (leaving one site out at a time). Metrics will be the log score and the calibration of the predictive distribution \parencite{gneiting2007}, plus the share of accidents concentrated in the vehicles and sites ranked as highest risk. For H1, each site indicator (raw count, raw rate and rate estimated by model~\eqref{eq:modelo}) computed in one semester will be used to predict the rate observed in the next semester, with exposure-weighted error; the correlation of each indicator with site size will also be reported, since raw counts are stable precisely because they reflect size.
+}
+
+\subsection{\tr{Etapa 4: subnotificação}{Stage 4: underreporting}}
+\label{sec:subnotificacao}
+
+\pt{%
+Cada colisão detectada pelos sensores será comparada aos relatos do mesmo veículo numa janela de tempo curta. Com isso, estima-se a probabilidade de relato $p_s$ de uma colisão detectada, por unidade, com um modelo logístico hierárquico. Dois cuidados são centrais: os sensores não detectam todas as colisões (impactos leves em baixa velocidade podem não disparar o alarme), e parte das detecções são falsos alarmes. Por isso, a análise será restrita aos eventos revisados como colisão no próprio sistema de telemetria, e a estimativa será apresentada como limite para a subnotificação, não como valor exato. Se houver dados suficientes, um modelo de captura e recaptura com duas fontes e dependência entre elas \parencite{iwgdmf1995} será usado para estimar o total de colisões.
+}
+\en{%
+Each sensor-detected collision will be compared with reports for the same vehicle within a short time window. This yields an estimate of the reporting probability $p_s$ of a detected collision, per site, with a hierarchical logistic model. Two caveats are central: sensors do not detect every collision (light, low-speed impacts may not trigger the alarm), and some detections are false alarms. The analysis will therefore be restricted to events reviewed as collisions in the telematics system itself, and the estimate will be presented as a bound on underreporting, not an exact value. If data allow, a two-source capture-recapture model with dependence between sources \parencite{iwgdmf1995} will be used to estimate the total number of collisions.
+}
+
+\subsection{\tr{Plano alternativo}{Fallback plan}}
+
+\pt{%
+Se o uso da telemetria for restrito, o mesmo arcabouço é aplicado ao nível de unidade e mês, com as horas trabalhadas da folha como exposição. Os objetivos (b) e (e) e a hipótese H1 seguem testáveis; o objetivo (c) e a hipótese H2 deixam de existir, e o objetivo (d) é substituído pela comparação entre unidades com práticas de relato diferentes \preencher{detalhar se o plano alternativo for acionado}.
+}
+\en{%
+If the use of telematics is restricted, the same framework is applied at the site-month level, with payroll hours worked as exposure. Objectives (b) and (e) and hypothesis H1 remain testable; objective (c) and hypothesis H2 are dropped, and objective (d) is replaced by a comparison between sites with different reporting practices \preencher{detail if the fallback plan is triggered}.
+}
+
+\subsection{\tr{Extensão opcional: projeção de acidentes esperados}{Optional extension: projecting expected accidents}}
+
+\pt{%
+A exposição de cada unidade nos meses seguintes será prevista como distribuição, com modelos de séries temporais hierárquicos \parencite{hyndman2021}, e avaliada por CRPS e perda quantílica \parencite{gneiting2007}. Combinando essa distribuição com o modelo~\eqref{eq:modelo} por simulação, obtém-se a distribuição de acidentes esperados por unidade e mês. O resultado é uma ferramenta para decidir onde concentrar inspeções e supervisão no mês seguinte, considerando tanto o risco por hora quanto o volume previsto.
+}
+\en{%
+Each site's exposure for the following months will be forecast as a distribution, with hierarchical time series models \parencite{hyndman2021}, and evaluated by CRPS and quantile loss \parencite{gneiting2007}. Combining this distribution with model~\eqref{eq:modelo} by simulation yields the distribution of expected accidents per site and month. The result is a tool to decide where to focus inspections and supervision in the following month, accounting for both the risk per hour and the forecast volume.
+}
+
+\subsection{\tr{Ferramentas e reprodutibilidade}{Tools and reproducibility}}
+
+\pt{%
+A extração e a agregação rodam dentro do ambiente de dados da empresa, em SQL. A modelagem usa Python e R, com código versionado, sementes fixas e um esqueleto de análise já testado com dados sintéticos que imitam a estrutura do painel. Toda figura e tabela da dissertação será gerada por script.
+}
+\en{%
+Extraction and aggregation run inside the company's data environment, in SQL. Modeling uses Python and R, with versioned code, fixed seeds and an analysis skeleton already tested on synthetic data that mimic the panel structure. Every figure and table in the dissertation will be generated by script.
+}
