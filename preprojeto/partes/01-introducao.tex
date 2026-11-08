@@ -1,0 +1,37 @@
+\section{\tr{Introdução e justificativa}{Introduction and motivation}}
+\label{sec:introducao}
+
+\pt{%
+Centros de distribuição e plantas industriais dependem de operações de pátio: a movimentação de carretas entre vagas, docas e portarias, feita por caminhões de manobra. É uma atividade de baixa velocidade, mas com manobras frequentes em espaço restrito, ré, engates e circulação de pedestres. Colisões com carretas, docas, portões e outros veículos geram danos materiais, interrupção da operação e, em parte dos casos, lesões.
+}
+\en{%
+Distribution centers and industrial plants depend on yard operations: moving trailers between parking spots, docks and gates with yard trucks. The activity runs at low speed, but involves frequent maneuvers in tight spaces, reversing, coupling and pedestrian traffic. Collisions with trailers, docks, gates and other vehicles cause property damage, operational downtime and, in some cases, injuries.
+}
+
+\pt{%
+O autor atua como gestor de inteligência artificial e analytics numa empresa que presta esse tipo de serviço em dezenas de unidades. Nos últimos anos, a empresa passou a ter três fontes de dados que raramente estão juntas: (i) relatos formais de acidentes, registrados num aplicativo próprio; (ii) telemetria embarcada nos caminhões, com distância, tempo de operação e eventos de condução detectados por sensores; e (iii) horas trabalhadas por unidade, vindas do sistema de folha de pagamento. Hoje, essas fontes são analisadas separadamente, e a comparação entre unidades usa contagens brutas de acidentes.
+}
+\en{%
+The author works as the head of artificial intelligence and analytics at a company that provides this kind of service at dozens of sites. In recent years, the company has come to hold three data sources that are rarely available together: (i) formal accident reports, recorded in an in-house application; (ii) on-board telematics in the trucks, with distance, operating time and driving events detected by sensors; and (iii) hours worked per site, from the payroll system. Today these sources are analyzed separately, and sites are compared by raw accident counts.
+}
+
+\pt{%
+Contagens brutas são um indicador fraco por três motivos. Primeiro, a exposição varia muito: uma unidade com o triplo de horas operadas tende a ter mais acidentes sem ser mais arriscada. Segundo, com eventos raros, a variação por acaso é grande; uma unidade pequena com um acidente num mês pode parecer a pior da empresa \parencite{spiegelhalter2005}. Terceiro, nem todo acidente é relatado, e a propensão a relatar pode variar entre unidades, de modo que uma unidade com poucos relatos pode estar apenas relatando menos.
+}
+\en{%
+Raw counts are a weak indicator for three reasons. First, exposure varies widely: a site with three times the operating hours tends to have more accidents without being riskier. Second, with rare events, chance variation is large; a small site with one accident in a month can look like the worst in the company \parencite{spiegelhalter2005}. Third, not every accident is reported, and the propensity to report may vary across sites, so a site with few reports may simply be reporting less.
+}
+
+\pt{%
+A literatura de segurança viária trata problemas parecidos há décadas, com modelos de contagem com exposição, superdispersão e efeitos aleatórios \parencite{lord2010,mannering2014}, e a estatística aplicada oferece ferramentas para estabilizar taxas de unidades pequenas, como o bayes empírico \parencite{clayton1987,hauer1997}. Estudos com dados de condução naturalística mostram que eventos cinemáticos, como frenagens bruscas, se associam ao risco de colisão \parencite{guo2013}. Ainda assim, aplicações a operações de pátio, com veículos que andam pouco e manobram muito, e com relatos sujeitos a subnotificação, são pouco exploradas \preencher{conferir com busca bibliográfica sistemática}.
+}
+\en{%
+Road safety research has addressed similar problems for decades, with count models that include exposure, overdispersion and random effects \parencite{lord2010,mannering2014}, and applied statistics offers tools to stabilize rates for small units, such as empirical Bayes \parencite{clayton1987,hauer1997}. Studies with naturalistic driving data show that kinematic events, such as harsh braking, are associated with crash risk \parencite{guo2013}. Still, applications to yard operations, where vehicles travel little and maneuver a lot, and where reports are subject to underreporting, remain little explored \preencher{check with a systematic literature search}.
+}
+
+\pt{%
+O projeto se justifica, portanto, em duas frentes. Na prática, entrega à empresa um indicador de risco ajustado por exposição, estável e com incerteza explícita, para orientar treinamento, inspeção e supervisão. No método, combina modelos hierárquicos de contagem, exposição medida por telemetria e estimação de subnotificação num mesmo arcabouço, aplicado a um tipo de operação pouco estudado.
+}
+\en{%
+The project is therefore justified on two fronts. In practice, it gives the company an exposure-adjusted, stable risk indicator with explicit uncertainty to guide training, inspection and supervision. Methodologically, it combines hierarchical count models, telematics-based exposure and underreporting estimation in a single framework, applied to a little-studied type of operation.
+}

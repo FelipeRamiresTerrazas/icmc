@@ -1,0 +1,53 @@
+\section{\tr{Dados}{Data}}
+\label{sec:dados}
+
+\pt{%
+O estudo usa apenas dados que a empresa já coleta na rotina; não há coleta própria. Os números abaixo são ordens de grandeza, de um levantamento preliminar feito pelo autor, e serão atualizados no início do projeto.
+}
+\en{%
+The study uses only data the company already collects routinely; there is no new data collection. The figures below are orders of magnitude from a preliminary survey by the author and will be updated at the start of the project.
+}
+
+\begin{table}[h]
+\centering
+\small
+\caption{\tr{Fontes de dados previstas}{Planned data sources}}
+\label{tab:fontes}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.2cm} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{3.6cm}}
+\toprule
+\tr{Fonte}{Source} & \tr{Conteúdo}{Content} & \tr{Escala aproximada}{Approximate scale} \\
+\midrule
+\tr{Relatos de acidentes}{Accident reports} &
+\tr{Data, tipo de evento, unidade, número do veículo, gravidade, descrição}%
+   {Date, event type, site, vehicle number, severity, description} &
+\tr{Centenas de relatos em pouco mais de um ano}{Hundreds of reports over a little more than a year} \\
+\tr{Telemetria veicular}{Vehicle telematics} &
+\tr{Viagens (distância, duração), eventos de condução, colisões detectadas, unidade do veículo}%
+   {Trips (distance, duration), driving events, detected collisions, vehicle site} &
+\tr{Cerca de 300 veículos; mais de um milhão de viagens}{About 300 vehicles; over one million trips} \\
+\tr{Horas trabalhadas}{Hours worked} &
+\tr{Horas por unidade e mês}{Hours per site and month} &
+\tr{Dezenas de unidades}{Dozens of sites} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\pt{%
+Um levantamento preliminar indicou que a ligação entre as fontes é viável: o número do veículo informado nos relatos coincide com o identificador da telemetria na maior parte dos casos, e o cadastro da telemetria associa cada veículo a uma unidade com o mesmo código usado no sistema de folha. O período comum às três fontes começa em 2025 \preencher{atualizar período e cobertura no início do projeto}.
+}
+\en{%
+A preliminary survey indicated that linking the sources is feasible: the vehicle number given in the reports matches the telematics identifier in most cases, and the telematics registry assigns each vehicle to a site using the same code as the payroll system. The period common to the three sources starts in 2025 \preencher{update period and coverage at the start of the project}.
+}
+
+\pt{%
+Os problemas de qualidade já conhecidos fazem parte do trabalho: relatos de teste misturados aos reais no período de implantação do aplicativo, unidade e veículo digitados em texto livre em parte dos relatos, viagens com registro de fim inválido na telemetria e mudanças de veículos entre unidades ao longo do tempo. Cada regra de limpeza será documentada e seu efeito sobre os resultados, testado em análise de sensibilidade.
+}
+\en{%
+Known data quality issues are part of the work: test reports mixed with real ones during the application roll-out, site and vehicle typed as free text in some reports, trips with invalid end records in the telematics, and vehicles moving between sites over time. Every cleaning rule will be documented and its effect on the results tested in a sensitivity analysis.
+}
+
+\begin{nota}[\tr{Privacidade}{Privacy}]
+\tr%
+  {Nenhum dado identifica pessoas. A análise usa veículo, unidade e mês; identificadores de motorista, nomes, imagens de câmera e trajetos de GPS não são usados. Os dados não saem do ambiente da empresa; apenas tabelas agregadas entram no repositório da pesquisa e na dissertação, que não nomeará a empresa, seus clientes nem suas unidades.}%
+  {No data identifies people. The analysis uses vehicle, site and month; driver identifiers, names, camera footage and GPS tracks are not used. Data stays within the company's environment; only aggregated tables enter the research repository and the dissertation, which will not name the company, its clients or its sites.}
+\end{nota}

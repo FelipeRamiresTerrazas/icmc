@@ -1,0 +1,55 @@
+\section{\tr{Objetivos e hipóteses}{Objectives and hypotheses}}
+\label{sec:objetivos}
+
+\subsection{\tr{Objetivo geral}{General objective}}
+
+\pt{%
+Desenvolver e avaliar modelos estatísticos para estimar o risco de acidentes em operações de pátio, ajustado pela exposição e com incerteza quantificada, por veículo e por unidade operacional, combinando relatos de acidentes, telemetria veicular e horas trabalhadas.
+}
+\en{%
+To develop and evaluate statistical models that estimate accident risk in yard operations, adjusted for exposure and with quantified uncertainty, per vehicle and per operating site, by combining accident reports, vehicle telematics and hours worked.
+}
+
+\subsection{\tr{Objetivos específicos}{Specific objectives}}
+
+\begin{enumerate}[label=(\alph*)]
+  \item \tr%
+    {Integrar as três fontes num painel veículo $\times$ mês, com regras de ligação documentadas e qualidade da ligação medida em amostra revisada manualmente.}%
+    {Integrate the three sources into a vehicle $\times$ month panel, with documented linkage rules and linkage quality measured on a manually reviewed sample.}
+  \item \tr%
+    {Comparar modelos de contagem (Poisson, binomial negativa, com e sem inflação de zeros, com e sem efeitos aleatórios de veículo e unidade) quanto ao ajuste e ao desempenho preditivo fora da amostra.}%
+    {Compare count models (Poisson, negative binomial, with and without zero inflation, with and without vehicle and site random effects) in terms of fit and out-of-sample predictive performance.}
+  \item \tr%
+    {Medir quanto as taxas de eventos de condução registradas pela telemetria acrescentam à previsão de acidentes, além da exposição e da unidade.}%
+    {Measure how much the driving event rates recorded by telematics add to accident prediction beyond exposure and site.}
+  \item \tr%
+    {Estimar a probabilidade de que uma colisão detectada pelos sensores seja relatada formalmente, e sua variação entre unidades.}%
+    {Estimate the probability that a sensor-detected collision is formally reported, and how it varies across sites.}
+  \item \tr%
+    {Produzir rankings de risco por unidade ajustados por exposição, com intervalos de incerteza, e compará-los aos rankings por contagem bruta quanto à estabilidade ao longo do tempo.}%
+    {Produce exposure-adjusted site risk rankings with uncertainty intervals, and compare them with raw-count rankings in terms of stability over time.}
+  \item \textit{\tr{(Opcional, extensão)}{(Optional, extension)}} \tr%
+    {Prever de forma probabilística a exposição de cada unidade nos meses seguintes e combiná-la ao modelo de risco para projetar a distribuição de acidentes esperados, como apoio ao planejamento da supervisão de segurança.}%
+    {Forecast each site's exposure for the following months probabilistically and combine it with the risk model to project the distribution of expected accidents, to support the planning of safety supervision.}
+\end{enumerate}
+
+\pt{%
+O objetivo (f) é uma extensão: será desenvolvido se os objetivos (a) a (e) estiverem concluídos dentro do cronograma (Seção~\ref{sec:cronograma}).
+}
+\en{%
+Objective (f) is an extension: it will be pursued if objectives (a) to (e) are completed on schedule (Section~\ref{sec:cronograma}).
+}
+
+\subsection{\tr{Hipóteses}{Hypotheses}}
+
+\begin{description}[leftmargin=1.2cm,style=nextline]
+  \item[H1] \tr%
+    {Taxas por unidade estimadas por modelos hierárquicos com exposição preveem a taxa de acidentes do período seguinte melhor que taxas brutas, e, ao contrário das contagens brutas, não se confundem com o tamanho da unidade.}%
+    {Site rates estimated by hierarchical models with exposure predict the next period's accident rate better than raw rates and, unlike raw counts, are not confounded with site size.}
+  \item[H2] \tr%
+    {As taxas de eventos de condução melhoram o desempenho preditivo fora da amostra (escore logarítmico) em relação a um modelo apenas com exposição e unidade.}%
+    {Driving event rates improve out-of-sample predictive performance (log score) relative to a model with exposure and site only.}
+  \item[H3] \tr%
+    {A probabilidade de relato de colisões detectadas é menor que um e varia entre unidades, de modo que as contagens de relatos subestimam o risco de forma desigual.}%
+    {The reporting probability of detected collisions is below one and varies across sites, so that report counts underestimate risk unevenly.}
+\end{description}
