@@ -1,0 +1,116 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{estilo-icmc}[2026/11/08 Estilo bilingue do pre-projeto ICMC (MECAI)]
+
+% Estilo proprio do pre-projeto ICMC. Copia o visual do estilo/mestrado.sty
+% (Times 12 pt, entrelinha 1,5, margens 3/2 cm) sem altera-lo, e acrescenta
+% o modo bilingue.
+%
+% Lingua escolhida pelo nome do PDF de saida (-jobname):
+%   termina em _EN ou _EN_PB  -> ingles
+%   qualquer outro            -> portugues
+% Preto e branco: termina em _PB (ou _EN_PB).
+%
+% Comandos de texto:
+%   \pt{...} e \en{...}  paragrafos inteiros, um logo abaixo do outro
+%   \tr{pt}{en}          trechos curtos (titulos, celulas de tabela, legendas)
+
+\newif\ifingles
+\newif\ifpretoebranco
+\ExplSyntaxOn
+\str_if_eq:eeT { \str_range:Nnn \c_sys_jobname_str { -3 } { -1 } } { _EN }
+  { \inglestrue }
+\str_if_eq:eeT { \str_range:Nnn \c_sys_jobname_str { -6 } { -1 } } { _EN_PB }
+  { \inglestrue }
+\str_if_eq:eeT { \str_range:Nnn \c_sys_jobname_str { -3 } { -1 } } { _PB }
+  { \pretoebrancotrue }
+\ExplSyntaxOff
+\ifdefined\forcaringles \inglestrue \fi
+
+\newcommand{\tr}[2]{\ifingles#2\else#1\fi}
+\newcommand{\pt}[1]{\ifingles\else#1\fi}
+\newcommand{\en}[1]{\ifingles#1\fi}
+
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\ifingles
+  \RequirePackage[brazilian,main=english]{babel}
+\else
+  \RequirePackage[english,main=brazilian]{babel}
+\fi
+\RequirePackage{newtxtext,newtxmath}
+\RequirePackage[a4paper,top=3cm,left=3cm,bottom=2cm,right=2cm,headsep=0.8cm,headheight=15pt]{geometry}
+\RequirePackage{setspace}
+\RequirePackage{indentfirst}
+\RequirePackage{xcolor}
+\RequirePackage{booktabs}
+\RequirePackage{tabularx}
+\RequirePackage{array}
+\RequirePackage{enumitem}
+\RequirePackage{titlesec}
+\RequirePackage{graphicx}
+\RequirePackage{amsmath}
+\RequirePackage{bm}
+\RequirePackage{fancyhdr}
+\RequirePackage{tcolorbox}
+\RequirePackage{csquotes}
+\ifingles
+  \RequirePackage[style=authoryear,backend=biber,maxcitenames=2,uniquelist=false,uniquename=false]{biblatex}
+  \RequirePackage[group-separator={,}]{siunitx}
+\else
+  \RequirePackage[style=abnt,backend=biber]{biblatex}
+  \RequirePackage{siunitx}
+  \sisetup{output-decimal-marker={,},group-separator={.}}
+\fi
+\RequirePackage{hyperref}
+
+\ifpretoebranco
+  \definecolor{destaque}{gray}{0}
+  \definecolor{cinzatexto}{gray}{0.2}
+  \definecolor{fundonota}{gray}{0.95}
+  \colorlet{pendencia}{black!65}
+\else
+  \definecolor{destaque}{HTML}{1F3A5F}
+  \definecolor{cinzatexto}{HTML}{333333}
+  \definecolor{fundonota}{HTML}{F2F5F9}
+  \colorlet{pendencia}{red!70!black}
+\fi
+
+\onehalfspacing
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0pt}
+\setlist{itemsep=2pt,topsep=4pt}
+
+\titleformat{\section}{\bfseries\color{destaque}\large\MakeUppercase}{\thesection}{8pt}{}
+\titleformat{\subsection}{\bfseries\color{destaque}\normalsize}{\thesubsection}{6pt}{}
+\titleformat{\subsubsection}{\bfseries\itshape\normalsize}{\thesubsubsection}{6pt}{}
+\titlespacing*{\section}{0pt}{18pt}{8pt}
+\titlespacing*{\subsection}{0pt}{12pt}{6pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\small\color{cinzatexto}\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\newtcolorbox{nota}[1][\tr{Nota}{Note}]{
+  colback=fundonota, colframe=destaque, boxrule=0.5pt, arc=1pt,
+  left=6pt,right=6pt,top=4pt,bottom=4pt,
+  fonttitle=\bfseries\small, fontupper=\small, title=#1
+}
+
+% Pendencias visiveis (somem do texto final quando todas forem resolvidas)
+\ifpretoebranco
+  \newcommand{\preencher}[1]{\textcolor{pendencia}{\itshape[#1]}}
+\else
+  \newcommand{\preencher}[1]{\textcolor{pendencia}{[#1]}}
+\fi
+
+% Referencias com note = CONFERIR aparecem na cor de pendencia
+\DeclareFieldFormat{note}{\textcolor{pendencia}{#1}}
+\AtEveryCitekey{\iffieldundef{note}{}{\color{pendencia}}}
+
+\hypersetup{
+  colorlinks=true, linkcolor=destaque, citecolor=destaque, urlcolor=destaque,
+  pdfauthor={Felipe Ramires Terrazas}
+}
+
+\endinput
