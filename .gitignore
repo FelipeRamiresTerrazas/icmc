@@ -6,6 +6,7 @@ resultados/
 *.xlsx
 *.parquet
 *.json
+!.vscode/settings.json
 .env*
 
 # Python
