@@ -63,19 +63,23 @@ def escore_log(res, df: pd.DataFrame) -> float:
     return float(stats.nbinom.logpmf(y, n, n / (n + mu)).mean())
 
 
-def validacao_temporal(df: pd.DataFrame, meses_teste: int = 4) -> pd.DataFrame:
-    """Compara modelos (H2): ajusta nos meses iniciais e pontua os ultimos."""
+def validacao_temporal(df: pd.DataFrame, meses_teste: int = 4, exposicao: str = "horas",
+                       covariaveis: list[str] | None = None) -> pd.DataFrame:
+    """Compara modelos (H2): ajusta nos meses iniciais e pontua os ultimos.
+
+    covariaveis: as do modelo mais completo (padrao: taxas de telemetria)."""
+    covariaveis = COVARIAVEIS_TELEMETRIA if covariaveis is None else covariaveis
     corte = df["mes"].max() - meses_teste + 1
     treino, teste = df[df["mes"] < corte], df[df["mes"] >= corte]
     teste = teste[teste["site"].isin(treino["site"].unique())]
     candidatos = {
         "poisson | exposicao + site": ("poisson", []),
         "nb | exposicao + site": ("nb", []),
-        "nb | exposicao + site + telemetria": ("nb", COVARIAVEIS_TELEMETRIA),
+        "nb | exposicao + site + covariaveis": ("nb", covariaveis),
     }
     linhas = []
     for nome, (fam, cov) in candidatos.items():
-        res = ajustar(treino, fam, cov)
+        res = ajustar(treino, fam, cov, exposicao=exposicao)
         linhas.append(dict(modelo=nome, escore_log_teste=escore_log(res, teste), aic_treino=res.aic))
     return pd.DataFrame(linhas)
 
@@ -95,14 +99,15 @@ def taxa_bayes_empirico(y: pd.Series, e: pd.Series) -> pd.DataFrame:
                          "peso": peso, "taxa_eb": peso * taxa + (1 - peso) * m})
 
 
-def estabilidade_rankings(df: pd.DataFrame) -> pd.DataFrame:
+def estabilidade_rankings(df: pd.DataFrame, exposicao: str = "horas", escala: float = 1000) -> pd.DataFrame:
     """H1: para cada indicador por site calculado na 1a metade do periodo:
-    estabilidade (Spearman com a 2a metade), correlacao com o tamanho (horas) e
-    erro (ponderado por exposicao) ao prever a taxa bruta da 2a metade."""
+    estabilidade (Spearman com a 2a metade), correlacao com o tamanho (exposicao) e
+    erro (ponderado por exposicao) ao prever a taxa bruta da 2a metade, por
+    `escala` unidades de exposicao."""
     meio = df["mes"].median()
     metades, metades_e = [], []
     for parte in (df[df["mes"] < meio], df[df["mes"] >= meio]):
-        g = parte.groupby("site").agg(y=("acidentes", "sum"), e=("horas", "sum"))
+        g = parte.groupby("site").agg(y=("acidentes", "sum"), e=(exposicao, "sum"))
         eb = taxa_bayes_empirico(g["y"], g["e"])
         metades_e.append(g["e"])
         metades.append(pd.DataFrame({"contagem": g["y"], "taxa_bruta": eb["taxa_bruta"],
@@ -110,15 +115,18 @@ def estabilidade_rankings(df: pd.DataFrame) -> pd.DataFrame:
     a, b = metades[0].align(metades[1], join="inner", axis=0)
     e1, e2 = metades_e[0].reindex(a.index), metades_e[1].reindex(a.index)
     taxa_seguinte = b["taxa_bruta"]
+    def _spearman(x, y):  # NaN sem aviso quando o indicador e constante (encolhimento total)
+        return stats.spearmanr(x, y).statistic if x.nunique() > 1 and y.nunique() > 1 else np.nan
+
     linhas = []
     for c in a.columns:
         # contagem nao e taxa: vira previsao proporcional a media geral
         prev = a[c] if c != "contagem" else a[c] / a[c].mean() * a["contagem"].sum() / e1.sum()
         linhas.append({
             "indicador": c,
-            "spearman_entre_metades": stats.spearmanr(a[c], b[c]).statistic,
-            "corr_com_tamanho": stats.spearmanr(a[c], e1).statistic,
-            "erro_taxa_seguinte_por_1000h": 1000 * float(np.sqrt(np.average((prev - taxa_seguinte) ** 2, weights=e2))),
+            "spearman_entre_metades": _spearman(a[c], b[c]),
+            "corr_com_tamanho": _spearman(a[c], e1),
+            "erro_taxa_seguinte_escalada": escala * float(np.sqrt(np.average((prev - taxa_seguinte) ** 2, weights=e2))),
         })
     return pd.DataFrame(linhas)
 

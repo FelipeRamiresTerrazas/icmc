@@ -1,10 +1,10 @@
-# 04. Programa MECAI: regras, disciplinas e orientadores
+# Programa MECAI: regras, disciplinas e orientadores
 
 Referência rápida do programa, para consultar ao longo do processo. Fontes consultadas em 2026-11-08:
 
 - Perguntas frequentes: https://www.icmc.usp.br/pos-graduacao/mecai/perguntas-frequentes
 - Disciplinas: https://www.icmc.usp.br/pos-graduacao/disciplinas?programa=55137 (código do programa: 55137)
-- PDFs salvos em `referencias/`: `mecai-linhas-e-orientadores.pdf` e `mecai-horario-2026-2.pdf`
+- PDFs nesta pasta: `mecai-linhas-e-orientadores.pdf` e `mecai-horario-2026-2.pdf`
 
 O edital 002/2026 (ou o de 2027) **ainda não está aqui**. Ele prevalece sobre tudo abaixo.
 

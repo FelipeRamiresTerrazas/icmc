@@ -4,31 +4,39 @@ Pré-projeto para o Mestrado Profissional MECAI (ICMC-USP, ênfase em Ciência d
 
 Tema: risco de acidentes em operações de pátio, com modelos hierárquicos de contagem, exposição e telemetria veicular (linha Modelagem de Risco).
 
-| Caminho | Conteúdo |
-| --- | --- |
-| `preprojeto/` | Pré-projeto em LaTeX, bilíngue: o mesmo código gera o PDF em português e em inglês (ver `preprojeto/README.md`). PDFs versionados. |
-| `analise/` | Esqueleto de análise (modelos de contagem, bayes empírico, subnotificação), testado com dados sintéticos. |
-| `referencias/` | Documentos do programa (linhas e orientadores, horários; o edital entra aqui). |
-| `referencias-icmc.bib` | Bibliografia. Entradas com `CONFERIR` ainda precisam ser checadas na fonte. |
-| `01-inventario-dados.md` | Inventário das fontes de dados da empresa (só agregados). **Interno.** |
-| `02-ideias-de-projeto.md` | Ideias avaliadas, notas e ranking. **Interno.** |
-| `03-perguntas-em-aberto.md` | Decisões e confirmações pendentes. |
-| `04-programa-mecai.md` | Regras do programa (FAQ), disciplinas, linhas de pesquisa. |
+```
+icmc/
+├── preprojeto/        pré-projeto em LaTeX, bilíngue (PT e EN do mesmo código) + PDFs
+│   └── partes/        uma seção por arquivo
+├── estilo/            estilo LaTeX compartilhado (pré-projeto e futura dissertação)
+├── referencias.bib    bibliografia única (entradas com CONFERIR ainda não checadas)
+├── referencias/       PDFs da bibliografia, nome = chave do .bib
+├── programa/          documentos do MECAI (regras, disciplinas, linhas, horários, edital)
+├── notas/             notas de trabalho internas
+│   ├── 01-inventario-dados.md     fontes de dados da empresa (interno)
+│   ├── 02-ideias-de-projeto.md    ideias avaliadas e ranking (interno)
+│   ├── 03-perguntas-em-aberto.md  decisões pendentes
+│   └── 05-datasets-publicos.md    datasets públicos (Kaggle, OSHA, FMCSA)
+├── analise/           código: modelos, painel sintético, datasets públicos, testes
+└── dados/             fora do git (datasets públicos baixados, futuros agregados)
+```
 
 ## Compilar o pré-projeto
 
-Dentro de `preprojeto/`:
+Dentro de `preprojeto/` (ou pela receita "Pré-projeto PT + EN" do LaTeX Workshop):
 
 ```
-latexmk -pdf -jobname=PreProjeto_MECAI_Felipe_Terrazas main.tex       # português
-latexmk -pdf -jobname=PreProjeto_MECAI_Felipe_Terrazas_EN main.tex    # inglês
+TEXINPUTS=".;../;" latexmk -pdf -jobname=PreProjeto_MECAI_Felipe_Terrazas main.tex       # português
+TEXINPUTS=".;../;" latexmk -pdf -jobname=PreProjeto_MECAI_Felipe_Terrazas_EN main.tex    # inglês
 ```
 
-## Rodar a análise (dados sintéticos)
+## Rodar a análise
 
 ```
 python -m venv .venv
 .venv/Scripts/python -m pip install -r requirements.txt
-PYTHONIOENCODING=utf-8 .venv/Scripts/python analise/rodar_exemplo.py
+PYTHONIOENCODING=utf-8 .venv/Scripts/python analise/rodar_exemplo.py          # painel sintético
+.venv/Scripts/python analise/dados_publicos.py baixar                          # dataset do Kaggle (15 MB)
+PYTHONIOENCODING=utf-8 .venv/Scripts/python analise/dados_publicos.py exemplo  # modelos no dataset público
 .venv/Scripts/python -m pytest analise/tests -q
 ```
