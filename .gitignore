@@ -29,3 +29,4 @@ __pycache__/
 *.lof
 *.lot
 *_bibertool.bib
+*.bcf-SAVE-ERROR

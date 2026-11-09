@@ -1,0 +1,60 @@
+\documentclass[12pt,a4paper,oneside]{report}
+\usepackage{estilo/icmc}
+\addbibresource{../referencias.bib}
+\graphicspath{{figuras/}}
+
+% RASCUNHO da dissertacao (nao entra no pre-projeto).
+% Compilar dentro desta pasta:
+%   portugues: TEXINPUTS=".;../;" latexmk -pdf -jobname=Dissertacao_MECAI_Felipe_Terrazas main.tex
+%   ingles:    TEXINPUTS=".;../;" latexmk -pdf -jobname=Dissertacao_MECAI_Felipe_Terrazas_EN main.tex
+% Tabelas em tabelas/ e figuras em figuras/ sao GERADAS por analise/viabilidade/*.py:
+% nao editar a mao; rodar o script de novo.
+
+\input{tabelas/num_previsao}
+
+% \input nao e expansivel dentro de tabular (quebra o \bottomrule); usa o primitivo
+\makeatletter\newcommand{\tabinput}[1]{\@@input #1 }\makeatother
+
+\titleformat{\chapter}[display]{\bfseries\color{destaque}\Large}{\tr{Capítulo}{Chapter} \thechapter}{6pt}{\LARGE}
+\titlespacing*{\chapter}{0pt}{0pt}{18pt}
+
+\hypersetup{pdftitle={\tr{Dissertação (rascunho)}{Dissertation (draft)}}}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+{\large\bfseries \tr{UNIVERSIDADE DE SÃO PAULO}{UNIVERSITY OF SÃO PAULO}\par}
+{\large\bfseries \tr{INSTITUTO DE CIÊNCIAS MATEMÁTICAS E DE COMPUTAÇÃO}{INSTITUTE OF MATHEMATICAL AND COMPUTER SCIENCES}\par}
+\vspace{4cm}
+{\large Felipe Ramires Terrazas\par}
+\vspace{2cm}
+{\Large\bfseries\color{destaque}\tr%
+  {Risco de acidentes em operações de pátio: modelos hierárquicos de contagem com exposição e telemetria veicular}%
+  {Accident risk in yard operations: hierarchical count models with exposure and vehicle telematics}\par}
+\vspace{1cm}
+{\large \tr{Rascunho da dissertação de mestrado (MECAI)}{Master's dissertation draft (MECAI)}\par}
+\vspace{0.5cm}
+{\normalsize\color{pendencia} \tr{Documento de trabalho, não distribuir}{Working document, do not distribute}\par}
+\vfill
+{\normalsize São Carlos\par}
+{\normalsize \today\par}
+\end{titlepage}
+
+\tableofcontents
+
+\input{capitulos/01-introducao}
+\input{capitulos/02-fundamentacao}
+\input{capitulos/03-dados}
+\input{capitulos/04-metodos}
+\input{capitulos/05-viabilidade}
+\input{capitulos/06-resultados}
+\input{capitulos/07-conclusao}
+
+\begingroup
+\singlespacing
+\setlength{\bibitemsep}{\baselineskip}
+\printbibliography[title={\tr{Referências}{References}}, heading=bibintoc]
+\endgroup
+
+\end{document}

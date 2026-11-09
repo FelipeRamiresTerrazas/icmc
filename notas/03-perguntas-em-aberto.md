@@ -93,6 +93,12 @@ Observações sobre as consultas:
 17. Você tem vínculo profissional formal com a Data Solo hoje? Isso define se a Ideia 7 atende ao requisito de "compatível com a atividade profissional".
 18. As usinas autorizaram o uso dos laudos numa dissertação? Esse item já está em aberto no `PENDENCIAS.md` do mestrado.
 
+## F2. Achados dos estudos de viabilidade (2026-11-08, `dissertacao/` cap. 5)
+
+23. **Definição do desfecho.** Com cerca de 70 acidentes no período o poder para um efeito moderado de telemetria é baixo (0,17); com 300, 0,75. Na dissertação, o desfecho principal deve ser todas as colisões com dano relatadas (centenas), e não só acidentes graves. Concorda?
+24. **Extensão (f).** Para um site com cerca de 1 acidente por mês, só ~1% da variância do número de acidentes vem da incerteza da exposição. Prever exposição quase não melhora a projeção mensal de acidentes por site. Opções: (a) reposicionar (f) como previsão de exposição para escala e supervisão; (b) projetar acidentes em agregados maiores (trimestre, região); (c) tirar (f). O pré-projeto continua como está até você decidir.
+25. **Efeito aleatório de caminhão.** Sem ele, o teste de telemetria teve 15% de falso positivo numa das bases simuladas. Já está previsto no modelo da eq. 1 do pré-projeto; o achado só reforça.
+
 ## G. Repositório
 
 19. **Repositório [resolvida em 2026-11-08].** O trabalho começou em `mestrado/icmc/` e foi movido para este repositório (`icmc`), que passou a ser privado. A branch temporária no `mestrado` foi removida.

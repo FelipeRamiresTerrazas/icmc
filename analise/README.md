@@ -17,6 +17,13 @@ PYTHONIOENCODING=utf-8 .venv/Scripts/python analise/rodar_exemplo.py
 .venv/Scripts/python -m pytest analise/tests -q
 ```
 
+## Estudos de viabilidade (`viabilidade/`)
+
+| Arquivo | O que faz |
+| --- | --- |
+| `viabilidade/poder.py` | Poder semi-sintético: estrutura do Kaggle (e uma base na escala do projeto, 280 caminhões × 14 meses) com acidentes simulados; poder para telemetria (H2), ranking de sites (H1) e erro da probabilidade de relato (H3). Grava `dissertacao/tabelas/tab_poder*.tex` e `figuras/fig_poder.pdf`. |
+| `viabilidade/previsao.py` | Previsão das horas das 4 semanas seguintes por site (média, sazonal, ETS), perda quantílica e cobertura; peso da incerteza da exposição na projeção de acidentes. Grava `tab_previsao.tex`, `num_previsao.tex` e `fig_previsao.pdf`. |
+
 ## O que o exemplo sintético já mostrou
 
 Contagens brutas por site são o indicador mais estável entre semestres, mas só porque refletem o tamanho do site (correlação alta com as horas) e erram mais ao prever a taxa seguinte. Por isso a H1 foi escrita em termos de previsão da taxa seguinte e de correlação com o tamanho, não de estabilidade pura.

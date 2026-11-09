@@ -1,0 +1,154 @@
+\chapter{\tr{Estudos preliminares de viabilidade}{Preliminary feasibility studies}}
+\label{cap:viabilidade}
+
+\pt{%
+Antes de ter acesso aos dados da operação, dois estudos usam a estrutura de um conjunto público (Capítulo~\ref{cap:dados}) para responder perguntas de viabilidade: (i) com o volume de acidentes esperado, os modelos têm poder para testar as hipóteses? (ii) a previsão da exposição, base do objetivo opcional (f), é útil? Os números deste capítulo vêm de \texttt{analise/viabilidade/poder.py} e \texttt{previsao.py} e são de dados simulados: indicam ordens de grandeza, não resultados.
+}
+\en{%
+Before accessing operational data, two studies use the structure of a public dataset (Chapter~\ref{cap:dados}) to answer feasibility questions: (i) given the expected accident volume, do the models have power to test the hypotheses? (ii) is the exposure forecast, which underlies optional objective (f), useful? Numbers in this chapter come from \texttt{analise/viabilidade/poder.py} and \texttt{previsao.py} and are from simulated data: they indicate orders of magnitude, not results.
+}
+
+\section{\tr{Poder estatístico (semi-sintético)}{Statistical power (semi-synthetic)}}
+\label{sec:poder}
+
+\pt{%
+A exposição (milhas por caminhão e mês) e a estrutura de caminhões e terminais vêm do conjunto público; os acidentes são simulados com efeitos conhecidos: efeito de telemetria $\beta \in \{0;\ 0{,}15;\ 0{,}30\}$ no log da taxa por desvio padrão, efeito aleatório de site (desvio padrão 0,40) e de caminhão (0,30), superdispersão adicional, detecção de 35\% das colisões pelos sensores e probabilidade de relato por site com média 0,65. O total esperado de acidentes relatados no período foi fixado em 70, 300 e 600. Duas bases: o painel do conjunto como está (92 caminhões, 24 terminais, 36 meses) e uma base na \emph{escala do projeto} (280 caminhões em 40 sites por 14 meses, com milhas reamostradas). Foram 200 repetições por cenário; o modelo ajustado é a binomial negativa com efeito fixo de site e milhas como \textit{offset}, ainda sem efeito aleatório de caminhão.
+}
+\en{%
+Exposure (miles per truck and month) and the truck and terminal structure come from the public dataset; accidents are simulated with known effects: telematics effect $\beta \in \{0, 0.15, 0.30\}$ on the log rate per standard deviation, site (standard deviation 0.40) and truck (0.30) random effects, extra overdispersion, sensor detection of 35\% of collisions and a site reporting probability with mean 0.65. The expected number of reported accidents in the period was set to 70, 300 and 600. Two bases: the dataset panel as is (92 trucks, 24 terminals, 36 months) and a base at \emph{project scale} (280 trucks in 40 sites over 14 months, with resampled miles). There were 200 replications per scenario; the fitted model is the negative binomial with site fixed effects and miles as offset, still without a truck random effect.
+}
+
+\begin{table}[ht]
+\centering\small
+\caption{\tr{Proporção de repetições com $p < 0{,}05$ para o efeito de telemetria. Com $\beta = 0$, é a taxa de falso positivo (o ideal é 0,05).}%
+            {Share of replications with $p < 0.05$ for the telematics effect. With $\beta = 0$, it is the false positive rate (ideal: 0.05).}}
+\label{tab:poder}
+\begin{tabular}{l r r r r}
+\toprule
+\tr{Base}{Base} & \tr{Acidentes}{Accidents} & $\beta = 0$ & $\beta = 0{,}15$ & $\beta = 0{,}30$ \\
+\midrule
+\tabinput{tabelas/tab_poder.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{fig_poder}
+\caption{\tr{Poder para detectar o efeito de telemetria. Linhas cinza: 0,80 e 0,05.}{Power to detect the telematics effect. Grey lines: 0.80 and 0.05.}}
+\label{fig:poder}
+\end{figure}
+
+\pt{%
+\textbf{H2 (telemetria).} Na escala do projeto, com cerca de 300 acidentes relatados, o poder é 0,75 para um efeito moderado ($\beta = 0{,}15$, cerca de 16\% a mais de risco por desvio padrão) e praticamente 1 para $\beta = 0{,}30$; com 600 acidentes, 0,89 e 1. Com 70 acidentes, só um efeito grande tem chance razoável (0,53). \textbf{Implicação:} o desfecho principal precisa incluir todas as colisões com dano relatadas, não só os acidentes graves; uma definição estreita derruba o poder.
+}
+\en{%
+\textbf{H2 (telematics).} At project scale, with about 300 reported accidents, power is 0.75 for a moderate effect ($\beta = 0.15$, about 16\% more risk per standard deviation) and practically 1 for $\beta = 0.30$; with 600 accidents, 0.89 and 1. With 70 accidents, only a large effect has a reasonable chance (0.53). \textbf{Implication:} the main outcome must include all reported damage collisions, not only severe accidents; a narrow definition kills power.
+}
+
+\pt{%
+\textbf{Falso positivo.} Na base do Kaggle com 600 acidentes, o efeito nulo saiu significativo em 15\% das repetições, três vezes o nominal. A causa provável é ignorar a correlação entre os meses do mesmo caminhão (36 meses por caminhão nessa base), justamente o que o efeito aleatório de veículo do modelo hierárquico trata. \textbf{Implicação:} o modelo final precisa do efeito aleatório de caminhão ou de erros-padrão robustos por caminhão; a versão sem ele não serve para inferência.
+}
+\en{%
+\textbf{False positives.} In the Kaggle base with 600 accidents, the null effect was significant in 15\% of replications, three times the nominal rate. The likely cause is ignoring the correlation between months of the same truck (36 months per truck in this base), exactly what the hierarchical model's vehicle random effect handles. \textbf{Implication:} the final model needs a truck random effect or truck-clustered robust standard errors; the version without it is not fit for inference.
+}
+
+\begin{table}[ht]
+\centering\small
+\caption{\tr{H1: correlação de postos (Spearman) entre o indicador por site e o risco verdadeiro do site; média das repetições.}%
+            {H1: rank correlation (Spearman) between the site indicator and the site's true risk; mean over replications.}}
+\label{tab:poder_h1}
+\begin{tabular}{l r r r r}
+\toprule
+\tr{Base}{Base} & \tr{Acidentes}{Accidents} & \tr{Contagem}{Count} & \tr{Taxa bruta}{Raw rate} & \tr{Bayes empírico}{Empirical Bayes} \\
+\midrule
+\tabinput{tabelas/tab_poder_h1.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\pt{%
+\textbf{H1 (ranking de sites).} A contagem bruta é o pior indicador (correlação de 0,30 com o risco verdadeiro na escala do projeto com 300 acidentes), porque mede sobretudo o tamanho do site. Taxa bruta e bayes empírico ficam bem acima (0,51 e 0,54), com vantagem pequena, mas consistente, do bayes empírico na escala do projeto. Mesmo com 600 acidentes, a correlação não passa de cerca de 0,6. \textbf{Implicação:} ranking de 40 sites com um ano de dados é ruidoso por natureza; a dissertação deve apresentar intervalos (gráfico de funil) e grupos de risco, não posições exatas, e a contribuição de H1 está mais em trocar a contagem pela taxa ajustada do que no ganho do encolhimento.
+}
+\en{%
+\textbf{H1 (site ranking).} The raw count is the worst indicator (correlation of 0.30 with true risk at project scale with 300 accidents), because it mostly measures site size. Raw rate and empirical Bayes are well above (0.51 and 0.54), with a small but consistent advantage for empirical Bayes at project scale. Even with 600 accidents, the correlation does not exceed about 0.6. \textbf{Implication:} ranking 40 sites with one year of data is inherently noisy; the dissertation should present intervals (funnel plot) and risk groups, not exact positions, and H1's contribution lies more in replacing counts with adjusted rates than in the gain from shrinkage.
+}
+
+\begin{table}[ht]
+\centering\small
+\caption{\tr{H3: erro absoluto médio da probabilidade de relato por site.}{H3: mean absolute error of the site reporting probability.}}
+\label{tab:poder_h3}
+\begin{tabular}{l r r r r}
+\toprule
+\tr{Base}{Base} & \tr{Acidentes}{Accidents} & \tr{Colisões detectadas}{Detected collisions} & \tr{Bruta}{Raw} & \tr{Com encolhimento}{Shrunk} \\
+\midrule
+\tabinput{tabelas/tab_poder_h3.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\pt{%
+\textbf{H3 (subnotificação).} A estimativa bruta da probabilidade de relato por site erra em média 0,23 na escala do projeto com 300 acidentes (cerca de 160 colisões detectadas); o encolhimento reduz o erro para 0,11. \textbf{Implicação:} estimar a subnotificação por site é viável só com encolhimento, e a média geral de relato é bem mais precisa que os valores por site.
+}
+\en{%
+\textbf{H3 (underreporting).} The raw site reporting probability estimate errs by 0.23 on average at project scale with 300 accidents (about 160 detected collisions); shrinkage reduces the error to 0.11. \textbf{Implication:} estimating underreporting per site is feasible only with shrinkage, and the overall reporting rate is much more precise than site values.
+}
+
+\section{\tr{Previsão da exposição (objetivo f)}{Exposure forecasting (objective f)}}
+\label{sec:previsao}
+
+\pt{%
+Com as horas de viagem semanais de \nsitesprev{} cidades de origem do conjunto público (\nsemanas{} semanas), as horas das quatro semanas seguintes foram previstas como distribuição, em origem móvel ao longo do último ano, por três métodos.
+}
+\en{%
+Using weekly trip hours from \nsitesprev{} origin cities in the public dataset (\nsemanas{} weeks), hours for the next four weeks were forecast as a distribution, with a rolling origin over the last year, by three methods.
+}
+
+\begin{table}[ht]
+\centering\small
+\caption{\tr{Previsão das horas das 4 semanas seguintes: perda quantílica média relativa ($q = 0{,}1;\ 0{,}5;\ 0{,}9$), cobertura do intervalo de 80\% e erro relativo mediano da mediana.}%
+            {Forecast of the next 4 weeks' hours: mean relative quantile loss ($q = 0.1, 0.5, 0.9$), 80\% interval coverage and median relative error of the median.}}
+\label{tab:previsao}
+\begin{tabular}{l r r r}
+\toprule
+\tr{Método}{Method} & \tr{Perda quantílica}{Quantile loss} & \tr{Cobertura 80\%}{80\% coverage} & \tr{Erro da mediana}{Median error} \\
+\midrule
+\tabinput{tabelas/tab_previsao.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{fig_previsao}
+\caption{\tr{Previsão das horas do mês seguinte no site de maior volume (dados públicos).}{Next month's hours forecast at the highest-volume site (public data).}}
+\label{fig:previsao}
+\end{figure}
+
+\pt{%
+O ETS amortecido foi o melhor nas três métricas, com erro mediano de cerca de 8\% e cobertura um pouco abaixo da nominal. O achado mais importante, porém, é outro: para um site com cerca de 1 acidente esperado por mês (a ordem de grandeza do projeto), só cerca de \fracexposicao\% da variância do número de acidentes vem da incerteza sobre a exposição; o resto é a variação de Poisson. \textbf{Implicação:} prever a exposição quase não melhora a projeção de acidentes de um site no mês seguinte. O objetivo (f) deve ser reposicionado: usar a previsão de exposição para planejamento de escala e supervisão em si, ou projetar acidentes em horizontes e agregados maiores (trimestre, região), onde a exposição pesa mais. \preencher{Decidir com o orientador.}
+}
+\en{%
+Damped ETS was best on all three metrics, with a median error of about 8\% and coverage slightly below nominal. The most important finding, however, is another: for a site with about 1 expected accident per month (the project's order of magnitude), only about \fracexposicao\% of the variance of the accident count comes from exposure uncertainty; the rest is Poisson variation. \textbf{Implication:} forecasting exposure barely improves next month's accident projection for a site. Objective (f) should be repositioned: use the exposure forecast for staffing and supervision planning in itself, or project accidents over longer horizons and larger aggregates (quarter, region), where exposure matters more. \preencher{Decide with the advisor.}
+}
+
+\section{\tr{Síntese}{Summary}}
+
+\pt{%
+\begin{enumerate}
+  \item O projeto é viável na escala esperada se o desfecho incluir todas as colisões relatadas (centenas no período).
+  \item O efeito aleatório de caminhão não é opcional: sem ele, a inferência sobre telemetria fica otimista.
+  \item Ranking de sites é ruidoso: comunicar com intervalos e grupos, e destacar a troca de contagem por taxa ajustada.
+  \item A subnotificação por site só é estimável com encolhimento.
+  \item A extensão (f) precisa ser reposicionada.
+\end{enumerate}
+}
+\en{%
+\begin{enumerate}
+  \item The project is feasible at the expected scale if the outcome includes all reported collisions (hundreds in the period).
+  \item The truck random effect is not optional: without it, inference on telematics is optimistic.
+  \item Site ranking is noisy: communicate with intervals and groups, and stress replacing counts with adjusted rates.
+  \item Site-level underreporting is only estimable with shrinkage.
+  \item Extension (f) needs to be repositioned.
+\end{enumerate}
+}

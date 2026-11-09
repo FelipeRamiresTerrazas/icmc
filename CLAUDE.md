@@ -30,6 +30,14 @@ Regras do MECAI resumidas em `programa/README.md` (36 meses, sem qualificação,
 - `dados/`: fora do git. `dados/publicos/` tem datasets públicos baixados por `analise/dados_publicos.py`.
 - LaTeX compila dentro da pasta do documento com `TEXINPUTS=".;../;"` (o estilo fica em `estilo/`, compartilhado com a futura dissertação).
 
+## Dissertação (rascunho)
+
+- `dissertacao/` é rascunho de trabalho, separado do pré-projeto: nada dele vai para o pré-projeto sem o Felipe pedir.
+- Tabelas (`dissertacao/tabelas/`) e figuras (`dissertacao/figuras/`) são geradas por `analise/viabilidade/*.py`. Não editar à mão; mudar o script e rodar de novo. Números citados no texto do capítulo 5 têm de bater com as tabelas: conferir depois de rodar.
+- Tabelas entram dentro de `tabular` com `\tabinput{arquivo.tex}` (o `\input` normal quebra antes do `\bottomrule`).
+- Os estudos de viabilidade usam a ESTRUTURA do dataset público do Kaggle (exposição, caminhões, terminais) com acidentes simulados; os incidentes do dataset são aleatórios e não servem para mostrar efeito.
+- Figuras: matplotlib, PDF, fonte serifada, largura 6,3 polegadas, rótulos em português com vírgula decimal.
+
 ## Git
 
 Commits e push só quando o Felipe pedir. Trabalho em branch (`preprojeto`), merge na `main` quando ele decidir.
