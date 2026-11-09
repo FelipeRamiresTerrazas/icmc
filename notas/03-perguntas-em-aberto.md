@@ -4,7 +4,7 @@ Decisões e confirmações que dependem de você. Nenhuma travou a Fase 1 ou a F
 
 ## A. Edital e programa
 
-1. **Edital do MECAI.** Ainda não está no repositório. Salve o PDF em `referencias/` (onde já estão as linhas de pesquisa e o horário). **Já respondido pela FAQ (2026-11-08, ver `04-programa-mecai.md`):** roteiro do projeto (introdução, corpo com metodologia, bibliografia), sem vínculo com orientador, 36 meses para depósito, sem exame de qualificação, 48 créditos em disciplinas. **Falta conferir no edital:** limite de páginas, fonte e espaçamento, norma da bibliografia, se pede indicação de linha de pesquisa, a ênfase de 2027 e os documentos de comprovação profissional.
+1. **Edital do MECAI.** Ainda não está no repositório. Salve o PDF em `programa/` (onde já estão as linhas de pesquisa e o horário). **Já respondido pela FAQ (2026-11-08, ver `programa/README.md`):** roteiro do projeto (introdução, corpo com metodologia, bibliografia), sem vínculo com orientador, 36 meses para depósito, sem exame de qualificação, 48 créditos em disciplinas. **Falta conferir no edital:** limite de páginas, fonte e espaçamento, norma da bibliografia, se pede indicação de linha de pesquisa, a ênfase de 2027 e os documentos de comprovação profissional.
 2. **Linha de pesquisa.** Se escolher a Ideia 8, a proposta é Modelagem de Risco. O edital permite indicar uma segunda linha (por exemplo, Inteligência Computacional)?
 3. **Comitê de ética.** O projeto usa registros de acidentes de trabalhadores (mesmo que agregados por site). O ICMC ou o edital exigem aprovação em comitê de ética para dados secundários de pessoas? **[não verificado]**
 
