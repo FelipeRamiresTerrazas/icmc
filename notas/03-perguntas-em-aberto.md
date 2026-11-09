@@ -95,8 +95,8 @@ Observações sobre as consultas:
 
 ## F2. Achados dos estudos de viabilidade (2026-11-08, `dissertacao/` cap. 5)
 
-23. **Definição do desfecho.** Com cerca de 70 acidentes no período o poder para um efeito moderado de telemetria é baixo (0,17); com 300, 0,75. Na dissertação, o desfecho principal deve ser todas as colisões com dano relatadas (centenas), e não só acidentes graves. Concorda?
-24. **Extensão (f).** Para um site com cerca de 1 acidente por mês, só ~1% da variância do número de acidentes vem da incerteza da exposição. Prever exposição quase não melhora a projeção mensal de acidentes por site. Opções: (a) reposicionar (f) como previsão de exposição para escala e supervisão; (b) projetar acidentes em agregados maiores (trimestre, região); (c) tirar (f). O pré-projeto continua como está até você decidir.
+23. **[Decidido em 2026-11-08: todas as colisões relatadas; aplicado no pré-projeto]** **Definição do desfecho.** Com cerca de 70 acidentes no período o poder para um efeito moderado de telemetria é baixo (0,17); com 300, 0,75. Na dissertação, o desfecho principal deve ser todas as colisões com dano relatadas (centenas), e não só acidentes graves. Concorda?
+24. **[Decidido em 2026-11-08: opção (a) com projeção só agregada por região e trimestre; aplicado no pré-projeto]** **Extensão (f).** Para um site com cerca de 1 acidente por mês, só ~1% da variância do número de acidentes vem da incerteza da exposição. Prever exposição quase não melhora a projeção mensal de acidentes por site. Opções: (a) reposicionar (f) como previsão de exposição para escala e supervisão; (b) projetar acidentes em agregados maiores (trimestre, região); (c) tirar (f). O estudo preliminar entrou no pré-projeto como Seção 5.8, enquadrado como simulação calibrada em dados públicos (não como teste com os incidentes do Kaggle, que são aleatórios).
 25. **Efeito aleatório de caminhão.** Sem ele, o teste de telemetria teve 15% de falso positivo numa das bases simuladas. Já está previsto no modelo da eq. 1 do pré-projeto; o achado só reforça.
 
 ## G. Repositório
