@@ -16,7 +16,8 @@ icmc/
 │   ├── 01-inventario-dados.md     fontes de dados da empresa (interno)
 │   ├── 02-ideias-de-projeto.md    ideias avaliadas e ranking (interno)
 │   ├── 03-perguntas-em-aberto.md  decisões pendentes
-│   └── 05-datasets-publicos.md    datasets públicos (Kaggle, OSHA, FMCSA)
+│   ├── 05-datasets-publicos.md    datasets públicos (Kaggle, OSHA, FMCSA)
+│   └── 06-mapa-da-literatura.md   referências por tema, lacunas, ordem de leitura
 ├── analise/           código: modelos, painel sintético, datasets públicos, testes
 └── dados/             fora do git (datasets públicos baixados, futuros agregados)
 ```
