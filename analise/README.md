@@ -7,6 +7,7 @@ Código que implementa as etapas 2 a 4 da metodologia. Hoje roda **só com dados
 | `painel_sintetico.py` | Gera um painel veículo × mês com a mesma estrutura do real e parâmetros conhecidos (efeito de frenagem e curva, efeito nulo de velocidade, efeitos de site e veículo, superdispersão, detecção pelos sensores e probabilidade de relato por site). |
 | `modelos.py` | Poisson e binomial negativa com exposição como offset; escore logarítmico fora da amostra (H2); bayes empírico por site e comparação de indicadores entre semestres (H1); limites do gráfico de funil; probabilidade de relato com encolhimento e Lincoln-Petersen (H3). |
 | `rodar_exemplo.py` | Roda tudo e grava `resultados/funil_sintetico.pdf` (pasta fora do git). |
+| `dados_publicos.py` | Baixa o dataset público do Kaggle (transportadora fictícia) e monta o painel caminhão × mês com milhas como exposição; `exemplo` roda os modelos nele (ver `notas/05-datasets-publicos.md`). |
 | `tests/test_modelos.py` | Confere se os modelos recuperam os parâmetros verdadeiros. |
 
 Na raiz deste repositório (ambiente criado com `python -m venv .venv` e `.venv/Scripts/python -m pip install -r requirements.txt`):
