@@ -1,0 +1,20 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{estilo/icmc}
+\addbibresource{../referencias.bib}
+\geometry{top=2cm,bottom=2cm,left=2cm,right=2cm}
+\singlespacing
+\setlength{\parindent}{0pt}
+\setlist[enumerate]{itemsep=8pt}
+
+% Gerar: python gerar_lista.py
+%        TEXINPUTS=".;../;" latexmk -pdf -jobname=Lista_de_Leitura lista_leitura.tex
+
+\begin{document}
+
+{\Large\bfseries\color{destaque} Lista de leitura do pré-projeto\par}
+\smallskip
+{\small Gerada de \texttt{referencias.bib} em \today. Referências em vermelho ainda precisam ser conferidas na fonte (\texttt{CONFERIR}). Salve o PDF de cada uma em \texttt{referencias/} com o nome da chave (por exemplo, \texttt{cai2021.pdf}). Mapa comentado em \texttt{notas/06-mapa-da-literatura.md}.\par}
+
+\input{lista_corpo}
+
+\end{document}
