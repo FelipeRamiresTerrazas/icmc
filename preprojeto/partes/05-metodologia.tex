@@ -27,26 +27,26 @@ u_s &\sim \mathcal{N}(0, \sigma_u^2), \qquad v_i \sim \mathcal{N}(0, \sigma_v^2)
 \end{aligned}
 \end{equation}
 \pt{%
-em que $s(i,t)$ é a unidade do veículo $i$ no mês $t$, $\mathbf{x}_{it}$ reúne as taxas de eventos de condução por unidade de exposição e as características do veículo, $\gamma_t$ é um efeito de calendário (tendência e sazonalidade) e $\phi$ é o parâmetro de dispersão. O modelo será comparado a alternativas mais simples (Poisson, sem efeitos aleatórios, sem telemetria) e a versões com inflação de zeros. O diagnóstico usará resíduos quantílicos aleatorizados \parencite{dunn1996}.
+em que $s(i,t)$ é a unidade do veículo $i$ no mês $t$, $\mathbf{x}_{it}$ reúne as taxas de eventos de condução por unidade de exposição e as características do veículo, $\gamma_t$ é um efeito de calendário (tendência e sazonalidade) e $\phi$ é o parâmetro de dispersão. O modelo será comparado a alternativas mais simples (Poisson, sem efeitos aleatórios, sem telemetria) e a versões com inflação de zeros. O diagnóstico usará resíduos quantílicos aleatorizados \parencite{dunn1996}. O efeito aleatório de veículo $v_i$ não é opcional: no estudo preliminar (Seção~\ref{sec:estudo-preliminar}), omiti-lo produziu falsos positivos para a telemetria acima do nível nominal, porque os meses de um mesmo veículo são correlacionados.
 }
 \en{%
-where $s(i,t)$ is the site of vehicle $i$ in month $t$, $\mathbf{x}_{it}$ holds the driving event rates per unit of exposure and the vehicle characteristics, $\gamma_t$ is a calendar effect (trend and seasonality) and $\phi$ is the dispersion parameter. The model will be compared with simpler alternatives (Poisson, without random effects, without telematics) and with zero-inflated versions. Diagnostics will use randomized quantile residuals \parencite{dunn1996}.
+where $s(i,t)$ is the site of vehicle $i$ in month $t$, $\mathbf{x}_{it}$ holds the driving event rates per unit of exposure and the vehicle characteristics, $\gamma_t$ is a calendar effect (trend and seasonality) and $\phi$ is the dispersion parameter. The model will be compared with simpler alternatives (Poisson, without random effects, without telematics) and with zero-inflated versions. Diagnostics will use randomized quantile residuals \parencite{dunn1996}. The vehicle random effect $v_i$ is not optional: in the preliminary study (Section~\ref{sec:estudo-preliminar}), omitting it produced false positives for telematics above the nominal level, because months of the same vehicle are correlated.
 }
 
 \pt{%
-Os coeficientes de telemetria serão lidos como associações, não como efeitos causais: o mesmo motorista, a mesma unidade e o mesmo tipo de manobra podem gerar ao mesmo tempo mais eventos e mais acidentes. A definição de \enquote{acidente} também será fixada antes da modelagem (por exemplo, separar colisões com dano material de lesões e de quase-acidentes) e testada com definições alternativas.
+Os coeficientes de telemetria serão lidos como associações, não como efeitos causais: o mesmo motorista, a mesma unidade e o mesmo tipo de manobra podem gerar ao mesmo tempo mais eventos e mais acidentes. O desfecho principal será o conjunto de todas as colisões relatadas, com ou sem lesão, fixado antes da modelagem: o estudo preliminar mostrou que restringi-lo a acidentes graves reduz o número de eventos a ponto de o teste de H2 perder poder. Lesões e quase-acidentes entram como definições alternativas, em análise de sensibilidade.
 }
 \en{%
-Telematics coefficients will be read as associations, not causal effects: the same driver, the same site and the same type of maneuver can generate both more events and more accidents. The definition of \enquote{accident} will also be fixed before modeling (for example, separating property-damage collisions from injuries and near misses) and tested with alternative definitions.
+Telematics coefficients will be read as associations, not causal effects: the same driver, the same site and the same type of maneuver can generate both more events and more accidents. The main outcome will be all reported collisions, with or without injury, fixed before modeling: the preliminary study showed that restricting it to severe accidents reduces the number of events to the point that the H2 test loses power. Injuries and near misses enter as alternative definitions, in a sensitivity analysis.
 }
 
 \subsection{\tr{Etapa 3: validação}{Stage 3: validation}}
 
 \pt{%
-A avaliação será fora da amostra, de duas formas: validação temporal (ajuste nos meses iniciais, previsão dos últimos meses) e validação por unidade (deixando uma unidade de fora por vez). As métricas serão o escore logarítmico e a calibração da distribuição prevista \parencite{gneiting2007}, além da fração de acidentes concentrada nos veículos e unidades classificados como de maior risco. Para H1, cada indicador por unidade (contagem bruta, taxa bruta e taxa estimada pelo modelo~\eqref{eq:modelo}) calculado num semestre será usado para prever a taxa observada no semestre seguinte, com erro ponderado pela exposição; a correlação de cada indicador com o tamanho da unidade também será reportada, porque contagens brutas são estáveis justamente por refletirem o tamanho.
+A avaliação será fora da amostra, de duas formas: validação temporal (ajuste nos meses iniciais, previsão dos últimos meses) e validação por unidade (deixando uma unidade de fora por vez). As métricas serão o escore logarítmico e a calibração da distribuição prevista \parencite{gneiting2007}, além da fração de acidentes concentrada nos veículos e unidades classificados como de maior risco. Para H1, cada indicador por unidade (contagem bruta, taxa bruta e taxa estimada pelo modelo~\eqref{eq:modelo}) calculado num semestre será usado para prever a taxa observada no semestre seguinte, com erro ponderado pela exposição; a correlação de cada indicador com o tamanho da unidade também será reportada, porque contagens brutas são estáveis justamente por refletirem o tamanho. Como ordenar dezenas de unidades com um ano de dados é ruidoso por natureza (Seção~\ref{sec:estudo-preliminar}), os resultados por unidade serão comunicados com intervalos, em gráficos de funil \parencite{spiegelhalter2005}, e em grupos de risco, não como posições exatas num ranking.
 }
 \en{%
-Evaluation will be out of sample, in two ways: temporal validation (fit on the early months, predict the last months) and site-level validation (leaving one site out at a time). Metrics will be the log score and the calibration of the predictive distribution \parencite{gneiting2007}, plus the share of accidents concentrated in the vehicles and sites ranked as highest risk. For H1, each site indicator (raw count, raw rate and rate estimated by model~\eqref{eq:modelo}) computed in one semester will be used to predict the rate observed in the next semester, with exposure-weighted error; the correlation of each indicator with site size will also be reported, since raw counts are stable precisely because they reflect size.
+Evaluation will be out of sample, in two ways: temporal validation (fit on the early months, predict the last months) and site-level validation (leaving one site out at a time). Metrics will be the log score and the calibration of the predictive distribution \parencite{gneiting2007}, plus the share of accidents concentrated in the vehicles and sites ranked as highest risk. For H1, each site indicator (raw count, raw rate and rate estimated by model~\eqref{eq:modelo}) computed in one semester will be used to predict the rate observed in the next semester, with exposure-weighted error; the correlation of each indicator with site size will also be reported, since raw counts are stable precisely because they reflect size. Since ranking dozens of sites with one year of data is inherently noisy (Section~\ref{sec:estudo-preliminar}), site results will be communicated with intervals, in funnel plots \parencite{spiegelhalter2005}, and in risk groups, not as exact positions in a ranking.
 }
 
 \subsection{\tr{Etapa 4: subnotificação}{Stage 4: underreporting}}
@@ -68,20 +68,62 @@ Se o uso da telemetria for restrito, o mesmo arcabouço é aplicado ao nível de
 If the use of telematics is restricted, the same framework is applied at the site-month level, with payroll hours worked as exposure. Objectives (b) and (e) and hypothesis H1 remain testable; objective (c) and hypothesis H2 are dropped, and objective (d) is replaced by a comparison between sites with different reporting practices \preencher{detail if the fallback plan is triggered}.
 }
 
-\subsection{\tr{Extensão opcional: projeção de acidentes esperados}{Optional extension: projecting expected accidents}}
+\subsection{\tr{Extensão opcional: previsão da exposição}{Optional extension: exposure forecasting}}
 
 \pt{%
-A exposição de cada unidade nos meses seguintes será prevista como distribuição, com modelos de séries temporais hierárquicos \parencite{hyndman2021}, e avaliada por CRPS e perda quantílica \parencite{gneiting2007}. Combinando essa distribuição com o modelo~\eqref{eq:modelo} por simulação, obtém-se a distribuição de acidentes esperados por unidade e mês. O resultado é uma ferramenta para decidir onde concentrar inspeções e supervisão no mês seguinte, considerando tanto o risco por hora quanto o volume previsto.
+As horas de operação de cada unidade nos meses seguintes serão previstas como distribuição, com modelos de séries temporais hierárquicos \parencite{hyndman2021}, e avaliadas por CRPS e perda quantílica \parencite{gneiting2007}. O uso principal é o planejamento de escala e de supervisão. A combinação com o modelo~\eqref{eq:modelo} para projetar acidentes esperados será feita em níveis agregados (região e trimestre): no estudo preliminar, para uma unidade com cerca de um acidente esperado por mês, a incerteza da exposição respondeu por apenas cerca de 1\% da variância do número de acidentes, de modo que a projeção mensal por unidade é dominada pela variação de Poisson.
 }
 \en{%
-Each site's exposure for the following months will be forecast as a distribution, with hierarchical time series models \parencite{hyndman2021}, and evaluated by CRPS and quantile loss \parencite{gneiting2007}. Combining this distribution with model~\eqref{eq:modelo} by simulation yields the distribution of expected accidents per site and month. The result is a tool to decide where to focus inspections and supervision in the following month, accounting for both the risk per hour and the forecast volume.
+Each site's operating hours for the following months will be forecast as a distribution, with hierarchical time series models \parencite{hyndman2021}, and evaluated by CRPS and quantile loss \parencite{gneiting2007}. The main use is staffing and supervision planning. Combining it with model~\eqref{eq:modelo} to project expected accidents will be done at aggregate levels (region and quarter): in the preliminary study, for a site with about one expected accident per month, exposure uncertainty accounted for only about 1\% of the variance of the accident count, so the monthly projection per site is dominated by Poisson variation.
 }
 
 \subsection{\tr{Ferramentas e reprodutibilidade}{Tools and reproducibility}}
 
 \pt{%
-A extração e a agregação rodam dentro do ambiente de dados da empresa, em SQL. A modelagem usa Python e R, com código versionado, sementes fixas e um esqueleto de análise já testado com dados sintéticos que imitam a estrutura do painel. Toda figura e tabela da dissertação será gerada por script.
+A extração e a agregação rodam dentro do ambiente de dados da empresa, em SQL. A modelagem usa Python e R, com código versionado e sementes fixas. O esqueleto de análise já foi testado com dados sintéticos e com um conjunto de dados público (Seção~\ref{sec:estudo-preliminar}). Toda figura e tabela da dissertação será gerada por script.
 }
 \en{%
-Extraction and aggregation run inside the company's data environment, in SQL. Modeling uses Python and R, with versioned code, fixed seeds and an analysis skeleton already tested on synthetic data that mimic the panel structure. Every figure and table in the dissertation will be generated by script.
+Extraction and aggregation run inside the company's data environment, in SQL. Modeling uses Python and R, with versioned code and fixed seeds. The analysis skeleton has already been tested on synthetic data and on a public dataset (Section~\ref{sec:estudo-preliminar}). Every figure and table in the dissertation will be generated by script.
+}
+
+\subsection{\tr{Estudo preliminar de viabilidade}{Preliminary feasibility study}}
+\label{sec:estudo-preliminar}
+
+\pt{%
+Como os dados da operação só estarão disponíveis após a formalização com a empresa, a viabilidade do método foi avaliada antes, com um estudo de simulação calibrado em dados públicos. A estrutura veio do \textit{Logistics Operations Database} \parencite{yogape2025}, que descreve uma transportadora fictícia dos EUA entre 2022 e 2024: caminhões, terminais e milhas rodadas por caminhão e mês. Os incidentes desse conjunto se mostraram praticamente independentes de caminhão, terminal e exposição, e por isso não foram usados como desfecho. Em vez disso, os acidentes foram simulados sobre a exposição real do conjunto, com efeitos conhecidos (efeito de telemetria $\beta$, efeitos aleatórios de unidade e de veículo, superdispersão, detecção parcial pelos sensores e relato variável por unidade), e os modelos da Etapa~2 foram ajustados para verificar se recuperam esses efeitos. Além da base original (92 caminhões, 36 meses), uma segunda base reproduz a ordem de grandeza do projeto (280 caminhões em 40 unidades, 14 meses), com 200 repetições por cenário.
+}
+\en{%
+Since operational data will only be available after formalization with the company, the method's feasibility was assessed beforehand with a simulation study calibrated on public data. The structure came from the \textit{Logistics Operations Database} \parencite{yogape2025}, which describes a fictitious US trucking company from 2022 to 2024: trucks, terminals and miles driven per truck and month. The incidents in this dataset turned out to be practically independent of truck, terminal and exposure, so they were not used as the outcome. Instead, accidents were simulated on the dataset's real exposure, with known effects (telematics effect $\beta$, site and vehicle random effects, overdispersion, partial sensor detection and site-varying reporting), and the Stage~2 models were fitted to check whether they recover these effects. Besides the original base (92 trucks, 36 months), a second base reproduces the project's order of magnitude (280 trucks in 40 sites, 14 months), with 200 replications per scenario.
+}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{\tr{fig_poder}{fig_poder_en}}
+\caption{\tr%
+  {Estudo preliminar: proporção de repetições em que o efeito de telemetria foi detectado ($p < 0{,}05$), por número de acidentes relatados no período. Com $\beta = 0$, é a taxa de falso positivo. Linhas cinza: 0,80 e 0,05.}%
+  {Preliminary study: share of replications in which the telematics effect was detected ($p < 0.05$), by number of reported accidents in the period. With $\beta = 0$, it is the false positive rate. Grey lines: 0.80 and 0.05.}}
+\label{fig:poder}
+\end{figure}
+
+\pt{%
+Os principais achados, que já orientam o desenho do projeto, foram:
+\begin{itemize}
+  \item \textbf{Poder (H2).} Na escala do projeto, com cerca de 300 acidentes relatados, a chance de detectar um efeito moderado de telemetria ($\beta = 0{,}15$, cerca de 16\% a mais de risco por desvio padrão) foi de 0,75, e de 0,89 com 600; com apenas 70 acidentes, caiu para 0,17 (Figura~\ref{fig:poder}). Daí a escolha de todas as colisões relatadas como desfecho principal.
+  \item \textbf{Falsos positivos.} Sem o efeito aleatório de veículo, o efeito nulo foi declarado significativo em até 15\% das repetições, três vezes o nominal; daí o termo $v_i$ no modelo~\eqref{eq:modelo}, cuja correção do problema será verificada no ajuste completo.
+  \item \textbf{Ranking de unidades (H1).} A contagem bruta teve correlação de postos de apenas 0,30 com o risco verdadeiro das unidades, contra 0,51 da taxa bruta e 0,54 do bayes empírico; mesmo com 600 acidentes, nenhuma passou de cerca de 0,6. Daí a comunicação por intervalos e grupos.
+  \item \textbf{Subnotificação (H3).} O erro absoluto médio da probabilidade de relato por unidade caiu de 0,23 (estimativa bruta) para 0,11 com encolhimento.
+  \item \textbf{Previsão da exposição.} Um modelo ETS amortecido previu as horas das quatro semanas seguintes com erro mediano de cerca de 8\%, mas a incerteza da exposição pesou pouco na projeção mensal de acidentes por unidade; daí o reposicionamento da extensão opcional.
+\end{itemize}
+Esses números vêm de dados simulados e indicam ordens de grandeza, não resultados; o código está no repositório da pesquisa e será reaplicado aos dados reais.
+}
+\en{%
+The main findings, which already shape the project design, were:
+\begin{itemize}
+  \item \textbf{Power (H2).} At project scale, with about 300 reported accidents, the chance of detecting a moderate telematics effect ($\beta = 0.15$, about 16\% more risk per standard deviation) was 0.75, and 0.89 with 600; with only 70 accidents, it fell to 0.17 (Figure~\ref{fig:poder}). Hence the choice of all reported collisions as the main outcome.
+  \item \textbf{False positives.} Without the vehicle random effect, the null effect was declared significant in up to 15\% of replications, three times the nominal rate; hence the $v_i$ term in model~\eqref{eq:modelo}, whose correction of the problem will be checked in the full fit.
+  \item \textbf{Site ranking (H1).} The raw count had a rank correlation of only 0.30 with the sites' true risk, against 0.51 for the raw rate and 0.54 for empirical Bayes; even with 600 accidents, none exceeded about 0.6. Hence communication through intervals and groups.
+  \item \textbf{Underreporting (H3).} The mean absolute error of the site reporting probability fell from 0.23 (raw estimate) to 0.11 with shrinkage.
+  \item \textbf{Exposure forecasting.} A damped ETS model forecast the next four weeks' hours with a median error of about 8\%, but exposure uncertainty weighed little on the monthly accident projection per site; hence the repositioning of the optional extension.
+\end{itemize}
+These figures come from simulated data and indicate orders of magnitude, not results; the code is in the research repository and will be reapplied to the real data.
 }

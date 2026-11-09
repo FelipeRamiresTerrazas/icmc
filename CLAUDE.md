@@ -36,6 +36,7 @@ Regras do MECAI resumidas em `programa/README.md` (36 meses, sem qualificação,
 - Tabelas (`dissertacao/tabelas/`) e figuras (`dissertacao/figuras/`) são geradas por `analise/viabilidade/*.py`. Não editar à mão; mudar o script e rodar de novo. Números citados no texto do capítulo 5 têm de bater com as tabelas: conferir depois de rodar.
 - Tabelas entram dentro de `tabular` com `\tabinput{arquivo.tex}` (o `\input` normal quebra antes do `\bottomrule`).
 - Os estudos de viabilidade usam a ESTRUTURA do dataset público do Kaggle (exposição, caminhões, terminais) com acidentes simulados; os incidentes do dataset são aleatórios e não servem para mostrar efeito.
+- O pré-projeto (Seção 5.8, "Estudo preliminar de viabilidade") cita números do capítulo 5 e usa `fig_poder.pdf` / `fig_poder_en.pdf` de `dissertacao/figuras/`. Se os scripts de viabilidade rodarem de novo, conferir e atualizar esses números nos dois documentos. Enquadramento obrigatório: simulação calibrada em dados públicos, nunca "testamos a ideia com os dados do Kaggle".
 - Figuras: matplotlib, PDF, fonte serifada, largura 6,3 polegadas, rótulos em português com vírgula decimal.
 
 ## Git

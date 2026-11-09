@@ -74,6 +74,9 @@ TEMAS = [
         ("boden2008", "Captura e recaptura em seis estados; subnotificação varia muito."),
         ("iwgdmf1995", "Teoria de captura e recaptura com múltiplas fontes."),
     ]),
+    ("Dados públicos", [
+        ("yogape2025", "Dataset do Kaggle usado no estudo preliminar (estrutura de exposição; incidentes aleatórios)."),
+    ]),
     ("Previsão (extensão opcional)", [
         ("hyndman2021", "Livro aberto de previsão de séries temporais."),
         ("gneiting2007", "Regras de pontuação próprias (CRPS, perda quantílica)."),
