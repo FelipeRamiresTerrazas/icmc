@@ -1,0 +1,43 @@
+{
+  "cSpell.language": "en,pt,pt_BR",
+  "files.exclude": {
+    "**/*.aux": true,
+    "**/*.bbl": true,
+    "**/*.bcf": true,
+    "**/*.blg": true,
+    "**/*.fdb_latexmk": true,
+    "**/*.fls": true,
+    "**/*.lof": true,
+    "**/*.lot": true,
+    "**/*.log": true,
+    "**/*.out": true,
+    "**/*.run.xml": true,
+    "**/*.synctex.gz": true,
+    "**/*.toc": true,
+    "**/__pycache__": true,
+    "**/.pytest_cache": true
+  },
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk",
+      "command": "latexmk",
+      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf",
+               "-jobname=PreProjeto_MECAI_Felipe_Terrazas", "%DOC%"],
+      "env": { "TEXINPUTS": ".;../;" }
+    },
+    {
+      "name": "latexmk-en",
+      "command": "latexmk",
+      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf",
+               "-jobname=PreProjeto_MECAI_Felipe_Terrazas_EN", "%DOC%"],
+      "env": { "TEXINPUTS": ".;../;" }
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    { "name": "Pré-projeto PT + EN", "tools": ["latexmk", "latexmk-en"] },
+    { "name": "Pré-projeto só PT", "tools": ["latexmk"] },
+    { "name": "Pré-projeto só EN", "tools": ["latexmk-en"] }
+  ],
+  "latex-workshop.latex.outDir": "%DIR%",
+  "latex-workshop.view.pdf.viewer": "tab"
+}

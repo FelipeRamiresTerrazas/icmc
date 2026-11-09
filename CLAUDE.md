@@ -5,7 +5,7 @@
 ## Regras de escrita
 
 - Sem travessão (—) nem `---` em texto novo.
-- Nunca inventar referência. Entrada nova no `referencias-icmc.bib` leva `note = {CONFERIR}` até o Felipe checar na fonte. Ao citar resultado de estudo não lido na fonte, escrever de forma geral e marcar `\preencher{conferir ...}`.
+- Nunca inventar referência. Entrada nova no `referencias.bib` leva `note = {CONFERIR}` até o Felipe checar na fonte. Ao citar resultado de estudo não lido na fonte, escrever de forma geral e marcar `\preencher{conferir ...}`.
 - O pré-projeto e qualquer texto externo **não nomeiam a empresa, clientes nem unidades** e usam só ordens de grandeza dos dados (sem números internos exatos) até a autorização formal da empresa, que só será pedida depois da aprovação no mestrado.
 - O pré-projeto não cita nem se dirige a nenhum docente: a orientação é definida pela coordenação.
 - Bilíngue: parágrafos em `\pt{...}` seguido de `\en{...}`; trechos curtos em `\tr{pt}{en}`. Língua escolhida pelo sufixo `_EN` no `-jobname`. O Felipe edita o português e pede "sincroniza o inglês": atualizar os `\en{}` correspondentes aos `\pt{}` alterados.
@@ -13,7 +13,7 @@
 
 ## Dados e segurança
 
-- Repositório **privado** (tornado privado em 2026-11-08). Os arquivos 01, 02 e 03 são internos: citam a empresa, sistemas e números agregados. Nunca torná-lo público sem antes remover esses arquivos do histórico.
+- Repositório **privado** (tornado privado em 2026-11-08). Os arquivos `notas/01` a `notas/03` são internos: citam a empresa, sistemas e números agregados. Nunca torná-lo público sem antes remover esses arquivos do histórico.
 - Dados da empresa nunca entram no git (`dados/`, `resultados/`, csv, xlsx, json, parquet estão no `.gitignore`). Sem segredos, credenciais ou dados pessoais (nomes de motoristas, RH, informação comercial sensível).
 - Repositórios e sistemas da empresa (`analytics-dbt-project`, `yardsafe-log`, Snowflake, Jira, Confluence, Domo): **somente leitura**, nunca commitar neles.
 - Snowflake: só pelo usuário de serviço somente leitura (`~/.snowflake/claude_sf.py`, chave JWT). Nunca autenticar com senha (a conta pessoal tem MFA e bloqueia). Uma tentativa de conexão; se falhar, parar e reportar. Não usar navegador para isso.
@@ -21,7 +21,14 @@
 
 ## Programa
 
-Regras do MECAI resumidas em `04-programa-mecai.md` (36 meses, sem qualificação, 48 créditos em disciplinas). O edital, quando chegar, vai para `referencias/` e prevalece sobre a FAQ.
+Regras do MECAI resumidas em `programa/README.md` (36 meses, sem qualificação, 48 créditos em disciplinas). Documentos do programa (edital, linhas, horários) ficam em `programa/`; o edital prevalece sobre a FAQ.
+
+## Organização
+
+- `referencias/`: PDFs de artigos e livros da bibliografia (o Felipe vai colocando). Nome do arquivo = chave do `referencias.bib` (ex.: `lord2010.pdf`).
+- `notas/`: notas de trabalho internas (inventário, ideias, perguntas, datasets públicos).
+- `dados/`: fora do git. `dados/publicos/` tem datasets públicos baixados por `analise/dados_publicos.py`.
+- LaTeX compila dentro da pasta do documento com `TEXINPUTS=".;../;"` (o estilo fica em `estilo/`, compartilhado com a futura dissertação).
 
 ## Git
 
