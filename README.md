@@ -8,6 +8,10 @@ Tema: risco de acidentes em operações de pátio, com modelos hierárquicos de 
 icmc/
 ├── preprojeto/        pré-projeto em LaTeX, bilíngue (PT e EN do mesmo código) + PDFs
 │   └── partes/        uma seção por arquivo
+├── dissertacao/       RASCUNHO da dissertação (não entra no pré-projeto)
+│   ├── capitulos/     um capítulo por arquivo; cap. 5 = estudos de viabilidade
+│   ├── tabelas/       geradas por script (não editar à mão)
+│   └── figuras/       geradas por script (não editar à mão)
 ├── estilo/            estilo LaTeX compartilhado (pré-projeto e futura dissertação)
 ├── referencias.bib    bibliografia única (entradas com CONFERIR ainda não checadas)
 ├── referencias/       PDFs da bibliografia, nome = chave do .bib
@@ -19,6 +23,7 @@ icmc/
 │   ├── 05-datasets-publicos.md    datasets públicos (Kaggle, OSHA, FMCSA)
 │   └── 06-mapa-da-literatura.md   referências por tema, lacunas, ordem de leitura
 ├── analise/           código: modelos, painel sintético, datasets públicos, testes
+│   └── viabilidade/   poder.py (poder semi-sintético) e previsao.py (previsão da exposição)
 └── dados/             fora do git (datasets públicos baixados, futuros agregados)
 ```
 
@@ -29,6 +34,15 @@ Dentro de `preprojeto/` (ou pela receita "Pré-projeto PT + EN" do LaTeX Worksho
 ```
 TEXINPUTS=".;../;" latexmk -pdf -jobname=PreProjeto_MECAI_Felipe_Terrazas main.tex       # português
 TEXINPUTS=".;../;" latexmk -pdf -jobname=PreProjeto_MECAI_Felipe_Terrazas_EN main.tex    # inglês
+```
+
+## Rascunho da dissertação e estudos de viabilidade
+
+```
+.venv/Scripts/python analise/dados_publicos.py baixar                  # se ainda não baixou
+.venv/Scripts/python analise/viabilidade/poder.py --repeticoes 200     # cerca de 10 min
+.venv/Scripts/python analise/viabilidade/previsao.py                   # cerca de 1 min
+cd dissertacao && TEXINPUTS=".;../;" latexmk -pdf -jobname=Dissertacao_MECAI_Felipe_Terrazas main.tex
 ```
 
 ## Rodar a análise
