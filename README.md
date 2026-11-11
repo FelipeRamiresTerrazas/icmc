@@ -21,10 +21,16 @@ icmc/
 │   ├── 02-ideias-de-projeto.md    ideias avaliadas e ranking (interno)
 │   ├── 03-perguntas-em-aberto.md  decisões pendentes
 │   ├── 05-datasets-publicos.md    datasets públicos (Kaggle, OSHA, FMCSA)
-│   └── 06-mapa-da-literatura.md   referências por tema, lacunas, ordem de leitura
+│   ├── 06-mapa-da-literatura.md   referências por tema, lacunas, ordem de leitura
+│   ├── 07-prompt-cortex-dashboard.md  prompt do app Streamlit no Snowflake (interno)
+│   ├── 08-viabilidade-dados-reais.md  conclusões e testes com os dados reais (interno)
+│   └── 09-plano-de-artigos.md     três artigos planejados (periódicos e congresso)
 ├── analise/           código: modelos, painel sintético, datasets públicos, testes
-│   └── viabilidade/   poder.py (poder semi-sintético) e previsao.py (previsão da exposição)
-└── dados/             fora do git (datasets públicos baixados, futuros agregados)
+│   ├── viabilidade/   poder.py (poder semi-sintético) e previsao.py (previsão da exposição)
+│   └── real/          dados reais, só agregados: extrair, explorar, testes, figuras
+├── r/                 R (renv): h2_misto.R, modelo misto de H2 com glmmTMB
+├── dados/             fora do git (datasets públicos baixados)
+└── resultados/        fora do git (saídas das análises, inclusive agregados reais)
 ```
 
 ## Compilar o pré-projeto
@@ -42,6 +48,11 @@ TEXINPUTS=".;../;" latexmk -pdf -jobname=PreProjeto_MECAI_Felipe_Terrazas_EN mai
 .venv/Scripts/python analise/dados_publicos.py baixar                  # se ainda não baixou
 .venv/Scripts/python analise/viabilidade/poder.py --repeticoes 200     # cerca de 10 min
 .venv/Scripts/python analise/viabilidade/previsao.py                   # cerca de 1 min
+.venv/Scripts/python analise/real/extrair.py    # dados reais, so agregados (interno; precisa da chave do usuario de servico)
+.venv/Scripts/python analise/real/explorar.py   # conclusoes em notas/08
+.venv/Scripts/python analise/real/testes.py     # testes de H1, H2 (preditivo) e H3; prepara o painel do R
+(cd r && Rscript h2_misto.R)                    # H2 com modelo misto (glmmTMB), Holm e equivalencia
+.venv/Scripts/python analise/real/figuras.py    # fig_real.pdf e fig_real_en.pdf (so valores relativos)
 cd dissertacao && TEXINPUTS=".;../;" latexmk -pdf -jobname=Dissertacao_MECAI_Felipe_Terrazas main.tex
 ```
 
