@@ -105,3 +105,15 @@ Observações sobre as consultas:
 20. **Merge para a `main`.** O trabalho está na branch `preprojeto`. Fazer merge na `main` quando quiser (não há nada mais na `main` além do README).
 21. **Commits.** Só quando você pedir. Dados, resultados e segredos nunca entram (ver `.gitignore`).
 22. **Export do MS Forms no histórico do `yardsafe-log` [verificado].** A planilha com dados pessoais foi commitada em `7704055` ("adding historical data into the app") e removida do rastreamento em `9c23e05`. Hoje nenhum `.xlsx` ou `.csv` está rastreado, mas o arquivo **continua no histórico**. Se o repositório está no GitHub (o remoto é uma conta pessoal), quem tem acesso pode baixá-lo. Vale limpar o histórico (por exemplo, com `git filter-repo`) e checar quem tem acesso. Não fiz nada lá, que é somente leitura.
+
+## H. Disciplinas e regras do MECAI (para a secretaria, mecai@icmc.usp.br, e/ou a Profa. Cibele)
+
+Origem: levantamento de disciplinas de 2026-11-11 (ver `04-disciplinas.md`). Nenhuma resposta verificada ainda.
+
+26. Existe prazo mínimo formal para concluir o mestrado?
+27. Quais disciplinas são oferecidas todo semestre, e em qual modalidade (presencial ou não presencial)?
+28. Os 18 créditos mínimos exigem cursar MAI5001, MAI5002 e MAI5003 inteiras, ou basta somar 18 créditos entre elas?
+29. Quantos créditos tem cada disciplina, e qual é a lista de obrigatórias?
+30. É possível aproveitar créditos de disciplinas de outros programas da USP, créditos especiais ou disciplinas de MBA já cursadas?
+31. Existe exigência de artigo ou produto técnico para o depósito da dissertação?
+32. Qual é a duração típica de quem trabalha e cursa o MECAI, e quanto tempo levaram os que concluíram mais rápido?

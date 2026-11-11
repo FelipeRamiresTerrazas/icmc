@@ -5,6 +5,7 @@ Referência rápida do programa, para consultar ao longo do processo. Fontes con
 - Perguntas frequentes: https://www.icmc.usp.br/pos-graduacao/mecai/perguntas-frequentes
 - Disciplinas: https://www.icmc.usp.br/pos-graduacao/disciplinas?programa=55137 (código do programa: 55137)
 - PDFs nesta pasta: `mecai-linhas-e-orientadores.pdf` e `mecai-horario-2026-2.pdf`
+- `ppgccmc-regulamento.pdf`: regulamento do **PPG-CCMC** (mestrado e doutorado **acadêmicos** em Ciências de Computação e Matemática Computacional do ICMC; CoPGr 14/01/2014), recebido em 2026-11-11. **Não é o regulamento do MECAI**; ver seção 8
 
 O edital 002/2026 (ou o de 2027) **ainda não está aqui**. Ele prevalece sobre tudo abaixo.
 
@@ -91,3 +92,20 @@ Uso: só para saber que a linha tem massa crítica. **O pré-projeto não cita n
 - Prorrogação máxima: 4 meses na seção de alunos, 120 dias na de orientadores.
 - Alguns contatos e links apontam para outro programa (PPGCCMC).
 - O exemplo de aproveitamento fala em "36 créditos mínimos", mas o mínimo em disciplinas é 48.
+
+## 8. Regulamento do PPG-CCMC (`ppgccmc-regulamento.pdf`)
+
+É o programa **acadêmico** do ICMC (Ciências de Computação e Matemática Computacional), não o MECAI. Serve como referência e como alternativa de candidatura, mas **as regras dele não valem para o MECAI**. A FAQ do MECAI já tinha links que apontavam para o PPG-CCMC (seção 7), o que pode confundir.
+
+| Tema | PPG-CCMC (este regulamento) | MECAI (FAQ, seção 1) |
+| --- | --- | --- |
+| Seleção | Prova nacional (POSCOMP da SBC ou exame da SBMAC), histórico e currículo, nota mínima 6; 3 cartas de recomendação; entrevista opcional | Projeto do candidato e documentos; exige atuação profissional |
+| Projeto na inscrição | Não para o mestrado (só no doutorado, em coautoria com orientador) | Sim, de autoria do candidato, sem orientador |
+| Prazo de depósito | 36 meses (+120 dias) | 36 meses |
+| Créditos | 102: 51 em disciplinas (15 em obrigatórias) e 51 na dissertação; até 12 especiais | 96: 48 em disciplinas e 48 na dissertação |
+| Inglês | Em até 12 meses; TOEFL iBT 26, IELTS 3,5, CEFR A2 ou prova do programa (50%) | Em até 18 meses |
+| Qualificação | **Exigida**: monografia em até 12 meses da matrícula, arguição em até 60 dias | Não exigida |
+| Depósito | 6 exemplares e **comprovante de ao menos um artigo** publicado, aceito ou submetido | Ver edital |
+| Título | Mestre em Ciências (Ciências de Computação e Matemática Computacional) | Mestre profissional |
+
+O regulamento é de 2014 (CoPGr 14/01/2014); pode haver versão mais recente na página do programa **[não verificado]**.
