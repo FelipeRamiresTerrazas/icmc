@@ -6,13 +6,15 @@ Tema: risco de acidentes em operações de pátio, com modelos hierárquicos de 
 
 ```
 icmc/
-├── preprojeto/        pré-projeto em LaTeX, bilíngue (PT e EN do mesmo código) + PDFs
-│   └── partes/        uma seção por arquivo
+├── preprojeto/        pré-projeto em LaTeX, bilíngue (PT e EN do mesmo código)
+│   ├── partes/        uma seção por arquivo
+│   └── output/        PDFs compilados (PT, EN, cor, P&B)
 ├── dissertacao/       RASCUNHO da dissertação (não entra no pré-projeto)
 │   ├── capitulos/     um capítulo por arquivo; cap. 5 = estudos de viabilidade
 │   ├── tabelas/       geradas por script (não editar à mão)
-│   └── figuras/       geradas por script (não editar à mão)
-├── estilo/            estilo LaTeX compartilhado (pré-projeto e futura dissertação)
+│   ├── figuras/       geradas por script (não editar à mão)
+│   └── output/        PDFs compilados (PT, EN, cor, P&B)
+├── estilo/            estilo LaTeX compartilhado (pré-projeto e futura dissertação) e ABNT.md (normas)
 ├── referencias.bib    bibliografia única (entradas com CONFERIR ainda não checadas)
 ├── referencias/       PDFs da bibliografia, nome = chave do .bib
 ├── programa/          documentos do MECAI (regras, disciplinas, linhas, horários, edital)
@@ -39,14 +41,18 @@ icmc/
 
 `main` reúne tudo. Uma branch por área (`preprojeto`, `dissertacao`, `analise`, `artigos`, `notas`, `referencias`, `infra`); cada commit mexe só nos arquivos da sua área e o merge na `main` é feito com `--no-ff`. Detalhes e a tabela de arquivos por branch no `CLAUDE.md`, seção Git.
 
-## Compilar o pré-projeto
+## Compilar os documentos
 
-Dentro de `preprojeto/` (ou pela receita "Pré-projeto PT + EN" do LaTeX Workshop):
+Cada documento sai em quatro versões, escolhidas pelo sufixo do PDF: português ou inglês (`_EN`) e colorido ou preto e branco (`_PB`). As figuras acompanham sozinhas (`\arqfig{nome}` pega `nome[_en][_pb].pdf`). Na raiz:
 
 ```
-TEXINPUTS=".;../;" latexmk -pdf -jobname=PreProjeto_MECAI_Felipe_Terrazas main.tex       # português
-TEXINPUTS=".;../;" latexmk -pdf -jobname=PreProjeto_MECAI_Felipe_Terrazas_EN main.tex    # inglês
+python compilar.py                          # tudo: pré-projeto e dissertação, PT/EN, cor/P&B (8 PDFs)
+python compilar.py preprojeto               # só o pré-projeto, 4 versões
+python compilar.py dissertacao --modo pb    # dissertação em P&B, PT e EN
+python compilar.py preprojeto --lingua pt --modo cor
 ```
+
+No VS Code, as receitas do LaTeX Workshop têm os mesmos nomes ("Pré-projeto: PT + EN, cor", "Dissertação: todas as versões" etc.); rode a receita com o `main.tex` do documento certo aberto. À mão, dentro da pasta do documento: `TEXINPUTS=".;../;" latexmk -pdf -outdir=output -jobname=PreProjeto_MECAI_Felipe_Terrazas_EN_PB main.tex`.
 
 ## Rascunho da dissertação e estudos de viabilidade
 
@@ -58,11 +64,13 @@ TEXINPUTS=".;../;" latexmk -pdf -jobname=PreProjeto_MECAI_Felipe_Terrazas_EN mai
 .venv/Scripts/python analise/real/explorar.py   # conclusoes em notas/08
 .venv/Scripts/python analise/real/testes.py     # testes de H1, H2 (preditivo) e H3; prepara o painel do R
 (cd r && Rscript h2_misto.R)                    # H2 com modelo misto (glmmTMB), Holm e equivalencia
-.venv/Scripts/python analise/real/figuras.py    # fig_real.pdf e fig_real_en.pdf (so valores relativos)
+.venv/Scripts/python analise/real/figuras.py    # fig_real*.pdf (so valores relativos)
 .venv/Scripts/python analise/real/descritiva.py # capitulo 4: fig_desc_*.pdf, tab_descritiva.tex, num_descritiva.tex
 (cd r && Rscript descritiva.R)                  # capitulo 4: fig_desc_contagem, fig_desc_eventos, num_descritiva_r.tex
-cd dissertacao && TEXINPUTS=".;../;" latexmk -pdf -jobname=Dissertacao_MECAI_Felipe_Terrazas main.tex
+python compilar.py dissertacao
 ```
+
+Todo script de figura gera as quatro variantes (`nome.pdf`, `nome_en.pdf`, `nome_pb.pdf`, `nome_en_pb.pdf`) com a paleta comum de `analise/estilo_fig.py` (Python) e `r/estilo_fig.R` (R). As cores são papéis (`principal`, `secundaria`, `faixa`...), não valores: para mudar o visual de todas as figuras, basta mudar a paleta.
 
 ## Rodar a análise
 

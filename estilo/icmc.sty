@@ -66,6 +66,13 @@
   \RequirePackage[group-separator={,}]{siunitx}
 \else
   \RequirePackage[style=abnt,backend=biber]{biblatex}
+  % NBR 10520:2023 (Diretrizes USP 2024, sec. 5): na citacao, sobrenome em
+  % maiusculas e minusculas, (Pereira, 2013). O biblatex-abnt instalado (v3.4,
+  % 2018) ainda segue a norma de 2002 e poe CAIXA ALTA; aqui isso e desligado.
+  % As referencias no fim continuam com SOBRENOME em caixa alta, como manda a NBR 6023.
+  \renewcommand*{\UpperOrSCCite}[1]{#1}
+  \DeclareFieldFormat{uppercasecite}{#1}
+  \DeclareFieldFormat{firstword}{\normalfont\FirstWord{#1}\ldots\isdot}
   \RequirePackage{siunitx}
   \sisetup{output-decimal-marker={,},group-separator={.}}
 \fi
