@@ -30,6 +30,14 @@
 \newcommand{\pt}[1]{\ifingles\else#1\fi}
 \newcommand{\en}[1]{\ifingles#1\fi}
 
+% Figuras: \includegraphics{\arqfig{nome}} escolhe o arquivo pela lingua e pelo
+% modo, como \tr faz com o texto. Cada figura existe em quatro arquivos, gerados
+% pelos scripts (analise/estilo_fig.py e r/estilo_fig.R):
+%   nome.pdf (PT, cor), nome_en.pdf (EN, cor), nome_pb.pdf (PT, P&B), nome_en_pb.pdf (EN, P&B)
+\newcommand{\arqfig}[1]{#1\ifingles _en\fi\ifpretoebranco _pb\fi}
+% Trechos de legenda que citam cores: \corpb{versao colorida}{versao P&B}
+\newcommand{\corpb}[2]{\ifpretoebranco#2\else#1\fi}
+
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
 \ifingles
