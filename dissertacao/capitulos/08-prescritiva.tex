@@ -1,0 +1,56 @@
+\chapter{\tr{Análise prescritiva}{Prescriptive analysis}}
+\label{cap:prescritiva}
+
+\pt{%
+\preencher{Capítulo planejado; depende dos resultados do Capítulo~\ref{cap:preditiva}.} A análise preditiva estima quanto risco há e onde. A prescritiva transforma essas estimativas em regras de decisão para a gestão de segurança e de operação, e avalia as regras pelo que teriam produzido no passado. São três decisões, em ordem de prioridade.
+}
+\en{%
+\preencher{Planned chapter; depends on the results of Chapter~\ref{cap:preditiva}.} The predictive analysis estimates how much risk there is and where. The prescriptive analysis turns these estimates into decision rules for safety and operations management, and evaluates the rules by what they would have produced in the past. There are three decisions, in order of priority.
+}
+
+\section{\tr{Onde agir: priorização de unidades}{Where to act: site prioritization}}
+\label{sec:presc-unidades}
+
+\pt{%
+A gestão escolhe periodicamente um pequeno número de unidades para treinamento, inspeção ou supervisão reforçada. Hoje a escolha segue a contagem bruta, que o Capítulo~\ref{cap:descritiva} mostrou medir sobretudo o tamanho. Três regras serão comparadas, sempre escolhendo o mesmo número $k$ de unidades: (i) maior contagem bruta; (ii) maior taxa ajustada $\exp(\hat{u}_s)$; (iii) maior excesso esperado de acidentes, $E_s(\hat{\lambda}_s - \lambda_{\text{ref}})$, que combina risco e tamanho e responde à pergunta ``onde uma redução de risco evitaria mais acidentes''. Variantes de (ii) e (iii) usam a probabilidade a posteriori de a unidade estar acima da referência, para não premiar estimativas instáveis \parencite{hauer1997,goldstein1996}.
+}
+\en{%
+Management periodically chooses a small number of sites for training, inspection or reinforced supervision. Today the choice follows the raw count, which Chapter~\ref{cap:descritiva} showed to mostly measure size. Three rules will be compared, always choosing the same number $k$ of sites: (i) highest raw count; (ii) highest adjusted rate $\exp(\hat{u}_s)$; (iii) highest expected excess accidents, $E_s(\hat{\lambda}_s - \lambda_{\text{ref}})$, which combines risk and size and answers the question ``where would a risk reduction prevent the most accidents''. Variants of (ii) and (iii) use the posterior probability that the site is above the reference, so as not to reward unstable estimates \parencite{hauer1997,goldstein1996}.
+}
+
+\pt{%
+A avaliação é retrospectiva: escolher as unidades com os dados de um semestre e medir, no semestre seguinte, quantos acidentes em excesso ao esperado ocorreram nas escolhidas. Como não há intervenção aleatorizada, a avaliação mede a capacidade de cada regra de apontar o risco futuro, não o efeito de agir sobre ele. \preencher{Resultados.}
+}
+\en{%
+Evaluation is retrospective: choose sites with one semester's data and measure, in the next semester, how many accidents in excess of expected occurred in the chosen ones. Since there is no randomized intervention, evaluation measures each rule's ability to point to future risk, not the effect of acting on it. \preencher{Results.}
+}
+
+\section{\tr{Quanto alocar: escala de motoristas por turno}{How much to allocate: driver staffing by shift}}
+\label{sec:presc-escala}
+
+\pt{%
+É a extensão (f). A previsão probabilística da demanda de movimentos por unidade e turno vira um número de motoristas. Em vez de somar uma folga fixa à previsão média, o número é escolhido pelo quantil da previsão que equilibra o custo de faltar e o de sobrar motorista, como no problema do jornaleiro:
+}
+\en{%
+This is extension (f). The probabilistic forecast of move demand per site and shift becomes a number of drivers. Instead of adding a fixed buffer to the mean forecast, the number is chosen by the forecast quantile that balances the cost of having too few and too many drivers, as in the newsvendor problem:
+}
+\begin{equation}
+\label{eq:jornaleiro}
+n^{*} = \left\lceil \frac{F^{-1}(q^{*})}{c} \right\rceil, \qquad q^{*} = \frac{c_{\text{falta}}}{c_{\text{falta}} + c_{\text{sobra}}},
+\end{equation}
+\pt{%
+em que $F$ é a distribuição prevista de movimentos no turno, $c$ é a capacidade de um motorista no turno (movimentos por motorista-hora vezes horas efetivas) e $c_{\text{falta}}$ e $c_{\text{sobra}}$ são os custos unitários de faltar e de sobrar um motorista. A capacidade deve ser estimada na mesma unidade da comparação com a escala atual (motorista-horas, não pessoas distintas). As regras serão avaliadas por \textit{backtest} de decisão: escalar com a previsão feita no passado e contar os turnos que teriam ficado curtos ou com sobra, e o custo de cada um. Se a carga de trabalho por turno se mostrar associada ao risco, o custo de faltar motorista passa a incluir o risco de acidente. \preencher{Depende da escala da folha por unidade e turno; ver \texttt{notas/10}.}
+}
+\en{%
+where $F$ is the forecast distribution of moves in the shift, $c$ is one driver's capacity in the shift (moves per driver-hour times effective hours) and $c_{\text{falta}}$ and $c_{\text{sobra}}$ are the unit costs of being one driver short and over. Capacity must be estimated in the same unit as the comparison with current staffing (driver-hours, not distinct people). Rules will be evaluated by a decision backtest: staff with the forecast made in the past and count the shifts that would have been short or over, and the cost of each. If shift workload turns out to be associated with risk, the cost of being short includes accident risk. \preencher{Depends on payroll scheduling by site and shift.}
+}
+
+\section{\tr{Quando inspecionar: alocação de auditorias}{When to inspect: audit allocation}}
+\label{sec:presc-auditorias}
+
+\pt{%
+As auditorias de segurança por unidade (Capítulo~\ref{cap:descritiva}) consomem tempo de supervisores. Uma regra simples prioriza as unidades com maior risco estimado e maior incerteza sobre ele, onde uma auditoria tem mais a informar, e a compara com o calendário fixo atual. \preencher{Opcional; avaliar se a nota da auditoria varia o bastante para ser útil.}
+}
+\en{%
+Site safety audits (Chapter~\ref{cap:descritiva}) take up supervisors' time. A simple rule prioritizes the sites with the highest estimated risk and the greatest uncertainty about it, where an audit has the most to reveal, and compares it with the current fixed schedule. \preencher{Optional; assess whether the audit score varies enough to be useful.}
+}

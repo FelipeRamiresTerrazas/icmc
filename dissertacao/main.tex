@@ -7,10 +7,13 @@
 % Compilar dentro desta pasta:
 %   portugues: TEXINPUTS=".;../;" latexmk -pdf -jobname=Dissertacao_MECAI_Felipe_Terrazas main.tex
 %   ingles:    TEXINPUTS=".;../;" latexmk -pdf -jobname=Dissertacao_MECAI_Felipe_Terrazas_EN main.tex
-% Tabelas em tabelas/ e figuras em figuras/ sao GERADAS por analise/viabilidade/*.py:
+% Tabelas em tabelas/ e figuras em figuras/ sao GERADAS por analise/viabilidade/*.py,
+% analise/real/descritiva.py, analise/real/figuras.py e r/descritiva.R:
 % nao editar a mao; rodar o script de novo.
 
 \input{tabelas/num_previsao}
+\input{tabelas/num_descritiva}
+\input{tabelas/num_descritiva_r}
 
 % \input nao e expansivel dentro de tabular (quebra o \bottomrule); usa o primitivo
 \makeatletter\newcommand{\tabinput}[1]{\@@input #1 }\makeatother
@@ -46,10 +49,12 @@
 \input{capitulos/01-introducao}
 \input{capitulos/02-fundamentacao}
 \input{capitulos/03-dados}
-\input{capitulos/04-metodos}
-\input{capitulos/05-viabilidade}
-\input{capitulos/06-resultados}
-\input{capitulos/07-conclusao}
+\input{capitulos/04-descritiva}
+\input{capitulos/05-metodos}
+\input{capitulos/06-viabilidade}
+\input{capitulos/07-preditiva}
+\input{capitulos/08-prescritiva}
+\input{capitulos/09-conclusao}
 
 \begingroup
 \singlespacing
