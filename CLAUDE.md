@@ -4,12 +4,13 @@
 
 ## Regras de escrita
 
+- **Normas ABNT:** antes de escrever ou revisar texto do pré-projeto, da dissertação ou de artigo, ler `estilo/ABNT.md` (resumo próprio das Diretrizes USP 2024, cujo PDF está em `programa/usp-diretrizes-teses-abnt-2024.pdf`) e passar o checklist da seção 12. Dissertação: ABNT integral. Pré-projeto: o edital prevalece, ABNT no resto. Artigos: normas da revista.
 - Sem travessão (—) nem `---` em texto novo.
 - Nunca inventar referência. Entrada nova no `referencias.bib` leva `note = {CONFERIR}` até o Felipe checar na fonte. Ao citar resultado de estudo não lido na fonte, escrever de forma geral e marcar `\preencher{conferir ...}`.
 - O pré-projeto e qualquer texto externo **não nomeiam a empresa, clientes nem unidades** e usam só ordens de grandeza dos dados (sem números internos exatos) até a autorização formal da empresa, que só será pedida depois da aprovação no mestrado.
 - O pré-projeto não cita nem se dirige a nenhum docente: a orientação é definida pela coordenação.
 - Bilíngue: parágrafos em `\pt{...}` seguido de `\en{...}`; trechos curtos em `\tr{pt}{en}`. Língua escolhida pelo sufixo `_EN` no `-jobname`. O Felipe edita o português e pede "sincroniza o inglês": atualizar os `\en{}` correspondentes aos `\pt{}` alterados.
-- Depois de mudar o texto, recompilar os dois PDFs e conferir visualmente as páginas alteradas.
+- Depois de mudar o texto, recompilar (`python compilar.py`, no mínimo PT e EN em cor) e conferir visualmente as páginas alteradas; ao mexer em figura ou legenda com cor, conferir também uma versão P&B.
 
 ## Dados e segurança
 
@@ -28,7 +29,7 @@ Regras do MECAI resumidas em `programa/README.md` (36 meses, sem qualificação,
 - `referencias/`: PDFs de artigos e livros da bibliografia (o Felipe vai colocando). Nome do arquivo = chave do `referencias.bib` (ex.: `lord2010.pdf`).
 - `notas/`: notas de trabalho internas (inventário, ideias, perguntas, datasets públicos).
 - `dados/`: fora do git. `dados/publicos/` tem datasets públicos baixados por `analise/dados_publicos.py`.
-- LaTeX compila dentro da pasta do documento com `TEXINPUTS=".;../;"` (o estilo fica em `estilo/`, compartilhado com a futura dissertação).
+- LaTeX compila dentro da pasta do documento com `TEXINPUTS=".;../;"` e `-outdir=output` (PDFs e auxiliares em `<doc>/output/`; use `python compilar.py`) (o estilo fica em `estilo/`, compartilhado com a futura dissertação).
 
 ## Dissertação (rascunho)
 
@@ -40,7 +41,8 @@ Regras do MECAI resumidas em `programa/README.md` (36 meses, sem qualificação,
 - A Seção 5.9.2 do pré-projeto ("Exploração dos dados da operação") cita resultados de `analise/real/testes.py` e `r/h2_misto.R` (saídas em `resultados/real/`, fora do git) e usa `fig_real.pdf` / `fig_real_en.pdf`, geradas por `analise/real/figuras.py`. No pré-projeto só entram valores relativos, porcentagens arredondadas e ordens de grandeza; números exatos ficam em `notas/08`.
 - Estrutura da dissertação em três níveis: cap. 4 descritivo, cap. 7 preditivo, cap. 8 prescritivo. O cap. 4 e a subseção "Descrição preliminar" do pré-projeto (Seção 4) usam figuras e números gerados por `analise/real/descritiva.py` e `r/descritiva.R` (`fig_desc_*`, `tabelas/tab_descritiva.tex`, `tabelas/num_descritiva*.tex`). O texto cita os números só pelas macros (`\descZeros` etc.), nunca digitados; o pré-projeto lê as mesmas macros. Se os scripts rodarem de novo, recompilar os dois documentos e reler os parágrafos, porque a interpretação pode mudar. Figuras e números desses scripts são só relativos.
 - Python e R: Python para extração, preparação, bootstrap, previsão e figuras; R para modelos mistos (glmmTMB, DHARMa), num projeto renv em `r/` (Rscript em `C:/Users/Usuario/AppData/Local/Programs/R/R-4.6.1/bin/Rscript.exe`, rodar dentro de `r/`).
-- Figuras: matplotlib, PDF, fonte serifada, largura 6,3 polegadas, rótulos em português com vírgula decimal.
+- Figuras: matplotlib (ou ggplot2 no R), PDF, fonte serifada, largura 6,3 polegadas, rótulos em português com vírgula decimal. Todo script de figura gera quatro variantes, `nome.pdf`, `nome_en.pdf`, `nome_pb.pdf` e `nome_en_pb.pdf`, com a paleta de `analise/estilo_fig.py` / `r/estilo_fig.R` (cores por papel; nunca cor fixa no script). No LaTeX, sempre `\includegraphics{\arqfig{nome}}`; legenda que cita cor usa `\corpb{colorido}{P&B}`. Marcadores, tracejados e hachuras iguais nos dois modos, para a figura funcionar impressa em P&B.
+- Compilar com `python compilar.py` (oito PDFs) ou um subconjunto (`python compilar.py preprojeto --modo cor`).
 
 ## Git
 
