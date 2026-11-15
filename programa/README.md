@@ -21,7 +21,7 @@ O edital 002/2026 (ou o de 2027) **ainda não está aqui**. Ele prevalece sobre 
 | **Exame de qualificação não é exigido** | Removido do cronograma. |
 | Mínimo de **96 créditos**: 48 em disciplinas e 48 na dissertação | Cabe no cronograma com disciplinas nos 3 primeiros semestres. |
 | Obrigatório integralizar **18 créditos** entre MAI5001, MAI5002 e MAI5003 (10 cada, então 2 das 3) | Escolha natural: MAI5003 (Probabilidade e Estatística) + MAI5001 ou MAI5002. |
-| Proficiência em **inglês** em até 18 meses da matrícula | Incluída no cronograma. |
+| Proficiência em **inglês** em até 18 meses da matrícula | No cronograma, no S1 (exame de outubro), com o de maio do S2 como segunda chance. Datas na seção 9. |
 | Exige atuação profissional atual ou no mínimo 2 anos de mercado (estágio não conta); comprova com carteira, declaração da empresa ou holerite com data de contratação | Documento a separar para a inscrição. |
 | Comprovante Lattes: documentos que comprovam o currículo (quem não tiver, anexa documento em branco) | Ver `lattes/` do repositório. |
 
@@ -110,3 +110,19 @@ Uso: só para saber que a linha tem massa crítica. **O pré-projeto não cita n
 | Título | Mestre em Ciências (Ciências de Computação e Matemática Computacional) | Mestre profissional |
 
 O regulamento é de 2014 (CoPGr 14/01/2014); pode haver versão mais recente na página do programa **[não verificado]**.
+
+## 9. Exame de proficiência em inglês do ICMC
+
+Fonte: captura de tela da página de pós-graduação do ICMC, enviada pelo Felipe em 2026-11-15. A página exata não foi identificada (pode ser a do PPG-CCMC ou a geral da pós). **Não verificado** que vale para o MECAI; confirmar com a secretaria (mecai@icmc.usp.br).
+
+- **Quando:** na 4ª sexta-feira de maio e na 4ª sexta-feira de outubro de cada ano; pode mudar se cair em feriado. Não há provas anteriores disponíveis.
+- **2026:** 22/05/2026 e 23/10/2026. Inscrição para o 2º semestre até 15/10/2026, pelo link "Preencher inscrição" da página.
+- **2027 (datas previstas):** 28/05/2027 e **22/10/2027**.
+- **Formato:** presencial, salas 6-303 a 6-306, das 10h às 12h. É bem mais rápido do que um exame externo.
+- **Exame externo (alternativa):** o certificado oficial é enviado pelo sistema de pós-graduação (Janus), na aba Requerimentos, conforme o regulamento do programa.
+
+**Plano.** Com ingresso no 2º semestre de 2027:
+- 1ª tentativa: exame de 22/10/2027 (S1);
+- 2ª chance: 26/05/2028, que é a 4ª sexta-feira de maio de 2028 (data calculada, não publicada; S2).
+
+Isso fica dentro do prazo de 18 meses que a FAQ do MECAI indica. A nota mínima do exame do programa para o MECAI **não foi verificada**: o regulamento do PPG-CCMC pede 50% para o mestrado, mas é outro programa.
