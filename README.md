@@ -25,14 +25,19 @@ icmc/
 │   ├── 07-prompt-cortex-dashboard.md  prompt do app Streamlit no Snowflake (interno)
 │   ├── 08-viabilidade-dados-reais.md  conclusões e testes com os dados reais (interno)
 │   ├── 09-plano-de-artigos.md     três artigos planejados (periódicos e congresso)
-│   └── 10-escala-de-motoristas.md app de escala por turno: método, ponte com a tese (interno)
+│   ├── 10-escala-de-motoristas.md app de escala por turno: método, ponte com a tese (interno)
+│   └── 11-contexto-claude-desktop.md  contexto para colar no projeto do Claude Desktop (sem nome da empresa)
 ├── analise/           código: modelos, painel sintético, datasets públicos, testes
 │   ├── viabilidade/   poder.py (poder semi-sintético) e previsao.py (previsão da exposição)
-│   └── real/          dados reais, só agregados: extrair, explorar, testes, figuras
-├── r/                 R (renv): h2_misto.R, modelo misto de H2 com glmmTMB
+│   └── real/          dados reais, só agregados: extrair, explorar, testes, figuras, descritiva
+├── r/                 R (renv): h2_misto.R (modelo misto de H2) e descritiva.R (figuras de contagem e eventos)
 ├── dados/             fora do git (datasets públicos baixados)
 └── resultados/        fora do git (saídas das análises, inclusive agregados reais)
 ```
+
+## Branches
+
+`main` reúne tudo. Uma branch por área (`preprojeto`, `dissertacao`, `analise`, `artigos`, `notas`, `referencias`, `infra`); cada commit mexe só nos arquivos da sua área e o merge na `main` é feito com `--no-ff`. Detalhes e a tabela de arquivos por branch no `CLAUDE.md`, seção Git.
 
 ## Compilar o pré-projeto
 
@@ -54,6 +59,8 @@ TEXINPUTS=".;../;" latexmk -pdf -jobname=PreProjeto_MECAI_Felipe_Terrazas_EN mai
 .venv/Scripts/python analise/real/testes.py     # testes de H1, H2 (preditivo) e H3; prepara o painel do R
 (cd r && Rscript h2_misto.R)                    # H2 com modelo misto (glmmTMB), Holm e equivalencia
 .venv/Scripts/python analise/real/figuras.py    # fig_real.pdf e fig_real_en.pdf (so valores relativos)
+.venv/Scripts/python analise/real/descritiva.py # capitulo 4: fig_desc_*.pdf, tab_descritiva.tex, num_descritiva.tex
+(cd r && Rscript descritiva.R)                  # capitulo 4: fig_desc_contagem, fig_desc_eventos, num_descritiva_r.tex
 cd dissertacao && TEXINPUTS=".;../;" latexmk -pdf -jobname=Dissertacao_MECAI_Felipe_Terrazas main.tex
 ```
 

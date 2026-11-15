@@ -38,9 +38,25 @@ Regras do MECAI resumidas em `programa/README.md` (36 meses, sem qualificação,
 - Os estudos de viabilidade usam a ESTRUTURA do dataset público do Kaggle (exposição, caminhões, terminais) com acidentes simulados; os incidentes do dataset são aleatórios e não servem para mostrar efeito.
 - O pré-projeto (Seção 5.8, "Estudo preliminar de viabilidade") cita números do capítulo 5 e usa `fig_poder.pdf` / `fig_poder_en.pdf` de `dissertacao/figuras/`. Se os scripts de viabilidade rodarem de novo, conferir e atualizar esses números nos dois documentos. Enquadramento obrigatório: simulação calibrada em dados públicos, nunca "testamos a ideia com os dados do Kaggle".
 - A Seção 5.9.2 do pré-projeto ("Exploração dos dados da operação") cita resultados de `analise/real/testes.py` e `r/h2_misto.R` (saídas em `resultados/real/`, fora do git) e usa `fig_real.pdf` / `fig_real_en.pdf`, geradas por `analise/real/figuras.py`. No pré-projeto só entram valores relativos, porcentagens arredondadas e ordens de grandeza; números exatos ficam em `notas/08`.
+- Estrutura da dissertação em três níveis: cap. 4 descritivo, cap. 7 preditivo, cap. 8 prescritivo. O cap. 4 e a subseção "Descrição preliminar" do pré-projeto (Seção 4) usam figuras e números gerados por `analise/real/descritiva.py` e `r/descritiva.R` (`fig_desc_*`, `tabelas/tab_descritiva.tex`, `tabelas/num_descritiva*.tex`). O texto cita os números só pelas macros (`\descZeros` etc.), nunca digitados; o pré-projeto lê as mesmas macros. Se os scripts rodarem de novo, recompilar os dois documentos e reler os parágrafos, porque a interpretação pode mudar. Figuras e números desses scripts são só relativos.
 - Python e R: Python para extração, preparação, bootstrap, previsão e figuras; R para modelos mistos (glmmTMB, DHARMa), num projeto renv em `r/` (Rscript em `C:/Users/Usuario/AppData/Local/Programs/R/R-4.6.1/bin/Rscript.exe`, rodar dentro de `r/`).
 - Figuras: matplotlib, PDF, fonte serifada, largura 6,3 polegadas, rótulos em português com vírgula decimal.
 
 ## Git
 
-Commits e push só quando o Felipe pedir. Trabalho em branch (`preprojeto`), merge na `main` quando ele decidir.
+Commits e push só quando o Felipe pedir. A `main` reúne tudo e deve sempre compilar. Há uma branch por área, e cada commit mexe só nos arquivos da sua área:
+
+| Branch | Arquivos |
+|---|---|
+| `preprojeto` | `preprojeto/` |
+| `dissertacao` | `dissertacao/` (capítulos, tabelas e figuras geradas, PDFs) |
+| `analise` | `analise/`, `r/`, `requirements.txt` |
+| `artigos` | `notas/09-plano-de-artigos.md` e, no futuro, os textos dos artigos |
+| `notas` | `notas/` (menos a 09) e `programa/` |
+| `referencias` | `referencias.bib`, `referencias/` |
+| `infra` | `README.md`, `CLAUDE.md`, `.gitignore`, `.vscode/`, `estilo/`, `compilar.py` |
+
+- Antes de começar numa branch: `git switch <area>` e `git merge main`, para ter o resto do repositório atualizado.
+- Mensagem de commit começa pela área: `preprojeto: ...`, `analise: ...`.
+- Mudança que atravessa áreas (ex.: script que gera uma figura citada no pré-projeto) vira um commit por área, na ordem `analise`, `dissertacao`, `preprojeto`, cada um na sua branch.
+- Merge na `main` com `git merge --no-ff <area>`, só quando o Felipe decidir.
