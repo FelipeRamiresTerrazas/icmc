@@ -24,7 +24,8 @@ icmc/
 │   ├── 06-mapa-da-literatura.md   referências por tema, lacunas, ordem de leitura
 │   ├── 07-prompt-cortex-dashboard.md  prompt do app Streamlit no Snowflake (interno)
 │   ├── 08-viabilidade-dados-reais.md  conclusões e testes com os dados reais (interno)
-│   └── 09-plano-de-artigos.md     três artigos planejados (periódicos e congresso)
+│   ├── 09-plano-de-artigos.md     três artigos planejados (periódicos e congresso)
+│   └── 10-escala-de-motoristas.md app de escala por turno: método, ponte com a tese (interno)
 ├── analise/           código: modelos, painel sintético, datasets públicos, testes
 │   ├── viabilidade/   poder.py (poder semi-sintético) e previsao.py (previsão da exposição)
 │   └── real/          dados reais, só agregados: extrair, explorar, testes, figuras

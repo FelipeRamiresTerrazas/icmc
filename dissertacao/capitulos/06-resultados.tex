@@ -1,5 +1,79 @@
 \chapter{\tr{Resultados}{Results}}
 \label{cap:resultados}
 
-\pt{\preencher{Depende dos dados reais.}}
-\en{\preencher{Depends on the real data.}}
+\pt{%
+Este capítulo depende dos dados completos da operação, depois da autorização formal da empresa e da retomada da sincronização da telemetria. A estrutura abaixo segue as etapas do Capítulo~\ref{cap:metodos}, com o que cada seção vai mostrar. Todos os números serão apresentados como valores relativos, porcentagens arredondadas e ordens de grandeza.
+}
+\en{%
+This chapter depends on the full operational data, after the company's formal authorization and the resumption of the telematics sync. The structure below follows the stages of Chapter~\ref{cap:metodos}, with what each section will show. All numbers will be presented as relative values, rounded percentages and orders of magnitude.
+}
+
+\section{\tr{Descrição do painel}{Panel description}}
+\label{sec:res-painel}
+
+\pt{%
+Período coberto, número de veículos, unidades e veículo-meses, em ordens de grandeza; distribuição da exposição por tipo de uso; distribuição do número de acidentes por veículo e mês; qualidade da ligação (precisão e cobertura na amostra revisada) e efeito de cada regra de limpeza no número de relatos. \preencher{Tabela descritiva e figura da distribuição das contagens.}
+}
+\en{%
+Period covered, number of vehicles, sites and vehicle-months, as orders of magnitude; exposure distribution by use type; distribution of accidents per vehicle-month; linkage quality (precision and coverage in the reviewed sample) and the effect of each cleaning rule on the number of reports. \preencher{Descriptive table and figure of the count distribution.}
+}
+
+\section{\tr{Seleção de modelo (objetivo b)}{Model selection (objective b)}}
+\label{sec:res-modelos}
+
+\pt{%
+Comparação dos modelos M0 a M6 (Tabela~\ref{tab:modelos}) por AIC e por escore logarítmico na validação temporal e por unidade; testes das variâncias dos efeitos aleatórios; verificação do \textit{offset} ($\hat{\theta}$ perto de 1?); diagnóstico por resíduos simulados do modelo escolhido. \preencher{Tabela de comparação e figura dos resíduos.}
+}
+\en{%
+Comparison of models M0 to M6 (Table~\ref{tab:modelos}) by AIC and by log score in temporal and site validation; tests of random effect variances; offset check ($\hat{\theta}$ near 1?); simulated residual diagnostics of the chosen model. \preencher{Comparison table and residual figure.}
+}
+
+\section{\tr{Comparação entre unidades (H1, objetivo e)}{Site comparison (H1, objective e)}}
+\label{sec:res-h1}
+
+\pt{%
+H1a, H1b e H1c com os procedimentos da Seção~\ref{sec:testes}; gráfico de funil com o modelo completo; grupos de risco e intervalos de posição; estabilidade da classificação entre semestres. \preencher{Tabela de testes de H1, gráfico de funil e figura de intervalos de posição.}
+}
+\en{%
+H1a, H1b and H1c with the procedures of Section~\ref{sec:testes}; funnel plot with the full model; risk groups and position intervals; stability of the classification across semesters. \preencher{H1 test table, funnel plot and position interval figure.}
+}
+
+\section{\tr{Telemetria (H2, objetivo c)}{Telematics (H2, objective c)}}
+\label{sec:res-h2}
+
+\pt{%
+Razões de taxas por tipo de evento, sem ajuste e no modelo completo, com classificação em associado, desprezível ou inconclusivo; diferença de escore fora da amostra entre M4 e M3; concentração de acidentes nos veículos de maior risco previsto, com e sem telemetria. \preencher{Tabela de H2 e figura das razões de taxas com a margem de equivalência.}
+}
+\en{%
+Rate ratios by event type, unadjusted and in the full model, classified as associated, negligible or inconclusive; out-of-sample score difference between M4 and M3; accident concentration in the vehicles with the highest predicted risk, with and without telematics. \preencher{H2 table and figure of rate ratios with the equivalence margin.}
+}
+
+\section{\tr{Subnotificação (H3, objetivo d)}{Underreporting (H3, objective d)}}
+\label{sec:res-h3}
+
+\pt{%
+Cobertura da detecção automática de colisão no período completo; pareamento entre ordens de dano e relatos (distribuição dos intervalos, janela escolhida); probabilidade de relato geral e por unidade, com encolhimento; testes de H3a e H3b; total de acidentes estimado por captura e recaptura, por estrato, como limite. \preencher{Tabela de H3 e figura das probabilidades de relato por unidade.}
+}
+\en{%
+Coverage of automatic crash detection over the full period; matching between damage orders and reports (interval distribution, chosen window); overall and site reporting probability, with shrinkage; tests of H3a and H3b; total accidents estimated by capture-recapture, by stratum, as a bound. \preencher{H3 table and figure of site reporting probabilities.}
+}
+
+\section{\tr{Análises de sensibilidade}{Sensitivity analyses}}
+\label{sec:res-sensibilidade}
+
+\pt{%
+As conclusões de H1 a H3 sob cada variação da Seção~\ref{sec:met-sensibilidade}. \preencher{Tabela-resumo: conclusão principal e se ela se mantém em cada variação.}
+}
+\en{%
+The conclusions of H1 to H3 under each variation in Section~\ref{sec:met-sensibilidade}. \preencher{Summary table: main conclusion and whether it holds under each variation.}
+}
+
+\section{\tr{Previsão da exposição (objetivo f, opcional)}{Exposure forecasting (objective f, optional)}}
+\label{sec:res-previsao}
+
+\pt{%
+Desempenho dos três métodos por horizonte (CRPS, perda quantílica, cobertura); projeção de acidentes por região e trimestre e fração da variância devida à exposição. \preencher{Só se a extensão for feita.}
+}
+\en{%
+Performance of the three methods by horizon (CRPS, quantile loss, coverage); accident projection by region and quarter and share of variance due to exposure. \preencher{Only if the extension is carried out.}
+}
