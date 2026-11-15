@@ -1,0 +1,37 @@
+\section{\tr{Introdução e justificativa}{Introduction and motivation}}
+\label{sec:introducao}
+
+\pt{%
+Centros de distribuição e plantas industriais dependem de operações de pátio: a movimentação de carretas entre vagas, docas e portarias, feita por caminhões de manobra. É uma atividade de baixa velocidade, mas com manobras frequentes em espaço restrito, ré, engates e circulação de pedestres. Colisões com carretas, docas, portões e outros veículos geram danos materiais, interrupção da operação e, em parte dos casos, lesões.
+}
+\en{%
+Distribution centers and industrial plants depend on yard operations: moving trailers between parking spots, docks and gates with yard trucks. The activity runs at low speed, but involves frequent maneuvers in tight spaces, reversing, coupling and pedestrian traffic. Collisions with trailers, docks, gates and other vehicles cause property damage, operational downtime and, in some cases, injuries.
+}
+
+\pt{%
+O autor atua como gestor de inteligência artificial e analytics numa empresa que presta esse tipo de serviço em dezenas de unidades. Nos últimos anos, a empresa passou a ter três fontes de dados que raramente estão juntas: (i) relatos formais de acidentes, registrados num aplicativo próprio; (ii) telemetria embarcada nos caminhões, com distância, tempo de operação e eventos de condução detectados por sensores; e (iii) horas trabalhadas por unidade, vindas do sistema de folha de pagamento. O sistema de manutenção, que registra os reparos por dano em cada veículo, completa o quadro. Hoje, essas fontes são analisadas separadamente, e a comparação entre unidades usa contagens brutas de acidentes.
+}
+\en{%
+The author works as the head of artificial intelligence and analytics at a company that provides this kind of service at dozens of sites. In recent years, the company has come to hold three data sources that are rarely available together: (i) formal accident reports, recorded in an in-house application; (ii) on-board telematics in the trucks, with distance, operating time and driving events detected by sensors; and (iii) hours worked per site, from the payroll system. The maintenance system, which records damage repairs on each vehicle, completes the picture. Today these sources are analyzed separately, and sites are compared by raw accident counts.
+}
+
+\pt{%
+Contagens brutas são um indicador fraco por quatro motivos. Primeiro, a exposição varia muito: uma unidade com o triplo de horas operadas tende a ter mais acidentes sem ser mais arriscada. Segundo, com eventos raros, a variação por acaso é grande; uma unidade pequena com um acidente num mês pode parecer a pior da empresa \parencite{spiegelhalter2005}. Terceiro, o tipo de operação muda o risco: o caminhão que só manobra no pátio, o que faz transferências entre instalações e o de uso local não são comparáveis, e unidades com misturas diferentes de operação também não. Quarto, nem todo acidente é relatado, e a propensão a relatar varia com o clima de segurança e a supervisão \parencite{probst2010}, de modo que uma unidade com poucos relatos pode estar apenas relatando menos.
+}
+\en{%
+Raw counts are a weak indicator for four reasons. First, exposure varies widely: a site with three times the operating hours tends to have more accidents without being riskier. Second, with rare events, chance variation is large; a small site with one accident in a month can look like the worst in the company \parencite{spiegelhalter2005}. Third, the type of operation changes risk: the truck that only maneuvers in the yard, the one that shuttles between facilities and the local-use truck are not comparable, and neither are sites with different operation mixes. Fourth, not every accident is reported, and the propensity to report varies with safety climate and supervision \parencite{probst2010}, so a site with few reports may simply be reporting less.
+}
+
+\pt{%
+A literatura de segurança viária trata problemas parecidos há décadas, com modelos de contagem com exposição, superdispersão e efeitos aleatórios \parencite{lord2010,mannering2014}, e a estatística aplicada oferece ferramentas para estabilizar taxas de unidades pequenas, como o Bayes empírico \parencite{clayton1987,hauer1997}. Em caminhões, eventos de condução registrados pela telemetria, como frenagens bruscas, se associam a colisões e a sinistros com dano \parencite{cai2021,driessen2024}. Essa literatura, porém, trata da rodovia. No pátio, o aprendizado de máquina aparece sobretudo em terminais portuários \parencite{filom2022}, a pesquisa operacional em centros de distribuição estuda o agendamento das docas \parencite{vanbelle2012}, e a segurança em armazéns concentra-se nas empilhadeiras \parencite{collins1999}. Numa busca preliminar, não foi encontrado estudo revisado por pares que modele o risco de acidentes de caminhões de manobra, veículos que andam pouco, manobram muito e têm relatos sujeitos a subnotificação \preencher{confirmar com busca sistemática em Scopus e Web of Science}.
+}
+\en{%
+Road safety research has addressed similar problems for decades, with count models that include exposure, overdispersion and random effects \parencite{lord2010,mannering2014}, and applied statistics offers tools to stabilize rates for small units, such as empirical Bayes \parencite{clayton1987,hauer1997}. In trucks, telematics-recorded driving events, such as harsh braking, are associated with crashes and property damage incidents \parencite{cai2021,driessen2024}. This literature, however, deals with the road. In the yard, machine learning appears mostly in port terminals \parencite{filom2022}, operations research on distribution centers studies dock scheduling \parencite{vanbelle2012}, and warehouse safety focuses on forklifts \parencite{collins1999}. A preliminary search found no peer-reviewed study modeling the accident risk of yard trucks, vehicles that travel little, maneuver a lot and have reports subject to underreporting \preencher{confirm with a systematic search in Scopus and Web of Science}.
+}
+
+\pt{%
+O projeto se justifica, portanto, em duas frentes. Na prática, entrega à empresa um indicador de risco ajustado por exposição, estável e com incerteza explícita, para orientar treinamento, inspeção e supervisão. No método, combina modelos hierárquicos de contagem, exposição medida por telemetria e estimação de subnotificação num mesmo arcabouço, aplicado a um tipo de operação pouco estudado.
+}
+\en{%
+The project is therefore justified on two fronts. In practice, it gives the company an exposure-adjusted, stable risk indicator with explicit uncertainty to guide training, inspection and supervision. Methodologically, it combines hierarchical count models, telematics-based exposure and underreporting estimation in a single framework, applied to a little-studied type of operation.
+}

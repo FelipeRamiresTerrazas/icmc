@@ -1,0 +1,69 @@
+\section{\tr{Objetivos e hipóteses}{Objectives and hypotheses}}
+\label{sec:objetivos}
+
+\subsection{\tr{Objetivo geral}{General objective}}
+
+\pt{%
+Desenvolver e avaliar modelos estatísticos para estimar o risco de acidentes em operações de pátio, ajustado pela exposição e com incerteza quantificada, por veículo e por unidade operacional, combinando relatos de acidentes, telemetria veicular e horas trabalhadas.
+}
+\en{%
+To develop and evaluate statistical models that estimate accident risk in yard operations, adjusted for exposure and with quantified uncertainty, per vehicle and per operating site, by combining accident reports, vehicle telematics and hours worked.
+}
+
+\subsection{\tr{Objetivos específicos}{Specific objectives}}
+
+\begin{enumerate}[label=(\alph*)]
+  \item \tr%
+    {Integrar as três fontes num painel veículo $\times$ mês, com regras de ligação documentadas e qualidade da ligação medida em amostra revisada manualmente.}%
+    {Integrate the three sources into a vehicle $\times$ month panel, with documented linkage rules and linkage quality measured on a manually reviewed sample.}
+  \item \tr%
+    {Comparar modelos de contagem (Poisson, binomial negativa, com e sem inflação de zeros, com e sem efeitos aleatórios de veículo e unidade) quanto ao ajuste e ao desempenho preditivo fora da amostra.}%
+    {Compare count models (Poisson, negative binomial, with and without zero inflation, with and without vehicle and site random effects) in terms of fit and out-of-sample predictive performance.}
+  \item \tr%
+    {Medir quanto as taxas de eventos de condução registradas pela telemetria acrescentam à previsão de acidentes, além da exposição, do tipo de uso do veículo e da unidade, e, se nada acrescentarem, verificar se o efeito pode ser declarado desprezível.}%
+    {Measure how much the driving event rates recorded by telematics add to accident prediction beyond exposure, vehicle use type and site, and, if they add nothing, check whether the effect can be declared negligible.}
+  \item \tr%
+    {Estimar a subnotificação comparando os relatos formais com uma segunda fonte que registre o mesmo tipo de evento (ordens de manutenção abertas por dano), e medir a cobertura da detecção automática de colisão da telemetria como fonte de acidentes de pátio.}%
+    {Estimate underreporting by comparing formal reports with a second source that records the same kind of event (maintenance orders opened for damage), and measure the coverage of telematics automatic crash detection as a source of yard accidents.}
+  \item \tr%
+    {Produzir indicadores de risco por unidade ajustados por exposição, com intervalos de incerteza e grupos de risco, e compará-los aos indicadores por contagem bruta quanto à capacidade de prever o período seguinte e à confusão com o tamanho da unidade.}%
+    {Produce exposure-adjusted site risk indicators, with uncertainty intervals and risk groups, and compare them with raw-count indicators in their ability to predict the next period and in their confounding with site size.}
+  \item \textit{\tr{(Opcional, extensão)}{(Optional, extension)}} \tr%
+    {Prever de forma probabilística a exposição (horas de operação) de cada unidade nos meses seguintes, como insumo para o planejamento de escala e de supervisão, e combinar essa previsão ao modelo de risco para projetar acidentes esperados em níveis agregados (região e trimestre).}%
+    {Forecast each site's exposure (operating hours) for the following months probabilistically, as input for staffing and supervision planning, and combine this forecast with the risk model to project expected accidents at aggregate levels (region and quarter).}
+\end{enumerate}
+
+\pt{%
+O objetivo (f) é uma extensão: será desenvolvido se os objetivos (a) a (e) estiverem concluídos dentro do cronograma (Seção~\ref{sec:cronograma}).
+}
+\en{%
+Objective (f) is an extension: it will be pursued if objectives (a) to (e) are completed on schedule (Section~\ref{sec:cronograma}).
+}
+
+\subsection{\tr{Hipóteses}{Hypotheses}}
+
+\pt{%
+Cada hipótese de pesquisa é testada contra uma hipótese nula de igualdade ($H_0$), de modo que rejeitar $H_0$ permite afirmar a diferença. Como não rejeitar $H_0$ não demonstra igualdade, as afirmações de ausência de efeito (H1c e H2b) usam testes de equivalência \parencite{schuirmann1987,lakens2017}: nesses casos, $H_0$ é que o efeito está fora de uma margem fixada antes da análise final, e rejeitá-la permite afirmar que o efeito é desprezível.
+}
+\en{%
+Each research hypothesis is tested against a null hypothesis of equality ($H_0$), so that rejecting $H_0$ supports the claim of a difference. Since failing to reject $H_0$ does not demonstrate equality, claims of no effect (H1c and H2b) use equivalence tests \parencite{schuirmann1987,lakens2017}: in those cases, $H_0$ is that the effect lies outside a margin fixed before the final analysis, and rejecting it supports the claim that the effect is negligible.
+}
+
+\begin{description}[leftmargin=1.2cm,style=nextline]
+  \item[H1] \tr%
+    {\textit{Comparação entre unidades.} (a)~$H_0$: o erro de previsão da taxa do semestre seguinte é igual com a taxa estimada pelo modelo hierárquico e com a taxa bruta; alternativa: é menor com a estimada. (b)~$H_0$: a taxa de acidentes é igual em todas as unidades, dada a exposição; alternativa: difere entre unidades. (c)~Equivalência: $H_0$: a correlação de postos entre a taxa estimada e a exposição da unidade está fora de $(-0{,}3;\ 0{,}3)$; alternativa: está dentro, ou seja, a taxa estimada não se confunde com o tamanho da unidade.}%
+    {\textit{Site comparison.} (a)~$H_0$: the error in predicting the next semester's rate is the same with the hierarchical model's rate and with the raw rate; alternative: it is smaller with the model's rate. (b)~$H_0$: the accident rate is the same in all sites, given exposure; alternative: it differs across sites. (c)~Equivalence: $H_0$: the rank correlation between the estimated rate and site exposure lies outside $(-0.3,\ 0.3)$; alternative: it lies inside, that is, the estimated rate is not confounded with site size.}
+  \item[H2] \tr%
+    {\textit{Telemetria.} (a)~$H_0$: para cada tipo de evento de condução, a razão de taxas de acidente por desvio padrão da taxa de eventos é igual a 1, dados exposição, tipo de uso e veículo; e o escore logarítmico fora da amostra é igual com e sem telemetria; alternativa: diferente de 1, e escore maior com telemetria. (b)~Equivalência: $H_0$: a razão de taxas está fora de $[0{,}8;\ 1{,}25]$; alternativa: está dentro, ou seja, o efeito é desprezível.}%
+    {\textit{Telematics.} (a)~$H_0$: for each type of driving event, the accident rate ratio per standard deviation of the event rate equals 1, given exposure, use type and vehicle; and the out-of-sample log score is the same with and without telematics; alternative: different from 1, and a higher score with telematics. (b)~Equivalence: $H_0$: the rate ratio lies outside $[0.8,\ 1.25]$; alternative: it lies inside, that is, the effect is negligible.}
+  \item[H3] \tr%
+    {\textit{Subnotificação.} (a)~$H_0$: a probabilidade de que um dano registrado pela manutenção tenha relato formal correspondente é igual a 1; alternativa: é menor que 1. (b)~$H_0$: essa probabilidade é igual em todas as unidades; alternativa: varia entre unidades, de modo que as contagens de relatos subestimam o risco de forma desigual.}%
+    {\textit{Underreporting.} (a)~$H_0$: the probability that damage recorded by maintenance has a matching formal report equals 1; alternative: it is below 1. (b)~$H_0$: this probability is the same in all sites; alternative: it varies across sites, so that report counts underestimate risk unevenly.}
+\end{description}
+
+\pt{%
+As margens de equivalência seguem convenções usuais (razão de taxas entre 0,8 e 1,25, correlação menor que 0,3 em módulo) e serão revistas, com justificativa, antes da análise final; os testes múltiplos de H2a são corrigidos pelo método de \textcite{holm1979}.
+}
+\en{%
+The equivalence margins follow common conventions (rate ratio between 0.8 and 1.25, correlation below 0.3 in absolute value) and will be reviewed, with justification, before the final analysis; the multiple tests in H2a are corrected with \textcite{holm1979}'s method.
+}
