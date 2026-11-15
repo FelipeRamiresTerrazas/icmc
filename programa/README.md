@@ -6,6 +6,7 @@ Referência rápida do programa, para consultar ao longo do processo. Fontes con
 - Disciplinas: https://www.icmc.usp.br/pos-graduacao/disciplinas?programa=55137 (código do programa: 55137)
 - PDFs nesta pasta: `mecai-linhas-e-orientadores.pdf` e `mecai-horario-2026-2.pdf`
 - `ppgccmc-regulamento.pdf`: regulamento do **PPG-CCMC** (mestrado e doutorado **acadêmicos** em Ciências de Computação e Matemática Computacional do ICMC; CoPGr 14/01/2014), recebido em 2026-11-11. **Não é o regulamento do MECAI**; ver seção 8
+- `usp-diretrizes-teses-abnt-2024.pdf`: *Diretrizes para apresentação de dissertações e teses da USP: parte I (ABNT)*, 5. ed., ABCD/USP, 2024 (versão de julho de 2026), recebido em 2026-11-15. Vale para todos os programas da USP, inclusive o MECAI. Resumo operacional em `estilo/ABNT.md`
 
 O edital 002/2026 (ou o de 2027) **ainda não está aqui**. Ele prevalece sobre tudo abaixo.
 
