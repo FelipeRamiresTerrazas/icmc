@@ -50,6 +50,24 @@ Os problemas de qualidade já conhecidos fazem parte do trabalho: relatos de tes
 Known data quality issues are part of the work: test reports mixed with real ones during the application roll-out, site and vehicle typed as free text in some reports, trips with invalid end records in the telematics, and vehicles moving between sites over time. Every cleaning rule will be documented and its effect on the results tested in a sensitivity analysis.
 }
 
+\subsection*{\tr{Descrição preliminar}{Preliminary description}}
+
+\pt{%
+Uma análise descritiva agregada dos dados da operação, só com valores relativos (Figura~\ref{fig:desc-pp}), já mostra quatro fatos que orientam o desenho. (a)~As horas de viagem por veículo-mês são parecidas nos três tipos de uso, mas as milhas, não: o spotter anda a cerca de \descVelSpotter{} da velocidade do veículo local, o que justifica o tempo como exposição. (b)~Os acidentes parecem concentrados em poucos veículos (Gini de \descGiniObs), mas quase toda essa concentração é a esperada por acaso e exposição (\descGiniPoisson{} sob Poisson); concentração não é, por si só, evidência de risco maior. (c)~A hora do acidente está registrada em \descComHora\% dos relatos, e os acidentes se distribuem pelos três turnos, o que torna possíveis análises por turno. (d)~Relatos, ordens de manutenção por dano e colisões detectadas variam de forma diferente ao longo do ano, sinal de que captam universos diferentes. A dissertação terá um capítulo descritivo completo, com a distribuição de cada métrica usada nos modelos, seguido dos capítulos preditivo e prescritivo (Seção~\ref{sec:metodologia}).
+}
+\en{%
+An aggregated descriptive analysis of the operational data, with relative values only (Figure~\ref{fig:desc-pp}), already shows four facts that shape the design. (a)~Trip hours per vehicle-month are similar across the three use types, but miles are not: the spotter moves at about \descVelSpotter{} of the local vehicle's speed, which justifies time as exposure. (b)~Accidents look concentrated in a few vehicles (Gini of \descGiniObs), but almost all of this concentration is what chance and exposure produce (\descGiniPoisson{} under Poisson); concentration is not, in itself, evidence of higher risk. (c)~The accident time is recorded in \descComHora\% of reports, and accidents are spread over the three shifts, which makes shift-level analyses possible. (d)~Reports, damage repair orders and detected collisions vary differently over the year, a sign that they capture different universes. The dissertation will have a full descriptive chapter, with the distribution of each metric used in the models, followed by the predictive and prescriptive chapters (Section~\ref{sec:metodologia}).
+}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{\arqfig{fig_desc_pp}}
+\caption{\tr%
+  {Descrição preliminar dos dados da operação (só valores relativos). (a)~Horas de viagem por veículo-mês, por tipo de uso, relativas à mediana. (b)~Fração acumulada dos acidentes e das horas contra a fração acumulada de veículos, ordenados do maior para o menor; faixa: 95\% das curvas simuladas sob Poisson com taxa constante por tipo de uso. (c)~Distribuição dos acidentes por hora do dia; faixas: turnos de 8 horas. (d)~Relatos de acidente, ordens de manutenção por dano e colisões detectadas pela telemetria, por mês, relativos à média de cada série.}%
+  {Preliminary description of the operational data (relative values only). (a)~Trip hours per vehicle-month, by use type, relative to the median. (b)~Cumulative share of accidents and hours against the cumulative share of vehicles, ordered from largest to smallest; band: 95\% of curves simulated under Poisson with a constant rate per use type. (c)~Distribution of accidents by hour of day; bands: 8-hour shifts. (d)~Accident reports, damage repair orders and telematics-detected collisions per month, relative to each series' mean.}}
+\label{fig:desc-pp}
+\end{figure}
+
 \begin{nota}[\tr{Privacidade}{Privacy}]
 \tr%
   {Nenhum dado identifica pessoas. A análise usa veículo, unidade e mês; identificadores de motorista, nomes, imagens de câmera e trajetos de GPS não são usados. Os dados não saem do ambiente da empresa; apenas tabelas agregadas entram no repositório da pesquisa e na dissertação, que não nomeará a empresa, seus clientes nem suas unidades.}%
