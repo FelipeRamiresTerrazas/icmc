@@ -1,0 +1,283 @@
+\chapter{\tr{Métodos}{Methods}}
+\label{cap:metodos}
+
+\pt{%
+O trabalho tem quatro etapas: a integração das fontes num painel (Seção~\ref{sec:met-painel}), os modelos de risco (Seções~\ref{sec:met-modelo} a \ref{sec:met-indicadores}), a validação fora da amostra e os testes das hipóteses (Seções~\ref{sec:met-validacao} e \ref{sec:testes}) e a estimação da subnotificação (Seção~\ref{sec:met-subnotificacao}). O capítulo termina com o plano alternativo, as análises de sensibilidade, a extensão de previsão e as ferramentas.
+}
+\en{%
+The work has four stages: integrating the sources into a panel (Section~\ref{sec:met-painel}), the risk models (Sections~\ref{sec:met-modelo} to \ref{sec:met-indicadores}), out-of-sample validation and hypothesis tests (Sections~\ref{sec:met-validacao} and \ref{sec:testes}) and underreporting estimation (Section~\ref{sec:met-subnotificacao}). The chapter ends with the fallback plan, sensitivity analyses, the forecasting extension and tools.
+}
+
+\section{\tr{Etapa 1: integração e painel}{Stage 1: integration and panel}}
+\label{sec:met-painel}
+
+\pt{%
+As fontes são integradas num painel com uma linha por veículo e mês, contendo: o número de colisões relatadas (desfecho), as horas de viagem e a distância (exposições), a contagem de cada tipo de evento de condução, o número de colisões detectadas pelos sensores e o resultado da revisão, o tipo de uso, a unidade do veículo no mês e, por unidade e mês, as horas trabalhadas e as horas extras da folha.
+}
+\en{%
+The sources are integrated into a panel with one row per vehicle and month, containing: the number of reported collisions (outcome), trip hours and distance (exposures), the count of each driving event type, the number of sensor-detected collisions and the review outcome, the use type, the vehicle's site in the month and, per site and month, payroll hours worked and overtime.
+}
+
+\pt{%
+A ligação dos relatos aos veículos tem duas fases. Na determinística, o número do caminhão informado no relato é normalizado (caixa, espaços, zeros à esquerda, prefixos da unidade) e comparado ao nome do veículo na telemetria. Na aproximada, os relatos que sobram são comparados aos veículos da mesma unidade por similaridade de texto do identificador, com a regra de decisão inspirada em \textcite{fellegi1969}: um par é aceito quando a similaridade passa de um limiar e não há outro candidato próximo. A qualidade é medida numa amostra aleatória de relatos revisada manualmente, com precisão (pares aceitos corretos) e cobertura (pares corretos encontrados). Os modelos principais são reajustados só com as ligações determinísticas, como teste de sensibilidade.
+}
+\en{%
+Linking reports to vehicles has two phases. In the deterministic phase, the truck number given in the report is normalized (case, spaces, leading zeros, site prefixes) and compared with the vehicle name in telematics. In the approximate phase, the remaining reports are compared with vehicles at the same site by text similarity of the identifier, with a decision rule inspired by \textcite{fellegi1969}: a pair is accepted when similarity exceeds a threshold and there is no other close candidate. Quality is measured on a random sample of reports reviewed by hand, as precision (accepted pairs that are correct) and coverage (correct pairs found). The main models are refitted with deterministic links only, as a sensitivity check.
+}
+
+\pt{%
+Ficam fora do painel os meses em que o veículo não teve nenhuma viagem e os veículos sem unidade atribuível no mês. Relatos sem veículo identificável não entram no modelo por veículo, mas entram nas taxas por unidade, que podem ser calculadas com todos os relatos; a diferença entre as duas versões é reportada.
+}
+\en{%
+Months in which the vehicle had no trips and vehicles with no assignable site in the month are left out of the panel. Reports without an identifiable vehicle do not enter the vehicle model, but do enter site rates, which can be computed with all reports; the difference between the two versions is reported.
+}
+
+\section{\tr{Etapa 2: modelo principal}{Stage 2: main model}}
+\label{sec:met-modelo}
+
+\pt{%
+O modelo principal é uma binomial negativa hierárquica:
+}
+\en{%
+The main model is a hierarchical negative binomial:
+}
+\begin{equation}
+\label{eq:modelo}
+\begin{aligned}
+Y_{it} &\sim \text{NB}(\mu_{it}, \phi), \\
+\log \mu_{it} &= \log E_{it} + \alpha_{k(i)} + \mathbf{z}_{it}^\top \bm{\beta} + \gamma_{t} + u_{s(i,t)} + v_i, \\
+u_s &\sim \mathcal{N}(0, \sigma_u^2), \qquad v_i \sim \mathcal{N}(0, \sigma_v^2),
+\end{aligned}
+\end{equation}
+\pt{%
+em que $E_{it}$ são as horas de viagem, $\alpha_{k(i)}$ é o efeito do tipo de uso $k$ do veículo, $\mathbf{z}_{it}$ são as taxas padronizadas de eventos de condução, $\gamma_t$ é um efeito de calendário (efeito fixo de mês ou tendência mais sazonalidade, conforme o número de meses disponíveis), $s(i,t)$ é a unidade do veículo $i$ no mês $t$, e $\phi$ é o parâmetro de dispersão da NB2 (Equação~\ref{eq:nb2}).
+}
+\en{%
+where $E_{it}$ is trip hours, $\alpha_{k(i)}$ is the effect of the vehicle's use type $k$, $\mathbf{z}_{it}$ are the standardized driving event rates, $\gamma_t$ is a calendar effect (month fixed effect or trend plus seasonality, depending on the number of months available), $s(i,t)$ is the site of vehicle $i$ in month $t$, and $\phi$ is the NB2 dispersion parameter (Equation~\ref{eq:nb2}).
+}
+
+\pt{%
+Três escolhas do modelo vêm dos estudos preliminares (Capítulo~\ref{cap:viabilidade}). O efeito de veículo $v_i$ é obrigatório, porque sem ele os testes sobre telemetria tiveram falsos positivos bem acima do nominal. O tipo de uso $\alpha_k$ é obrigatório, porque o caminhão de manobra tem taxa por hora muito maior que os demais e gera mais eventos de manobra, de modo que sem esse ajuste a telemetria parece associada a acidentes só por acompanhar o tipo de operação. A exposição é o tempo e não a distância, porque, por milha, a comparação entre tipos de uso fica dominada pelo fato de o caminhão de manobra quase não rodar.
+}
+\en{%
+Three model choices come from the preliminary studies (Chapter~\ref{cap:viabilidade}). The vehicle effect $v_i$ is mandatory, because without it the telematics tests had false positives well above the nominal level. The use type $\alpha_k$ is mandatory, because the yard truck has a much higher rate per hour than the others and generates more maneuvering events, so that without this adjustment telematics appears associated with accidents only because it tracks the type of operation. Exposure is time, not distance, because per mile the comparison across use types is dominated by the yard truck barely driving.
+}
+
+\pt{%
+Os coeficientes de telemetria são lidos como associações, não como efeitos causais: o mesmo motorista, a mesma unidade e o mesmo tipo de manobra podem gerar ao mesmo tempo mais eventos e mais acidentes. Como as taxas de eventos são correlacionadas entre si, cada tipo de evento é testado num modelo próprio (o modelo~\eqref{eq:modelo} com um elemento em $\mathbf{z}_{it}$), e um modelo com todos os tipos juntos é ajustado como sensibilidade.
+}
+\en{%
+Telematics coefficients are read as associations, not causal effects: the same driver, site and type of maneuver can generate both more events and more accidents. Since event rates are correlated with each other, each event type is tested in its own model (model~\eqref{eq:modelo} with one element in $\mathbf{z}_{it}$), and a model with all types together is fitted as a sensitivity check.
+}
+
+\pt{%
+O ajuste é por máxima verossimilhança com aproximação de Laplace no glmmTMB \parencite{brooks2017}. As unidades e os veículos são cruzados no tempo (um veículo pode mudar de unidade), o que o glmmTMB acomoda com dois efeitos aleatórios não aninhados. A hipótese de proporcionalidade do \textit{offset} é verificada substituindo-o por $\theta \log E_{it}$ com $\theta$ livre (Seção~\ref{sec:fund-contagem}).
+}
+\en{%
+Fitting is by maximum likelihood with the Laplace approximation in glmmTMB \parencite{brooks2017}. Sites and vehicles are crossed over time (a vehicle may move between sites), which glmmTMB accommodates with two non-nested random effects. The proportionality assumption of the offset is checked by replacing it with $\theta \log E_{it}$ with free $\theta$ (Section~\ref{sec:fund-contagem}).
+}
+
+\section{\tr{Modelos comparados e diagnóstico}{Compared models and diagnostics}}
+\label{sec:met-comparados}
+
+\pt{%
+O objetivo (b) compara o modelo principal a alternativas mais simples e mais complexas (Tabela~\ref{tab:modelos}). A comparação é feita pelo AIC no ajuste e pelo escore logarítmico na validação temporal (Seção~\ref{sec:met-validacao}). As variâncias dos efeitos aleatórios são testadas por razão de verossimilhanças; como $\sigma^2 = 0$ está na fronteira do espaço de parâmetros, a distribuição de referência é uma mistura meio a meio de $\chi^2_0$ e $\chi^2_1$, o que equivale a dividir por dois o valor-$p$ usual.
+}
+\en{%
+Objective (b) compares the main model with simpler and more complex alternatives (Table~\ref{tab:modelos}). The comparison uses AIC in fitting and the log score in temporal validation (Section~\ref{sec:met-validacao}). Random effect variances are tested by likelihood ratio; since $\sigma^2 = 0$ lies on the boundary of the parameter space, the reference distribution is an equal mixture of $\chi^2_0$ and $\chi^2_1$, which amounts to halving the usual $p$-value.
+}
+
+\begin{table}[ht]
+\centering\small
+\caption{\tr{Modelos comparados. Todos têm as horas de viagem como \textit{offset}.}{Compared models. All have trip hours as offset.}}
+\label{tab:modelos}
+\begin{tabularx}{\textwidth}{l l >{\raggedright\arraybackslash}X}
+\toprule
+& \tr{Distribuição}{Distribution} & \tr{Preditor}{Predictor} \\
+\midrule
+M0 & Poisson & \tr{tipo de uso, calendário}{use type, calendar} \\
+M1 & NB2 & \tr{como M0}{as M0} \\
+M2 & NB2 & \tr{M1 + efeito de veículo $v_i$}{M1 + vehicle effect $v_i$} \\
+M3 & NB2 & \tr{M2 + efeito de unidade $u_s$ (modelo de referência, sem telemetria)}{M2 + site effect $u_s$ (reference model, without telematics)} \\
+M4 & NB2 & \tr{M3 + eventos de condução (modelo~\eqref{eq:modelo})}{M3 + driving events (model~\eqref{eq:modelo})} \\
+M5 & \tr{NB2 com inflação de zeros}{Zero-inflated NB2} & \tr{como M3, com probabilidade de zero estrutural constante}{as M3, with constant structural zero probability} \\
+M6 & NB2 & \tr{M3 com distância no lugar das horas como exposição}{M3 with distance instead of hours as exposure} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\pt{%
+O diagnóstico usa os resíduos quantílicos simulados do DHARMa \parencite{dunn1996,hartig2026}: uniformidade (teste de Kolmogorov e Smirnov), dispersão (razão entre a variância observada e a simulada), excesso de zeros (zeros observados contra simulados) e autocorrelação temporal dentro do veículo. Na exploração preliminar (Seção~\ref{sec:viab-real}), M2 não mostrou superdispersão residual nem excesso de zeros, o que já indica que M5 não deve ser necessário.
+}
+\en{%
+Diagnostics use DHARMa's simulated quantile residuals \parencite{dunn1996,hartig2026}: uniformity (Kolmogorov-Smirnov test), dispersion (ratio of observed to simulated variance), excess zeros (observed against simulated zeros) and within-vehicle temporal autocorrelation. In the preliminary exploration (Section~\ref{sec:viab-real}), M2 showed no residual overdispersion or excess zeros, which already suggests that M5 should not be needed.
+}
+
+\section{\tr{Indicadores de risco por unidade}{Site risk indicators}}
+\label{sec:met-indicadores}
+
+\pt{%
+Para o objetivo (e) e para H1, cada unidade $s$ recebe três indicadores num período: a contagem bruta $Y_s$; a taxa bruta $Y_s/E_s$; e a taxa ajustada, que é a taxa de Bayes empírico da Equação~\eqref{eq:eb} na versão simples ou, na versão completa, a razão de taxas da unidade $\exp(\hat{u}_s)$ estimada pelo modelo M3, com intervalo de previsão do efeito aleatório. A versão completa ajusta também pelo tipo de uso dos veículos da unidade, o que a versão simples não faz.
+}
+\en{%
+For objective (e) and H1, each site $s$ receives three indicators in a period: the raw count $Y_s$; the raw rate $Y_s/E_s$; and the adjusted rate, which is the empirical Bayes rate of Equation~\eqref{eq:eb} in the simple version or, in the full version, the site rate ratio $\exp(\hat{u}_s)$ estimated by model M3, with a prediction interval for the random effect. The full version also adjusts for the use type of the site's vehicles, which the simple one does not.
+}
+
+\pt{%
+O gráfico de funil \parencite{spiegelhalter2005} plota a razão entre observado e esperado de cada unidade, $Y_s/e_s$, contra o esperado $e_s$, que é a soma, sobre os veículos e meses da unidade, dos valores ajustados pelo modelo sem efeito de unidade. Os limites de 95\% e 99,8\% vêm dos quantis da Poisson com média $e_s$, divididos por $e_s$. As unidades são classificadas em três grupos: acima do esperado (intervalo de $\exp(\hat{u}_s)$ todo acima de 1), compatível com a média e abaixo do esperado. Para mostrar a incerteza do ranking, as posições são recalculadas em 2.000 simulações da distribuição dos efeitos de unidade, e cada unidade recebe um intervalo de posição \parencite{goldstein1996}.
+}
+\en{%
+The funnel plot \parencite{spiegelhalter2005} plots each site's observed-to-expected ratio, $Y_s/e_s$, against the expected count $e_s$, which is the sum over the site's vehicles and months of the fitted values from the model without a site effect. The 95\% and 99.8\% limits come from Poisson quantiles with mean $e_s$, divided by $e_s$. Sites are classified into three groups: above expected (interval of $\exp(\hat{u}_s)$ entirely above 1), compatible with the mean, and below expected. To show ranking uncertainty, positions are recomputed in 2,000 simulations from the distribution of site effects, and each site gets a position interval \parencite{goldstein1996}.
+}
+
+\section{\tr{Etapa 3: validação fora da amostra}{Stage 3: out-of-sample validation}}
+\label{sec:met-validacao}
+
+\pt{%
+A validação tem duas formas. Na \textbf{temporal}, os modelos são ajustados nos meses iniciais e avaliados nos últimos meses, com origem móvel \parencite{tashman2000}: a cada corte, o modelo é reajustado e prevê o mês seguinte. Na \textbf{por unidade}, cada unidade é deixada de fora por vez, e seus veículos são previstos com o efeito de unidade igual a zero; ela mede quanto o modelo transporta para uma unidade nova, o caso de um contrato que começa.
+}
+\en{%
+Validation takes two forms. In the \textbf{temporal} one, models are fitted on the early months and evaluated on the last months, with a rolling origin \parencite{tashman2000}: at each cutoff, the model is refitted and forecasts the next month. In the \textbf{site} one, each site is left out in turn, and its vehicles are predicted with the site effect set to zero; it measures how well the model transfers to a new site, the case of a contract that starts.
+}
+
+\pt{%
+As métricas são: (i) o escore logarítmico médio por veículo e mês, $\overline{S} = n^{-1}\sum \log p(y_{it} \mid \hat{\mu}_{it}, \hat{\phi})$, em que a previsão usa os efeitos de veículo e unidade estimados no treino; (ii) a calibração, pela transformada integral de probabilidade não aleatorizada e pelo diagrama de calibração marginal \parencite{czado2009}; (iii) a concentração, a fração dos acidentes do período de teste que ocorreu nos 10\% e 20\% de veículos com maior taxa prevista, uma métrica que a gestão entende diretamente.
+}
+\en{%
+The metrics are: (i) the mean log score per vehicle-month, $\overline{S} = n^{-1}\sum \log p(y_{it} \mid \hat{\mu}_{it}, \hat{\phi})$, where the forecast uses the vehicle and site effects estimated in training; (ii) calibration, through the nonrandomized probability integral transform and the marginal calibration diagram \parencite{czado2009}; (iii) concentration, the share of the test period's accidents that occurred in the 10\% and 20\% of vehicles with the highest predicted rate, a metric management understands directly.
+}
+
+\section{\tr{Testes das hipóteses}{Hypothesis tests}}
+\label{sec:testes}
+
+\pt{%
+Todos os testes usam $\alpha = 0{,}05$. Os intervalos por bootstrap usam 2.000 reamostragens, com o grupo reamostrado indicado em cada caso, para respeitar a dependência dos dados.
+}
+\en{%
+All tests use $\alpha = 0.05$. Bootstrap intervals use 2,000 resamples, with the resampled group indicated in each case, to respect the dependence in the data.
+}
+
+\pt{%
+\begin{description}[leftmargin=0.6cm,style=nextline]
+  \item[H1a] Os indicadores calculados num semestre preveem a taxa observada no semestre seguinte. O erro de cada indicador é $\sum_s w_s \, |\hat{r}_s - r_s^{+}|$, com $r_s^{+}$ a taxa do semestre seguinte e pesos $w_s$ proporcionais à exposição desse semestre. A estatística é a diferença de erro entre a taxa bruta e a ajustada, com intervalo e valor-$p$ unilateral por bootstrap pareado por unidade. A contagem bruta não entra nesse teste, porque está em outra escala.
+  \item[H1b] Teste de homogeneidade de Poisson, $X^2 = \sum_s (Y_s - e_s)^2/e_s$, comparado a $\chi^2_{S-1}$, e teste de razão de verossimilhanças de $\sigma_u^2 = 0$ em M3. Como complemento, a fração de unidades fora do limite de 95\% do funil é comparada a 5\% por um teste binomial.
+  \item[H1c] Correlação de postos de Spearman entre cada indicador e a exposição da unidade, com intervalo de 90\% por bootstrap por unidade. A equivalência é declarada se o intervalo couber em $(-0{,}3;\ 0{,}3)$, o que equivale aos dois testes unilaterais a 5\%.
+  \item[H2a] Teste de Wald de $\beta_j = 0$ em cada um dos modelos por tipo de evento, com correção de \textcite{holm1979} sobre os tipos. Na parte preditiva, a diferença de escore logarítmico médio entre M4 e M3 na validação temporal, com intervalo e valor-$p$ por bootstrap por veículo, no espírito de \textcite{diebold1995}.
+  \item[H2b] Para cada tipo de evento, o intervalo de 90\% da razão de taxas $\exp(\beta_j)$ é comparado à margem $[0{,}8;\ 1{,}25]$. Cada tipo é classificado como associado (rejeita H2a após Holm), desprezível (intervalo dentro da margem) ou inconclusivo.
+  \item[H3a] A probabilidade de relato $p$ é estimada pelo modelo logístico da Seção~\ref{sec:met-subnotificacao}. Como erros de ligação também produzem ordens sem relato, $H_0$ é rejeitada se o limite superior do intervalo de 95\% de $p$ ficar abaixo de $1 - \varepsilon$, em que $\varepsilon$ é a taxa de pares perdidos pela ligação, medida na amostra revisada.
+  \item[H3b] Teste de razão de verossimilhanças da variância do efeito de unidade no modelo logístico, com a correção de fronteira da Seção~\ref{sec:met-comparados}.
+\end{description}
+}
+\en{%
+\begin{description}[leftmargin=0.6cm,style=nextline]
+  \item[H1a] The indicators computed in one semester predict the rate observed in the next. Each indicator's error is $\sum_s w_s \, |\hat{r}_s - r_s^{+}|$, with $r_s^{+}$ the next semester's rate and weights $w_s$ proportional to that semester's exposure. The statistic is the error difference between the raw and adjusted rates, with interval and one-sided $p$-value from a bootstrap paired by site. The raw count does not enter this test because it is on a different scale.
+  \item[H1b] Poisson homogeneity test, $X^2 = \sum_s (Y_s - e_s)^2/e_s$, compared with $\chi^2_{S-1}$, and likelihood ratio test of $\sigma_u^2 = 0$ in M3. As a complement, the share of sites outside the funnel's 95\% limit is compared with 5\% by a binomial test.
+  \item[H1c] Spearman rank correlation between each indicator and site exposure, with a 90\% bootstrap interval by site. Equivalence is declared if the interval fits within $(-0.3,\ 0.3)$, which is equivalent to the two one-sided tests at 5\%.
+  \item[H2a] Wald test of $\beta_j = 0$ in each event-type model, with \textcite{holm1979} correction across types. In the predictive part, the difference in mean log score between M4 and M3 in temporal validation, with interval and $p$-value from a bootstrap by vehicle, in the spirit of \textcite{diebold1995}.
+  \item[H2b] For each event type, the 90\% interval of the rate ratio $\exp(\beta_j)$ is compared with the margin $[0.8,\ 1.25]$. Each type is classified as associated (rejects H2a after Holm), negligible (interval within the margin) or inconclusive.
+  \item[H3a] The reporting probability $p$ is estimated by the logistic model of Section~\ref{sec:met-subnotificacao}. Since linkage errors also produce orders without reports, $H_0$ is rejected if the upper limit of the 95\% interval of $p$ is below $1 - \varepsilon$, where $\varepsilon$ is the rate of pairs missed by linkage, measured on the reviewed sample.
+  \item[H3b] Likelihood ratio test of the site effect variance in the logistic model, with the boundary correction of Section~\ref{sec:met-comparados}.
+\end{description}
+}
+
+\pt{%
+As margens de equivalência seguem convenções usuais: a razão de taxas entre 0,8 e 1,25 é simétrica na escala log e é a margem habitual em estudos de bioequivalência, e uma correlação abaixo de 0,3 em módulo costuma ser descrita como fraca \preencher{citar a fonte de cada convenção}. Elas serão revistas com a gestão de segurança, para refletir o menor efeito que mudaria uma decisão, e registradas antes da análise final \preencher{registrar margens e plano de análise, por exemplo no OSF, antes de ver os dados finais}.
+}
+\en{%
+The equivalence margins follow common conventions: a rate ratio between 0.8 and 1.25 is symmetric on the log scale and is the usual margin in bioequivalence studies, and a correlation below 0.3 in absolute value is usually described as weak \preencher{cite the source of each convention}. They will be reviewed with safety management, to reflect the smallest effect that would change a decision, and registered before the final analysis \preencher{register margins and analysis plan, e.g.\ on OSF, before seeing the final data}.
+}
+
+\section{\tr{Etapa 4: subnotificação}{Stage 4: underreporting}}
+\label{sec:met-subnotificacao}
+
+\pt{%
+\textbf{Detecção automática de colisão.} A primeira parte do objetivo (d) mede a cobertura da detecção automática da telemetria como fonte de acidentes de pátio: a fração dos acidentes relatados com ao menos uma detecção no mesmo veículo numa janela de dois dias, por tipo de uso, com intervalo de Wilson, e a fração das detecções descartadas como falso alarme na revisão. A exploração preliminar indicou cobertura muito baixa (Seção~\ref{sec:viab-real}), e por isso essa fonte não é usada na captura e recaptura.
+}
+\en{%
+\textbf{Automatic crash detection.} The first part of objective (d) measures the coverage of telematics automatic detection as a source of yard accidents: the share of reported accidents with at least one detection on the same vehicle within a two-day window, by use type, with a Wilson interval, and the share of detections dismissed as false alarms in review. The preliminary exploration indicated very low coverage (Section~\ref{sec:viab-real}), so this source is not used for capture-recapture.
+}
+
+\pt{%
+\textbf{Manutenção como segunda fonte.} Sejam A os relatos de colisão e B as ordens de manutenção abertas por dano ou acidente. Uma ordem $j$ do veículo $i$ na data $d_j$ é pareada a um relato do mesmo veículo com data em $[d_j - \Delta_1,\ d_j + \Delta_2]$; a janela principal e as alternativas são fixadas a partir da distribuição dos intervalos entre relato e ordem nos pares inequívocos \preencher{definir $\Delta_1$ e $\Delta_2$}. Para cada ordem, $R_j = 1$ se há relato pareado. A probabilidade de relato é modelada por
+}
+\en{%
+\textbf{Maintenance as second source.} Let A be the collision reports and B the maintenance orders opened for damage or accident. An order $j$ of vehicle $i$ on date $d_j$ is matched to a report for the same vehicle dated within $[d_j - \Delta_1,\ d_j + \Delta_2]$; the main and alternative windows are set from the distribution of report-to-order intervals in unambiguous pairs \preencher{define $\Delta_1$ and $\Delta_2$}. For each order, $R_j = 1$ if there is a matched report. The reporting probability is modeled by
+}
+\begin{equation}
+\label{eq:relato}
+\text{logit}\, \Pr(R_j = 1) = \eta + \mathbf{w}_j^\top \bm{\delta} + a_{s(j)}, \qquad a_s \sim \mathcal{N}(0, \sigma_a^2),
+\end{equation}
+\pt{%
+em que $\mathbf{w}_j$ reúne o tipo de uso, o custo ou a classe do reparo e o período, e $a_s$ é o efeito de unidade. A probabilidade de relato da unidade, $p_s$, é estimada com encolhimento, porque a estimativa bruta por unidade se mostrou muito ruidosa no estudo de simulação (Seção~\ref{sec:poder}).
+}
+\en{%
+where $\mathbf{w}_j$ holds use type, repair cost or class and period, and $a_s$ is the site effect. The site reporting probability $p_s$ is estimated with shrinkage, because the raw site estimate proved very noisy in the simulation study (Section~\ref{sec:poder}).
+}
+
+\pt{%
+\textbf{Interpretação como limite.} Nem todo dano gera um acidente relatável (desgaste, dano preexistente, vandalismo), e nem todo acidente gera uma ordem (dano só na carreta do cliente, na doca ou na estrutura). Assim, $p_s$ é a probabilidade de relato \emph{entre os acidentes que danificaram o próprio caminhão}. O total de acidentes é estimado pela Equação~\eqref{eq:lp}, com $n_1$ relatos, $n_2$ ordens e $m$ pares, estratificando por tipo de acidente e gravidade para reduzir a heterogeneidade. Como acidentes mais graves tendem a ser relatados e reparados ao mesmo tempo, a dependência entre as fontes deve ser positiva, e o total estimado deve ser lido como limite inferior \parencite{hook1995}; a sensibilidade a uma dependência de magnitude fixada é mostrada explicitamente.
+}
+\en{%
+\textbf{Interpretation as a bound.} Not every damage stems from a reportable accident (wear, pre-existing damage, vandalism), and not every accident generates an order (damage only to the client's trailer, the dock or a structure). Hence $p_s$ is the reporting probability \emph{among accidents that damaged the truck itself}. The total number of accidents is estimated by Equation~\eqref{eq:lp}, with $n_1$ reports, $n_2$ orders and $m$ pairs, stratifying by accident type and severity to reduce heterogeneity. Since more severe accidents tend to be both reported and repaired, dependence between sources should be positive, and the estimated total should be read as a lower bound \parencite{hook1995}; sensitivity to a fixed magnitude of dependence is shown explicitly.
+}
+
+\section{\tr{Plano alternativo}{Fallback plan}}
+\label{sec:met-alternativo}
+
+\pt{%
+Se o uso da telemetria for restrito, o mesmo arcabouço é aplicado por unidade e mês, com as horas trabalhadas da folha como exposição: $\log \mu_{st} = \log H_{st} + \gamma_t + \mathbf{x}_{st}^\top \bm{\beta} + u_s$, com $\mathbf{x}_{st}$ podendo incluir a fração de horas extras. O objetivo (b), o objetivo (e) e a hipótese H1 seguem testáveis. O objetivo (c) e a hipótese H2 deixam de existir. A parte de manutenção do objetivo (d) e a hipótese H3 continuam possíveis se o cadastro da manutenção associar cada veículo a uma unidade; a medida de cobertura da detecção automática deixa de existir \preencher{confirmar se o cadastro da manutenção traz a unidade do veículo}.
+}
+\en{%
+If the use of telematics is restricted, the same framework is applied per site and month, with payroll hours worked as exposure: $\log \mu_{st} = \log H_{st} + \gamma_t + \mathbf{x}_{st}^\top \bm{\beta} + u_s$, where $\mathbf{x}_{st}$ may include the share of overtime hours. Objective (b), objective (e) and hypothesis H1 remain testable. Objective (c) and hypothesis H2 are dropped. The maintenance part of objective (d) and hypothesis H3 remain possible if the maintenance registry assigns each vehicle to a site; the coverage measure of automatic detection is dropped \preencher{confirm whether the maintenance registry carries the vehicle's site}.
+}
+
+\section{\tr{Análises de sensibilidade}{Sensitivity analyses}}
+\label{sec:met-sensibilidade}
+
+\pt{%
+\begin{itemize}
+  \item \textbf{Desfecho:} só colisões com lesão; colisões mais quase-acidentes; só relatos com revisão concluída.
+  \item \textbf{Exposição:} distância no lugar das horas (M6); horas da folha no lugar das horas de viagem, por unidade e mês.
+  \item \textbf{Ligação:} só ligações determinísticas; janelas alternativas na subnotificação.
+  \item \textbf{Período:} exclusão dos meses de implantação do aplicativo de relatos.
+  \item \textbf{Covariáveis de organização do trabalho:} fração de horas extras e, se disponível, fração de recém-contratados por unidade e mês \parencite{dembe2005,breslin2006}.
+  \item \textbf{Telemetria:} todos os tipos de evento num único modelo; erros-padrão robustos por veículo \parencite{cameron2015} no lugar do efeito aleatório.
+\end{itemize}
+}
+\en{%
+\begin{itemize}
+  \item \textbf{Outcome:} injury collisions only; collisions plus near misses; only reports with completed review.
+  \item \textbf{Exposure:} distance instead of hours (M6); payroll hours instead of trip hours, per site and month.
+  \item \textbf{Linkage:} deterministic links only; alternative windows in underreporting.
+  \item \textbf{Period:} excluding the reporting application's roll-out months.
+  \item \textbf{Work organization covariates:} share of overtime hours and, if available, share of new hires per site and month \parencite{dembe2005,breslin2006}.
+  \item \textbf{Telematics:} all event types in a single model; vehicle-clustered robust standard errors \parencite{cameron2015} instead of the random effect.
+\end{itemize}
+}
+
+\section{\tr{Extensão opcional: previsão da exposição}{Optional extension: exposure forecasting}}
+\label{sec:met-previsao}
+
+\pt{%
+As horas de operação de cada unidade são previstas como distribuição, semanal e mensalmente, por três métodos: ingênuo sazonal, alisamento exponencial com tendência amortecida \parencite{gardner1985} e um modelo de séries hierárquicas, com reconciliação entre unidades, regiões e total \parencite{hyndman2021}. A avaliação usa origem móvel, CRPS, perda quantílica e cobertura dos intervalos de 80\% e 95\% \parencite{gneiting2007}.
+}
+\en{%
+Each site's operating hours are forecast as a distribution, weekly and monthly, by three methods: seasonal naive, exponential smoothing with damped trend \parencite{gardner1985} and a hierarchical time series model, with reconciliation across sites, regions and total \parencite{hyndman2021}. Evaluation uses a rolling origin, CRPS, quantile loss and coverage of the 80\% and 95\% intervals \parencite{gneiting2007}.
+}
+
+\pt{%
+Para projetar acidentes, a previsão da exposição $\tilde{E}$ é combinada à taxa estimada $\hat{\lambda}$: $Y \mid \tilde{E} \sim \text{NB}(\hat{\lambda}\tilde{E}, \hat{\phi})$. Pela lei da variância total, $\text{Var}(Y) = \mathbb{E}[\text{Var}(Y \mid \tilde{E})] + \hat{\lambda}^2 \, \text{Var}(\tilde{E})$, e a fração da variância devida à exposição é a segunda parcela dividida pelo total. No estudo preliminar, essa fração foi de cerca de 1\% para uma unidade com um acidente esperado por mês (Seção~\ref{sec:previsao}); ela cresce com o número esperado de acidentes, e por isso a projeção é feita só em níveis agregados (região e trimestre).
+}
+\en{%
+To project accidents, the exposure forecast $\tilde{E}$ is combined with the estimated rate $\hat{\lambda}$: $Y \mid \tilde{E} \sim \text{NB}(\hat{\lambda}\tilde{E}, \hat{\phi})$. By the law of total variance, $\text{Var}(Y) = \mathbb{E}[\text{Var}(Y \mid \tilde{E})] + \hat{\lambda}^2 \, \text{Var}(\tilde{E})$, and the share of variance due to exposure is the second term divided by the total. In the preliminary study, this share was about 1\% for a site with one expected accident per month (Section~\ref{sec:previsao}); it grows with the expected number of accidents, which is why projection is done only at aggregate levels (region and quarter).
+}
+
+\section{\tr{Ferramentas e reprodutibilidade}{Tools and reproducibility}}
+\label{sec:met-ferramentas}
+
+\pt{%
+A extração e a agregação rodam dentro do ambiente de dados da empresa, em SQL, e só tabelas agregadas por veículo ou unidade e mês, sem dados pessoais, saem para a análise. A modelagem usa Python (preparação, bootstrap, previsão e figuras) e R (modelos mistos com glmmTMB e diagnóstico com DHARMa, num ambiente renv com versões fixas), com código versionado e sementes fixas. Toda tabela e figura do texto é gerada por script, e os números citados no texto são conferidos contra as tabelas geradas. O código e o estudo de simulação podem ser publicados; os dados da operação, não.
+}
+\en{%
+Extraction and aggregation run inside the company's data environment, in SQL, and only aggregated tables per vehicle or site and month, with no personal data, leave for analysis. Modeling uses Python (preparation, bootstrap, forecasting and figures) and R (mixed models with glmmTMB and diagnostics with DHARMa, in an renv environment with pinned versions), with versioned code and fixed seeds. Every table and figure in the text is generated by script, and the numbers cited in the text are checked against the generated tables. The code and the simulation study can be published; the operational data cannot.
+}

@@ -1,0 +1,170 @@
+\chapter{\tr{Introdução}{Introduction}}
+\label{cap:introducao}
+
+\section{\tr{Contexto: a operação de pátio}{Context: yard operations}}
+
+\pt{%
+Centros de distribuição, fábricas e terminais de carga dependem de uma atividade pouco visível: a movimentação de carretas dentro do pátio. Nos Estados Unidos, onde a carreta costuma ser desacoplada do cavalo mecânico que a trouxe, as carretas esperam no pátio até a hora de carregar ou descarregar. Um caminhão de manobra, chamado de \textit{yard truck}, \textit{yard tractor}, \textit{terminal tractor} ou \textit{spotter}, as leva da vaga para a doca e de volta (\textit{spotting}), e, em operações com mais de uma instalação, entre prédios próximos pelas vias públicas (\textit{shuttling}). É comum que esse serviço seja terceirizado a empresas especializadas, que operam ao mesmo tempo dezenas de pátios de clientes diferentes.
+}
+\en{%
+Distribution centers, plants and freight terminals depend on a barely visible activity: moving trailers inside the yard. In the United States, where the trailer is usually uncoupled from the road tractor that brought it, trailers wait in the yard until it is time to load or unload. A yard truck, also called yard tractor, terminal tractor or spotter, moves them from the parking spot to the dock and back (spotting) and, in operations with more than one facility, between nearby buildings over public roads (shuttling). This service is often outsourced to specialized companies, which run dozens of yards for different clients at the same time.
+}
+
+\pt{%
+O caminhão de manobra anda pouco e devagar, mas manobra muito: engata e desengata carretas dezenas de vezes por turno, anda de ré até a doca, circula entre carretas estacionadas, pedestres e outros veículos, muitas vezes com pouca visibilidade. O acidente típico não é a colisão em alta velocidade da estrada, mas o choque de baixa velocidade com a carreta, a doca, o portão, uma estrutura fixa ou outro veículo. A maior parte gera só dano material, mas há também lesões e, em casos raros, mortes por atropelamento \parencite{wali2022}. Além do custo do reparo, cada acidente interrompe a operação do cliente.
+}
+\en{%
+The yard truck travels little and slowly, but maneuvers a lot: it couples and uncouples trailers dozens of times per shift, backs up to the dock and moves among parked trailers, pedestrians and other vehicles, often with poor visibility. The typical accident is not a high-speed road crash but a low-speed impact with the trailer, the dock, the gate, a fixed structure or another vehicle. Most cause property damage only, but there are also injuries and, in rare cases, fatal pedestrian strikes \parencite{wali2022}. Besides the repair cost, each accident disrupts the client's operation.
+}
+
+\pt{%
+O autor trabalha como gestor de inteligência artificial e analytics numa empresa desse tipo, com algumas centenas de caminhões em dezenas de unidades. Nos últimos anos, a empresa passou a ter, ao mesmo tempo, quatro fontes de dados sobre o problema: relatos formais de acidentes, registrados num aplicativo próprio; telemetria embarcada nos caminhões, com viagens, distância, tempo de operação e eventos de condução detectados por sensores; horas trabalhadas por unidade, vindas da folha de pagamento; e ordens de manutenção, que registram os reparos por dano em cada veículo. Essas fontes são analisadas separadamente, e a comparação entre unidades usa contagens brutas de acidentes.
+}
+\en{%
+The author works as head of artificial intelligence and analytics at a company of this kind, with a few hundred trucks at dozens of sites. In recent years the company has come to hold, at the same time, four data sources on the problem: formal accident reports, recorded in an in-house application; on-board telematics in the trucks, with trips, distance, operating time and driving events detected by sensors; hours worked per site, from payroll; and maintenance orders, which record damage repairs on each vehicle. These sources are analyzed separately, and sites are compared by raw accident counts.
+}
+
+\section{\tr{O problema: por que contagens brutas enganam}{The problem: why raw counts mislead}}
+
+\pt{%
+A contagem bruta de acidentes por unidade é o indicador mais simples e o mais usado, mas responde mal à pergunta que a gestão de segurança faz: onde o risco é maior? Há quatro motivos.
+}
+\en{%
+The raw accident count per site is the simplest and most widely used indicator, but it answers poorly the question safety management asks: where is risk higher? There are four reasons.
+}
+
+\pt{%
+\begin{enumerate}
+  \item \textbf{Exposição.} Unidades com o triplo de caminhões ou de horas operadas tendem a ter mais acidentes sem ser mais arriscadas. A contagem mede sobretudo o tamanho da unidade. O risco é uma taxa: acidentes por unidade de exposição.
+  \item \textbf{Acaso.} Acidentes são eventos raros. Numa unidade com um acidente esperado por mês, ter zero ou três num dado mês é perfeitamente compatível com o mesmo risco. Rankings mensais ou trimestrais oscilam por acaso, e quem está no topo num período tende a cair no seguinte sem que nada tenha mudado (regressão à média) \parencite{hauer1997,spiegelhalter2005}.
+  \item \textbf{Tipo de operação.} O caminhão que só manobra no pátio, o que faz transferências pela via pública e o de uso local têm riscos e padrões de condução muito diferentes. Comparar unidades com misturas diferentes de operação, ou comparar caminhões pela distância rodada, mistura risco com tipo de serviço.
+  \item \textbf{Relato.} Nem todo acidente é relatado, e a propensão a relatar varia com o clima de segurança e a supervisão \parencite{probst2008,probst2010}. Uma unidade com poucos relatos pode ser segura ou pode apenas relatar menos.
+\end{enumerate}
+}
+\en{%
+\begin{enumerate}
+  \item \textbf{Exposure.} Sites with three times the trucks or operating hours tend to have more accidents without being riskier. The count mostly measures site size. Risk is a rate: accidents per unit of exposure.
+  \item \textbf{Chance.} Accidents are rare events. At a site with one expected accident per month, having zero or three in a given month is entirely compatible with the same risk. Monthly or quarterly rankings fluctuate by chance, and whoever is at the top in one period tends to drop in the next without anything having changed (regression to the mean) \parencite{hauer1997,spiegelhalter2005}.
+  \item \textbf{Type of operation.} The truck that only maneuvers in the yard, the one that shuttles over public roads and the local-use truck have very different risks and driving patterns. Comparing sites with different operation mixes, or comparing trucks by distance driven, confounds risk with type of service.
+  \item \textbf{Reporting.} Not every accident is reported, and the propensity to report varies with safety climate and supervision \parencite{probst2008,probst2010}. A site with few reports may be safe or may simply report less.
+\end{enumerate}
+}
+
+\pt{%
+Os três primeiros problemas têm solução conhecida na estatística: modelos de contagem com a exposição como \textit{offset}, efeitos aleatórios que encolhem as taxas de unidades pequenas em direção à média, e ajuste pelo tipo de operação \parencite{lord2010,gelman2007}. O quarto pede uma segunda fonte que registre o mesmo tipo de evento, para estimar quantos acidentes não chegam aos relatos \parencite{iwgdmf1995}. A telemetria acrescenta uma pergunta própria: se os eventos de condução registrados pelos sensores ajudam a prever acidentes, eles poderiam servir de indicador antecipado de risco, antes que o acidente aconteça.
+}
+\en{%
+The first three problems have known solutions in statistics: count models with exposure as an offset, random effects that shrink the rates of small sites toward the mean, and adjustment for the type of operation \parencite{lord2010,gelman2007}. The fourth calls for a second source that records the same kind of event, to estimate how many accidents never reach the reports \parencite{iwgdmf1995}. Telematics adds a question of its own: if the driving events recorded by the sensors help predict accidents, they could serve as a leading risk indicator, before the accident happens.
+}
+
+\section{\tr{Lacuna na literatura}{Gap in the literature}}
+
+\pt{%
+A literatura próxima ao tema se divide em grupos que não se tocam. A ciência de dados em logística trata sobretudo de previsão de demanda e otimização, e, quando fala de risco, fala de ruptura da cadeia de suprimentos, não de acidente \parencite{akbari2021,baryannis2019}. Em pátios, o aprendizado de máquina aparece em terminais portuários, com previsão de tempo de permanência de contêineres e de giro de caminhões \parencite{filom2022}, e a pesquisa operacional em centros de distribuição e \textit{cross-docks} estuda o agendamento das docas, não a movimentação no pátio \parencite{gue1999,boysen2010,vanbelle2012}. A segurança de caminhões é estudada na rodovia, onde eventos de condução registrados por telemetria se associam a colisões \parencite{cai2021,driessen2024}, e a segurança em armazéns concentra-se nas empilhadeiras \parencite{collins1999}. O caminhão de manobra fica entre esses grupos, e o que se encontra sobre ele é literatura cinzenta: relatórios de investigação de acidentes, material de fornecedores e patentes \parencite{wali2022}.
+}
+\en{%
+The literature close to the topic splits into groups that do not touch. Data science in logistics deals mostly with demand forecasting and optimization and, when it addresses risk, it means supply chain disruption, not accidents \parencite{akbari2021,baryannis2019}. In yards, machine learning appears in port terminals, forecasting container dwell time and truck turnaround \parencite{filom2022}, and operations research on distribution centers and cross-docks studies dock scheduling, not movement in the yard \parencite{gue1999,boysen2010,vanbelle2012}. Truck safety is studied on the road, where telematics-recorded driving events are associated with crashes \parencite{cai2021,driessen2024}, and warehouse safety focuses on forklifts \parencite{collins1999}. The yard truck falls between these groups, and what one finds about it is grey literature: accident investigation reports, vendor material and patents \parencite{wali2022}.
+}
+
+\pt{%
+Não foi encontrado estudo revisado por pares que modele o risco de acidentes de caminhões de manobra com exposição medida, nem que teste o valor da telemetria de estrada nesse contexto \preencher{confirmar com busca sistemática em Scopus e Web of Science, com as strings de \texttt{notas/06-mapa-da-literatura.md}, seção 6; as buscas na web de 2026-11-08 e 2026-11-12 não acharam nenhum}. Essa é a lacuna que o trabalho ocupa.
+}
+\en{%
+No peer-reviewed study was found that models the accident risk of yard trucks with measured exposure, or that tests the value of road telematics in this setting \preencher{confirm with a systematic search in Scopus and Web of Science}. This is the gap the work fills.
+}
+
+\section{\tr{Contribuições}{Contributions}}
+
+\pt{%
+\begin{itemize}
+  \item \textbf{Medição do risco.} Um arcabouço para medir e comparar o risco de acidentes entre unidades e veículos de pátio, com exposição medida pela telemetria, ajuste pelo tipo de operação e incerteza explícita, e uma demonstração de que a escolha da medida de exposição muda as conclusões.
+  \item \textbf{Telemetria.} Um teste, com testes de equivalência para o caso nulo, de quanto os eventos de condução de uma telemetria desenhada para a estrada acrescentam à previsão de acidentes no pátio, e uma medida da cobertura da detecção automática de colisão nesse contexto.
+  \item \textbf{Subnotificação.} Uma estimativa, com limites explícitos, de quanto os relatos subestimam os acidentes e de como isso varia entre unidades, usando as ordens de manutenção como segunda fonte.
+  \item \textbf{Método.} Um estudo de simulação calibrado em dados públicos que mostra quantos acidentes e que estrutura de modelo são necessários para essas perguntas em frotas de algumas centenas de veículos.
+  \item \textbf{Aplicação.} Um indicador de risco pronto para uso pela gestão de segurança e, como extensão, uma previsão probabilística das horas de operação para o planejamento de escala e supervisão.
+\end{itemize}
+}
+\en{%
+\begin{itemize}
+  \item \textbf{Risk measurement.} A framework to measure and compare accident risk across yard sites and vehicles, with exposure measured by telematics, adjustment for type of operation and explicit uncertainty, and a demonstration that the choice of exposure measure changes the conclusions.
+  \item \textbf{Telematics.} A test, with equivalence tests for the null case, of how much the driving events of road-oriented telematics add to accident prediction in the yard, and a measure of the coverage of automatic crash detection in this setting.
+  \item \textbf{Underreporting.} An estimate, with explicit bounds, of how much reports underestimate accidents and how this varies across sites, using maintenance orders as a second source.
+  \item \textbf{Method.} A simulation study calibrated on public data showing how many accidents and which model structure these questions require in fleets of a few hundred vehicles.
+  \item \textbf{Application.} A risk indicator ready for use by safety management and, as an extension, a probabilistic forecast of operating hours for staffing and supervision planning.
+\end{itemize}
+}
+
+\section{\tr{Objetivos}{Objectives}}
+\label{sec:objetivos}
+
+\subsection{\tr{Objetivo geral}{General objective}}
+
+\pt{%
+Desenvolver e avaliar modelos estatísticos para estimar o risco de acidentes em operações de pátio, ajustado pela exposição e com incerteza quantificada, por veículo e por unidade operacional, combinando relatos de acidentes, telemetria veicular, horas trabalhadas e ordens de manutenção.
+}
+\en{%
+To develop and evaluate statistical models that estimate accident risk in yard operations, adjusted for exposure and with quantified uncertainty, per vehicle and per operating site, by combining accident reports, vehicle telematics, hours worked and maintenance orders.
+}
+
+\subsection{\tr{Objetivos específicos}{Specific objectives}}
+
+\begin{enumerate}[label=(\alph*)]
+  \item \tr%
+    {Integrar as fontes num painel veículo $\times$ mês, com regras de ligação documentadas e qualidade da ligação medida em amostra revisada manualmente.}%
+    {Integrate the sources into a vehicle $\times$ month panel, with documented linkage rules and linkage quality measured on a manually reviewed sample.}
+  \item \tr%
+    {Comparar modelos de contagem (Poisson, binomial negativa, com e sem inflação de zeros, com e sem efeitos aleatórios de veículo e unidade) quanto ao ajuste e ao desempenho preditivo fora da amostra.}%
+    {Compare count models (Poisson, negative binomial, with and without zero inflation, with and without vehicle and site random effects) in terms of fit and out-of-sample predictive performance.}
+  \item \tr%
+    {Medir quanto as taxas de eventos de condução registradas pela telemetria acrescentam à previsão de acidentes, além da exposição, do tipo de uso do veículo e da unidade, e, se nada acrescentarem, verificar se o efeito pode ser declarado desprezível.}%
+    {Measure how much the driving event rates recorded by telematics add to accident prediction beyond exposure, vehicle use type and site, and, if they add nothing, check whether the effect can be declared negligible.}
+  \item \tr%
+    {Estimar a subnotificação comparando os relatos formais com as ordens de manutenção abertas por dano, e medir a cobertura da detecção automática de colisão da telemetria como fonte de acidentes de pátio.}%
+    {Estimate underreporting by comparing formal reports with maintenance orders opened for damage, and measure the coverage of telematics automatic crash detection as a source of yard accidents.}
+  \item \tr%
+    {Produzir indicadores de risco por unidade ajustados por exposição, com intervalos de incerteza e grupos de risco, e compará-los aos indicadores por contagem bruta quanto à capacidade de prever o período seguinte e à confusão com o tamanho da unidade.}%
+    {Produce exposure-adjusted site risk indicators, with uncertainty intervals and risk groups, and compare them with raw-count indicators in their ability to predict the next period and in their confounding with site size.}
+  \item \textit{\tr{(Opcional, extensão)}{(Optional, extension)}} \tr%
+    {Prever de forma probabilística a exposição (horas de operação) de cada unidade nos meses seguintes, como insumo para o planejamento de escala e de supervisão, e combinar essa previsão ao modelo de risco para projetar acidentes esperados em níveis agregados (região e trimestre).}%
+    {Forecast each site's exposure (operating hours) for the following months probabilistically, as input for staffing and supervision planning, and combine this forecast with the risk model to project expected accidents at aggregate levels (region and quarter).}
+\end{enumerate}
+
+\subsection{\tr{Hipóteses}{Hypotheses}}
+\label{sec:hipoteses}
+
+\pt{%
+Cada hipótese de pesquisa é testada contra uma hipótese nula de igualdade ($H_0$), de modo que rejeitar $H_0$ permite afirmar a diferença. Como não rejeitar $H_0$ não demonstra igualdade, as afirmações de ausência de efeito (H1c e H2b) usam testes de equivalência \parencite{schuirmann1987,lakens2017}: nesses casos, $H_0$ é que o efeito está fora de uma margem fixada antes da análise final, e rejeitá-la permite afirmar que o efeito é desprezível. Os procedimentos de teste estão na Seção~\ref{sec:testes}.
+}
+\en{%
+Each research hypothesis is tested against a null hypothesis of equality ($H_0$), so that rejecting $H_0$ supports the claim of a difference. Since failing to reject $H_0$ does not demonstrate equality, claims of no effect (H1c and H2b) use equivalence tests \parencite{schuirmann1987,lakens2017}: in those cases, $H_0$ is that the effect lies outside a margin fixed before the final analysis, and rejecting it supports the claim that the effect is negligible. The test procedures are in Section~\ref{sec:testes}.
+}
+
+\begin{description}[leftmargin=1.2cm,style=nextline]
+  \item[H1] \tr%
+    {\textit{Comparação entre unidades.} (a)~$H_0$: o erro de previsão da taxa do semestre seguinte é igual com a taxa estimada pelo modelo hierárquico e com a taxa bruta; alternativa: é menor com a estimada. (b)~$H_0$: a taxa de acidentes é igual em todas as unidades, dada a exposição; alternativa: difere entre unidades. (c)~Equivalência: $H_0$: a correlação de postos entre a taxa estimada e a exposição da unidade está fora de $(-0{,}3;\ 0{,}3)$; alternativa: está dentro, ou seja, a taxa estimada não se confunde com o tamanho da unidade.}%
+    {\textit{Site comparison.} (a)~$H_0$: the error in predicting the next semester's rate is the same with the hierarchical model's rate and with the raw rate; alternative: it is smaller with the model's rate. (b)~$H_0$: the accident rate is the same in all sites, given exposure; alternative: it differs across sites. (c)~Equivalence: $H_0$: the rank correlation between the estimated rate and site exposure lies outside $(-0.3,\ 0.3)$; alternative: it lies inside, that is, the estimated rate is not confounded with site size.}
+  \item[H2] \tr%
+    {\textit{Telemetria.} (a)~$H_0$: para cada tipo de evento de condução, a razão de taxas de acidente por desvio padrão da taxa de eventos é igual a 1, dados exposição, tipo de uso e veículo; e o escore logarítmico fora da amostra é igual com e sem telemetria; alternativa: diferente de 1, e escore maior com telemetria. (b)~Equivalência: $H_0$: a razão de taxas está fora de $[0{,}8;\ 1{,}25]$; alternativa: está dentro, ou seja, o efeito é desprezível.}%
+    {\textit{Telematics.} (a)~$H_0$: for each type of driving event, the accident rate ratio per standard deviation of the event rate equals 1, given exposure, use type and vehicle; and the out-of-sample log score is the same with and without telematics; alternative: different from 1, and a higher score with telematics. (b)~Equivalence: $H_0$: the rate ratio lies outside $[0.8,\ 1.25]$; alternative: it lies inside, that is, the effect is negligible.}
+  \item[H3] \tr%
+    {\textit{Subnotificação.} (a)~$H_0$: a probabilidade de que um dano registrado pela manutenção tenha relato formal correspondente é igual a 1; alternativa: é menor que 1. (b)~$H_0$: essa probabilidade é igual em todas as unidades; alternativa: varia entre unidades, de modo que as contagens de relatos subestimam o risco de forma desigual.}%
+    {\textit{Underreporting.} (a)~$H_0$: the probability that damage recorded by maintenance has a matching formal report equals 1; alternative: it is below 1. (b)~$H_0$: this probability is the same in all sites; alternative: it varies across sites, so that report counts underestimate risk unevenly.}
+\end{description}
+
+\subsection{\tr{O que mudou desde o pré-projeto}{What changed since the pre-proposal}}
+
+\pt{%
+Os estudos preliminares do Capítulo~\ref{cap:viabilidade} já alteraram o desenho original em cinco pontos: (i) o desfecho principal passou a ser o conjunto de todas as colisões relatadas, com ou sem lesão, porque uma definição estreita derruba o poder de H2; (ii) o efeito aleatório de veículo deixou de ser opcional, porque sem ele a inferência sobre telemetria tem falsos positivos acima do nominal; (iii) o tipo de uso do veículo entrou como ajuste obrigatório, e o tempo de viagem substituiu a distância como exposição principal; (iv) a segunda fonte para a subnotificação passou a ser a manutenção, porque a detecção automática de colisão quase não capta acidentes de pátio; (v) a extensão (f) passou a ter como uso principal o planejamento de escala, com projeção de acidentes só em níveis agregados.
+}
+\en{%
+The preliminary studies in Chapter~\ref{cap:viabilidade} have already changed the original design in five ways: (i) the main outcome became all reported collisions, with or without injury, because a narrow definition kills the power of H2; (ii) the vehicle random effect is no longer optional, because without it inference on telematics has false positives above the nominal level; (iii) vehicle use type became a mandatory adjustment, and trip time replaced distance as the main exposure; (iv) the second source for underreporting became maintenance, because automatic crash detection captures almost no yard accidents; (v) extension (f) now has staffing planning as its main use, with accident projection only at aggregate levels.
+}
+
+\section{\tr{Organização do texto}{Outline}}
+
+\pt{%
+O Capítulo~\ref{cap:fundamentacao} revisa a literatura em três blocos: o contexto (ciência de dados em logística, pátios e terminais, segurança de caminhões e segurança ocupacional), os métodos estatísticos (modelos de contagem com exposição, modelos hierárquicos e Bayes empírico, captura e recaptura, avaliação de previsões e testes de equivalência) e a lacuna que motiva o trabalho. O Capítulo~\ref{cap:dados} descreve as fontes de dados da operação, as definições de desfecho, exposição e tipo de uso, os problemas de qualidade, e o conjunto público usado nos estudos preliminares. A análise segue três níveis. O Capítulo~\ref{cap:descritiva} é descritivo: mostra a distribuição de cada métrica usada nos modelos (exposição, desfecho, concentração, tempo, causas, telemetria e fontes de subnotificação) e o que ela implica para a modelagem. O Capítulo~\ref{cap:metodos} detalha a construção do painel, o modelo binomial negativo hierárquico e as alternativas comparadas, a validação fora da amostra, os procedimentos de teste de cada hipótese, a estimação da subnotificação, o plano alternativo e a extensão de previsão. O Capítulo~\ref{cap:viabilidade} apresenta os estudos preliminares: uma simulação calibrada em dados públicos, que mede o poder e os falsos positivos dos testes, e uma exploração agregada dos dados da operação, que orientou as revisões listadas acima. O Capítulo~\ref{cap:preditiva} é preditivo: ajusta os modelos com os dados completos e testa as hipóteses. O Capítulo~\ref{cap:prescritiva} é prescritivo: transforma as estimativas em regras de decisão (priorização de unidades, escala de motoristas por turno e alocação de auditorias) e as avalia retrospectivamente. O Capítulo~\ref{cap:conclusao} discute contribuições, limitações e trabalhos futuros.
+}
+\en{%
+Chapter~\ref{cap:fundamentacao} reviews the literature in three blocks: the context (data science in logistics, yards and terminals, truck safety and occupational safety), the statistical methods (count models with exposure, hierarchical models and empirical Bayes, capture-recapture, forecast evaluation and equivalence tests) and the gap that motivates the work. Chapter~\ref{cap:dados} describes the operational data sources, the definitions of outcome, exposure and use type, the quality issues, and the public dataset used in the preliminary studies. The analysis has three levels. Chapter~\ref{cap:descritiva} is descriptive: it shows the distribution of each metric used in the models (exposure, outcome, concentration, time, causes, telematics and underreporting sources) and what it implies for modeling. Chapter~\ref{cap:metodos} details the panel construction, the hierarchical negative binomial model and the alternatives compared, out-of-sample validation, the test procedures for each hypothesis, underreporting estimation, the fallback plan and the forecasting extension. Chapter~\ref{cap:viabilidade} presents the preliminary studies: a simulation calibrated on public data, which measures the power and false positives of the tests, and an aggregated exploration of the operational data, which guided the revisions listed above. Chapter~\ref{cap:preditiva} is predictive: it fits the models with the full data and tests the hypotheses. Chapter~\ref{cap:prescritiva} is prescriptive: it turns the estimates into decision rules (site prioritization, driver staffing by shift and audit allocation) and evaluates them retrospectively. Chapter~\ref{cap:conclusao} discusses contributions, limitations and future work.
+}
