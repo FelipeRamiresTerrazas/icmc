@@ -1,6 +1,13 @@
 \section{\tr{Metodologia}{Methodology}}
 \label{sec:metodologia}
 
+\pt{%
+A análise segue três níveis. O \textbf{descritivo} documenta a distribuição de cada métrica usada nos modelos (exposição, desfecho, concentração, padrão no tempo, causas, telemetria e fontes de subnotificação) e justifica as escolhas de modelagem; faz parte da Etapa~1. O \textbf{preditivo} corresponde às Etapas~2 a~4: modelos de risco, validação e testes das hipóteses. O \textbf{prescritivo} transforma as estimativas em regras de decisão e as avalia retrospectivamente: escolher as unidades para treinamento e supervisão pelo excesso esperado de acidentes, em vez da contagem bruta, e, na extensão, dimensionar a escala de motoristas por turno a partir da previsão da demanda.
+}
+\en{%
+The analysis has three levels. The \textbf{descriptive} level documents the distribution of each metric used in the models (exposure, outcome, concentration, time pattern, causes, telematics and underreporting sources) and justifies the modeling choices; it is part of Stage~1. The \textbf{predictive} level corresponds to Stages~2 to~4: risk models, validation and hypothesis tests. The \textbf{prescriptive} level turns the estimates into decision rules and evaluates them retrospectively: choosing sites for training and supervision by expected excess accidents rather than the raw count and, in the extension, sizing driver staffing by shift from the demand forecast.
+}
+
 \subsection{\tr{Etapa 1: integração e painel}{Stage 1: integration and panel}}
 
 \pt{%
@@ -131,7 +138,7 @@ The structure came from the \textit{Logistics Operations Database} \parencite{yo
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\textwidth]{\tr{fig_poder}{fig_poder_en}}
+\includegraphics[width=\textwidth]{\arqfig{fig_poder}}
 \caption{\tr%
   {Estudo preliminar: proporção de repetições em que o efeito de telemetria foi detectado ($p < 0{,}05$), por número de acidentes relatados no período. Com $\beta = 0$, é a taxa de falso positivo. Linhas cinza: 0,80 e 0,05.}%
   {Preliminary study: share of replications in which the telematics effect was detected ($p < 0.05$), by number of reported accidents in the period. With $\beta = 0$, it is the false positive rate. Grey lines: 0.80 and 0.05.}}
@@ -172,10 +179,10 @@ As head of the data area, the author explored the operational data inside the co
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.9\textwidth]{\tr{fig_real}{fig_real_en}}
+\includegraphics[width=0.9\textwidth]{\arqfig{fig_real}}
 \caption{\tr%
-  {Exploração dos dados da operação. (a)~Taxa de acidentes de cada tipo de uso relativa à do caminhão de manobra (\textit{spotter}), por milha e por hora de viagem. (b)~Gráfico de funil: taxa de cada unidade relativa à média, bruta e por Bayes empírico, contra a exposição relativa à mediana; linhas: limites de 95\% e 99,8\%. (c)~Razão de taxas de acidente por desvio padrão da taxa de cada tipo de evento de condução, sem ajuste e com tipo de uso e efeito aleatório de veículo; faixa cinza: margem de equivalência. (d)~Proporção de acidentes relatados com detecção automática de colisão no mesmo veículo em até dois dias, por tipo de uso, e proporção de detecções descartadas na revisão. Barras de erro: intervalos de 95\%.}%
-  {Exploration of operational data. (a)~Accident rate of each use type relative to the yard truck (spotter), per mile and per trip hour. (b)~Funnel plot: each site's rate relative to the mean, raw and empirical Bayes, against exposure relative to the median; lines: 95\% and 99.8\% limits. (c)~Accident rate ratio per standard deviation of each driving event rate, unadjusted and with use type and vehicle random effect; grey band: equivalence margin. (d)~Share of reported accidents with an automatic crash detection on the same vehicle within two days, by use type, and share of detections dismissed in review. Error bars: 95\% intervals.}}
+  {Exploração dos dados da operação. (a)~Taxa de acidentes de cada tipo de uso relativa à do caminhão de manobra (\textit{spotter}), por milha e por hora de viagem. (b)~Gráfico de funil: taxa de cada unidade relativa à média, bruta e por Bayes empírico, contra a exposição relativa à mediana; linhas: limites de 95\% e 99,8\%. (c)~Razão de taxas de acidente por desvio padrão da taxa de cada tipo de evento de condução, sem ajuste e com tipo de uso e efeito aleatório de veículo; \corpb{faixa azul-clara}{faixa cinza}: margem de equivalência. (d)~Proporção de acidentes relatados com detecção automática de colisão no mesmo veículo em até dois dias, por tipo de uso, e proporção de detecções descartadas na revisão. Barras de erro: intervalos de 95\%.}%
+  {Exploration of operational data. (a)~Accident rate of each use type relative to the yard truck (spotter), per mile and per trip hour. (b)~Funnel plot: each site's rate relative to the mean, raw and empirical Bayes, against exposure relative to the median; lines: 95\% and 99.8\% limits. (c)~Accident rate ratio per standard deviation of each driving event rate, unadjusted and with use type and vehicle random effect; \corpb{light blue band}{grey band}: equivalence margin. (d)~Share of reported accidents with an automatic crash detection on the same vehicle within two days, by use type, and share of detections dismissed in review. Error bars: 95\% intervals.}}
 \label{fig:real}
 \end{figure}
 
