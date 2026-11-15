@@ -1,0 +1,3 @@
+# latexmk le este arquivo ao rodar dentro desta pasta: PDF e auxiliares vao sempre
+# para output/, mesmo com o comando sem -outdir. Ver compilar.py na raiz.
+$out_dir = 'output';
