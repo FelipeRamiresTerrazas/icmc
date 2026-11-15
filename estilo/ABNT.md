@@ -18,7 +18,7 @@ As Diretrizes resumem as normas ABNT vigentes:
 | Documento | Regra principal | ABNT entra como |
 | :-- | :-- | :-- |
 | **Dissertação** | Diretrizes USP (exigidas pelo regimento) e o que o regulamento do MECAI disser | Regra obrigatória, integral |
-| **Pré-projeto** | Edital do MECAI (formato, limite de páginas e itens obrigatórios; ainda não está no repositório) | Padrão para tudo o que o edital não definir: citações, referências, figuras, tabelas, siglas, numeração |
+| **Pré-projeto** | Edital do MECAI (`programa/mecai-edital-002-2026.pdf`, item 3.4.2): autoria do candidato; introdução, corpo e bibliografia; roteiro sugerido com título e resumo, motivação/justificativa/objetivos, metodologia, cronograma e bibliografia. **Não fixa páginas, fonte nem formato** | Padrão para todo o resto: formato, citações, referências, figuras, tabelas, siglas, numeração |
 | **Artigos** | Normas da revista (*guide for authors*) | Só se a revista pedir ABNT (revistas brasileiras, em geral). Revista internacional: estilo dela (APA, Harvard, Vancouver), não ABNT |
 | **Versões em inglês** (`_EN`) | Autor-data padrão do biblatex (`authoryear`) | Mesma estrutura, figuras e tabelas; citação no formato inglês |
 
@@ -38,7 +38,7 @@ Ao escrever:
 - Numeração progressiva em algarismos arábicos, no máximo até a seção quinária (1.1.1.1.1). Abaixo disso, alíneas.
 - **Toda seção tem texto próprio.** Nunca abrir um título e passar direto para uma subseção sem um parágrafo entre eles.
 - Título da seção depois do número, separado por um espaço, alinhado à esquerda; o texto começa na linha seguinte.
-- Seções primárias começam em folha nova (na dissertação; no pré-projeto, conforme o edital).
+- Seções primárias começam em folha nova na dissertação. No pré-projeto é opcional (o edital não define); hoje elas seguem em sequência, para economizar páginas.
 - **Títulos sem número, centralizados, com o destaque das primárias:** errata, agradecimentos, listas, resumo, abstract, sumário, referências, glossário, apêndice, anexo, índice.
 - **Sem título nem número, cada um em folha própria:** dedicatória, epígrafe, folha de aprovação.
 - O sumário repete a grafia e o destaque dos títulos do texto.
@@ -51,7 +51,7 @@ Ao escrever:
   - texto começa em minúscula e termina em ponto e vírgula, exceto a última, que termina em ponto.
   - Em LaTeX: `\begin{enumerate}[label=\alph*)]`.
 - **Subalíneas:** pela norma, começam por travessão. Isso conflita com a regra do Felipe de não usar travessão. **Padrão:** evitar subalíneas (reescrever em alíneas ou em texto corrido); se forem inevitáveis, perguntar ao Felipe antes.
-- **Listas com marcadores (`itemize`):** a norma não prevê. No texto formal da dissertação, preferir alíneas. No pré-projeto, as listas atuais (achados, resultados esperados) são aceitáveis enquanto o edital não disser o contrário. Se forem convertidas, seguir as regras de pontuação das alíneas.
+- **Listas com marcadores (`itemize`):** a norma não prevê. No texto formal da dissertação, preferir alíneas. No pré-projeto, as listas atuais (achados, resultados esperados) são aceitáveis, porque o edital não define formato. Se forem convertidas, seguir as regras de pontuação das alíneas.
 
 ## 4. Siglas, equações e números (2.4, 2.5)
 

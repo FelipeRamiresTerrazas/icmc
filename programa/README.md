@@ -8,7 +8,7 @@ Referência rápida do programa, para consultar ao longo do processo. Fontes con
 - `ppgccmc-regulamento.pdf`: regulamento do **PPG-CCMC** (mestrado e doutorado **acadêmicos** em Ciências de Computação e Matemática Computacional do ICMC; CoPGr 14/01/2014), recebido em 2026-11-11. **Não é o regulamento do MECAI**; ver seção 8
 - `usp-diretrizes-teses-abnt-2024.pdf`: *Diretrizes para apresentação de dissertações e teses da USP: parte I (ABNT)*, 5. ed., ABCD/USP, 2024 (versão de julho de 2026), recebido em 2026-11-15. Vale para todos os programas da USP, inclusive o MECAI. Resumo operacional em `estilo/ABNT.md`
 
-O edital 002/2026 (ou o de 2027) **ainda não está aqui**. Ele prevalece sobre tudo abaixo.
+- `mecai-edital-002-2026.pdf`: edital SVPG/ICMC/USP 002/2026 do processo seletivo do MECAI (publicado no Diário Oficial de 08/04/2026), recebido em 2026-11-15. Resumo na seção 10. **O edital prevalece sobre tudo abaixo.** É o de 2026, cujas inscrições já fecharam; a candidatura será pelo de 2027, que deve sair por volta de abril de 2027 e precisa ser conferido de novo quando sair.
 
 ## 1. O que muda no pré-projeto
 
@@ -107,7 +107,7 @@ Uso: só para saber que a linha tem massa crítica. **O pré-projeto não cita n
 | Inglês | Em até 12 meses; TOEFL iBT 26, IELTS 3,5, CEFR A2 ou prova do programa (50%) | Em até 18 meses |
 | Qualificação | **Exigida**: monografia em até 12 meses da matrícula, arguição em até 60 dias | Não exigida |
 | Depósito | 6 exemplares e **comprovante de ao menos um artigo** publicado, aceito ou submetido | Ver edital |
-| Título | Mestre em Ciências (Ciências de Computação e Matemática Computacional) | Mestre profissional |
+| Título | Mestre em Ciências (Ciências de Computação e Matemática Computacional) | "Mestre(a) em Ciências", obtido no Programa de Mestrado Profissional MECAI (edital 002/2026, item 1.2) |
 
 O regulamento é de 2014 (CoPGr 14/01/2014); pode haver versão mais recente na página do programa **[não verificado]**.
 
@@ -126,3 +126,55 @@ Fonte: captura de tela da página de pós-graduação do ICMC, enviada pelo Feli
 - 2ª chance: 26/05/2028, que é a 4ª sexta-feira de maio de 2028 (data calculada, não publicada; S2).
 
 Isso fica dentro do prazo de 18 meses que a FAQ do MECAI indica. A nota mínima do exame do programa para o MECAI **não foi verificada**: o regulamento do PPG-CCMC pede 50% para o mestrado, mas é outro programa.
+
+## 10. Edital 002/2026 (`mecai-edital-002-2026.pdf`)
+
+Resumo do que importa para a candidatura. Em 2027 conferir tudo de novo no edital novo.
+
+**Calendário de 2026, que serve de referência para 2027:**
+- isenção da taxa: 09/04 a 14/04;
+- **inscrição: 14/04 a 14/05**, com taxa de R$ 268,94 paga até 15/05;
+- resultado preliminar até 08/06; recursos até 11/06;
+- resultado final até 23/06; **manifestar interesse na vaga até 25/06**;
+- matrícula: 10 a 15/07.
+
+O ingresso é no 2º semestre.
+
+**Requisitos (3.2):** graduação em Computação, Matemática, Estatística ou áreas afins, **e** estar atuando no mercado ou comprovar dois anos de atividade profissional.
+
+**Seleção, em etapa única (3.4):**
+- **FA**, formação acadêmica (histórico), de 0 a 10, **peso 4**;
+- **AC**, currículo (atividades acadêmicas, de pesquisa e profissionais), de 0 a 10, **peso 3**;
+- **PP**, projeto de pesquisa, de 0 a 10, **peso 3**.
+
+A nota final é MF = (4 FA + 3 AC + 3 PP)/10, e para ser classificado é preciso ter **pelo menos 70% do total**. Item não atendido recebe nota zero. Desempate: FA, depois AC, depois PP, depois idade.
+
+**Projeto de pesquisa (3.4.1, 3.4.2, Anexo I).** É o que vale para o nosso pré-projeto:
+- compatível com a ênfase **"Ciência de Dados"** **e** com a atividade profissional do candidato;
+- **de autoria do candidato**, com introdução, corpo e bibliografia. O roteiro sugerido é:
+  - título e resumo;
+  - introdução, com motivação, justificativa e objetivos;
+  - corpo, com os principais pontos e a metodologia (técnicas de matemática, estatística e computação);
+  - **cronograma**;
+  - bibliografia.
+- **O edital não fixa limite de páginas, fonte, margens nem formato.** Por isso vale a ABNT (`estilo/ABNT.md`) em tudo o que ele não define. Isso não impede ser conciso: o projeto vale 30% da nota.
+- O pré-projeto atual segue o roteiro inteiro.
+
+**Documentos da inscrição (Anexo I):**
+- foto 3x4 com fundo branco;
+- documento com foto;
+- **comprovante de vínculo com empresa**, atual ou dos dois anos anteriores;
+- histórico da graduação (oficial, em PDF);
+- Lattes em PDF;
+- **comprovantes do currículo**;
+- projeto de pesquisa;
+- histórico de pós-graduação, se houver;
+- declaração de disciplinas cursadas como aluno especial na USP, se houver.
+
+**Vagas (5.1, 5.2):** 14, na ênfase Ciência de Dados, sendo 3 reservadas para pessoas negras e 1 para indígenas.
+
+**Aulas (7.1):** de segunda a quinta à noite ou às sextas (manhã, tarde e noite); eventualmente aos sábados de manhã. As atividades presenciais são em São Carlos.
+
+**Matrícula (Anexo II).** O formulário de matrícula é **assinado pelo aluno e pelo orientador**; ou seja, a orientação é definida até a matrícula. Os originais devem ser apresentados presencialmente em até 90 dias.
+
+**Contato:** mecai@icmc.usp.br. Página: https://www.icmc.usp.br/pos-graduacao/mecai/ingresso
