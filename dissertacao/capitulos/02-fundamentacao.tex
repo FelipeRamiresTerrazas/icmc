@@ -1,0 +1,226 @@
+\chapter{\tr{Fundamentação teórica e revisão}{Background and literature review}}
+\label{cap:fundamentacao}
+
+\pt{%
+O capítulo tem três partes. As Seções~\ref{sec:fund-logistica} a \ref{sec:fund-ocupacional} situam o problema na literatura de logística e de segurança. As Seções~\ref{sec:fund-contagem} a \ref{sec:fund-testes} apresentam os métodos estatísticos usados no trabalho. A Seção~\ref{sec:fund-lacuna} resume a lacuna.
+}
+\en{%
+The chapter has three parts. Sections~\ref{sec:fund-logistica} to \ref{sec:fund-ocupacional} place the problem in the logistics and safety literature. Sections~\ref{sec:fund-contagem} to \ref{sec:fund-testes} present the statistical methods used in the work. Section~\ref{sec:fund-lacuna} summarizes the gap.
+}
+
+\section{\tr{Ciência de dados em logística}{Data science in logistics}}
+\label{sec:fund-logistica}
+
+\pt{%
+Revisões da aplicação de aprendizado de máquina e de \textit{analytics} em logística e cadeias de suprimentos classificam os trabalhos em descritivos, preditivos e prescritivos, e em estratégicos e operacionais \parencite{wang2016,nguyen2018}. A maior parte trata de previsão de demanda, roteirização e estoques; aplicações de detecção e de segurança aparecem pouco \parencite{akbari2021}. Quando essa literatura fala de risco, o sentido é o de ruptura da cadeia (atraso de fornecedor, falta de material, eventos externos), não o de acidente com pessoas ou equipamentos \parencite{baryannis2019}. Na classificação dessas revisões, este trabalho é preditivo e operacional, e o risco estudado é o de acidente.
+}
+\en{%
+Reviews of machine learning and analytics in logistics and supply chains classify work as descriptive, predictive or prescriptive, and as strategic or operational \parencite{wang2016,nguyen2018}. Most of it addresses demand forecasting, routing and inventory; detection and safety applications are rare \parencite{akbari2021}. When this literature speaks of risk, it means supply chain disruption (supplier delay, material shortage, external events), not accidents involving people or equipment \parencite{baryannis2019}. In the terms of these reviews, this work is predictive and operational, and the risk studied is accident risk.
+}
+
+\section{\tr{Pátios, docas e terminais}{Yards, docks and terminals}}
+\label{sec:fund-patios}
+
+\pt{%
+O pátio aparece na literatura sobretudo pelo lado da eficiência. Em terminais portuários, uma revisão sistemática encontrou dezenas de aplicações de aprendizado de máquina, com muitos dados subutilizados e pouco uso em tempo real \parencite{filom2022}; exemplos são a previsão do tempo de permanência de contêineres \parencite{chhetri2026} e os sistemas de agendamento de caminhões na portaria \parencite{huynh2016}. Em centros de distribuição, há estudos de campo sobre a previsão do horário de chegada de caminhões \parencite{vanderspoel2017} e do tempo de permanência em instalações de um operador logístico \parencite{benjatanont2020}. A pesquisa operacional em terminais de carga fracionada e \textit{cross-docks} estuda a alocação de carretas às docas e o layout \parencite{gue1999,boysen2010,vanbelle2012}.
+}
+\en{%
+The yard appears in the literature mostly from the efficiency side. In port terminals, a systematic review found dozens of machine learning applications, with much underused data and little real-time use \parencite{filom2022}; examples are container dwell time prediction \parencite{chhetri2026} and truck appointment systems at the gate \parencite{huynh2016}. In distribution centers, there are field studies on forecasting truck arrival times \parencite{vanderspoel2017} and dwell time at the facilities of a logistics provider \parencite{benjatanont2020}. Operations research on less-than-truckload terminals and cross-docks studies the assignment of trailers to docks and layout \parencite{gue1999,boysen2010,vanbelle2012}.
+}
+
+\pt{%
+O elo entre pátio e segurança aparece de forma indireta. Um relatório do órgão de auditoria do Departamento de Transportes dos EUA associou o tempo de espera dos motoristas nas instalações (\textit{detention}) a um risco maior de acidentes na estrada e apontou que os dados nacionais sobre esse tempo são insuficientes \parencite{dotoig2018}. Sobre o acidente dentro do pátio, com o caminhão de manobra, o que se encontra são relatórios de investigação de casos fatais, como o de um motorista atropelado por um caminhão de pátio à noite, com pouca iluminação \parencite{wali2022}.
+}
+\en{%
+The link between yard and safety appears indirectly. A report by the US Department of Transportation's audit office associated driver waiting time at facilities (detention) with higher crash risk on the road and noted that national data on this time are insufficient \parencite{dotoig2018}. On accidents inside the yard, involving the yard truck, what one finds are investigation reports of fatal cases, such as that of a driver struck by a yard truck at night, in poor lighting \parencite{wali2022}.
+}
+
+\section{\tr{Telemetria e risco em caminhões}{Telematics and truck risk}}
+\label{sec:fund-telemetria}
+
+\pt{%
+Sistemas de telemetria registram eventos cinemáticos (acelerações, frenagens e curvas acima de limiares) e eventos de comportamento (velocidade acima do limite, parada incompleta, uso de cinto ou de celular). Estudos de condução naturalística, com veículos instrumentados, associam a frequência desses eventos ao risco de colisão de cada motorista \parencite{guo2013} e quantificam o peso de fatores como distração e fadiga \parencite{dingus2016}. Para caminhões, a evidência mais próxima deste trabalho vem de uma grande transportadora dos EUA, em que eventos críticos de segurança registrados pela telemetria, por unidade de distância, se associaram a acidentes num modelo binomial negativo com a distância como exposição \parencite{cai2021}; o mesmo grupo modelou a ocorrência desses eventos ao longo do tempo com processos pontuais hierárquicos \parencite{cai2022}. Na Holanda, frenagens bruscas por hora de condução previram sinistros com dano material, o desfecho mais comum no pátio \parencite{driessen2024}. Revisões de análise de dados em segurança viária situam esses trabalhos entre os modelos de previsão de risco \parencite{mehdizadeh2020}, e o debate sobre os escores de segurança de transportadoras nos EUA mostra o problema de indicadores que não ajustam bem pela exposição \parencite{nas2017}.
+}
+\en{%
+Telematics systems record kinematic events (accelerations, braking and turns above thresholds) and behavioral events (speeding, rolling stops, seat belt or phone use). Naturalistic driving studies, with instrumented vehicles, associate the frequency of these events with each driver's crash risk \parencite{guo2013} and quantify the weight of factors such as distraction and fatigue \parencite{dingus2016}. For trucks, the evidence closest to this work comes from a large US carrier, where telematics-recorded safety-critical events per unit distance were associated with crashes in a negative binomial model with distance as exposure \parencite{cai2021}; the same group modeled the occurrence of these events over time with hierarchical point processes \parencite{cai2022}. In the Netherlands, harsh braking per driving hour predicted property damage incidents, the most common outcome in the yard \parencite{driessen2024}. Reviews of data analysis in road safety place this work among risk prediction models \parencite{mehdizadeh2020}, and the debate on US carrier safety scores shows the problem of indicators that do not adjust well for exposure \parencite{nas2017}.
+}
+
+\pt{%
+Esses resultados vêm da estrada. No pátio, as velocidades são baixas, a ré e o engate dominam, e os limiares dos sensores foram calibrados para outro tipo de condução. Não é óbvio que os mesmos eventos carreguem sinal, nem que a detecção automática de colisão, desenhada para impactos de estrada, capte o choque de baixa velocidade típico do pátio. Há também uma distinção de objetivo: um coeficiente significativo num modelo explicativo não garante ganho de previsão fora da amostra, e vice-versa \parencite{shmueli2010}. Por isso H2 é testada pelas duas vias: o coeficiente e o escore preditivo.
+}
+\en{%
+These results come from the road. In the yard, speeds are low, reversing and coupling dominate, and sensor thresholds were calibrated for another kind of driving. It is not obvious that the same events carry signal, nor that automatic crash detection, designed for road impacts, captures the low-speed impact typical of the yard. There is also a distinction of purpose: a significant coefficient in an explanatory model does not guarantee an out-of-sample predictive gain, and vice versa \parencite{shmueli2010}. That is why H2 is tested both ways: the coefficient and the predictive score.
+}
+
+\section{\tr{Segurança ocupacional e fatores de risco}{Occupational safety and risk factors}}
+\label{sec:fund-ocupacional}
+
+\pt{%
+Uma revisão de aprendizado de máquina na análise de acidentes de trabalho organiza a área em previsão de desfecho, descoberta de padrões, avaliação de risco e gravidade \parencite{sarkar2020}. Em armazéns e plantas industriais, o estudo epidemiológico clássico de veículos industriais motorizados trata de empilhadeiras \parencite{collins1999}. Fatores de organização do trabalho conhecidos por aumentar o risco de lesão são candidatos naturais a covariáveis por unidade e mês: horas extras e jornadas longas \parencite{dembe2005}, pouco tempo de casa \parencite{breslin2006} e trabalho temporário \parencite{smith2010}. Os dois primeiros podem ser calculados a partir da folha de pagamento, e entram como análise secundária (Seção~\ref{sec:met-sensibilidade}).
+}
+\en{%
+A review of machine learning in occupational accident analysis organizes the field into outcome prediction, pattern discovery, risk assessment and severity \parencite{sarkar2020}. In warehouses and plants, the classic epidemiological study of powered industrial vehicles deals with forklifts \parencite{collins1999}. Work organization factors known to raise injury risk are natural candidate covariates per site and month: overtime and long hours \parencite{dembe2005}, short job tenure \parencite{breslin2006} and temporary work \parencite{smith2010}. The first two can be computed from payroll and enter as a secondary analysis (Section~\ref{sec:met-sensibilidade}).
+}
+
+\section{\tr{Modelos de contagem com exposição}{Count models with exposure}}
+\label{sec:fund-contagem}
+
+\pt{%
+Seja $Y_{it}$ o número de acidentes do veículo $i$ no mês $t$ e $E_{it}$ sua exposição (horas de operação ou distância). O modelo de Poisson com \textit{offset} supõe
+}
+\en{%
+Let $Y_{it}$ be the number of accidents of vehicle $i$ in month $t$ and $E_{it}$ its exposure (operating hours or distance). The Poisson model with an offset assumes
+}
+\begin{equation}
+\label{eq:poisson}
+Y_{it} \sim \text{Poisson}(\mu_{it}), \qquad \log \mu_{it} = \log E_{it} + \mathbf{x}_{it}^\top \bm{\beta},
+\end{equation}
+\pt{%
+de modo que $\lambda_{it} = \mu_{it}/E_{it} = \exp(\mathbf{x}_{it}^\top \bm{\beta})$ é uma taxa por unidade de exposição e $\exp(\beta_j)$ é uma razão de taxas \parencite{cameron2013}. O \textit{offset} impõe que, mantido o resto, dobrar a exposição dobra o número esperado de acidentes. Essa hipótese pode ser verificada incluindo $\log E_{it}$ como covariável com coeficiente livre: um coeficiente perto de 1 a sustenta, e um coeficiente menor indica que a medida de exposição cresce mais rápido que o risco.
+}
+\en{%
+so that $\lambda_{it} = \mu_{it}/E_{it} = \exp(\mathbf{x}_{it}^\top \bm{\beta})$ is a rate per unit of exposure and $\exp(\beta_j)$ is a rate ratio \parencite{cameron2013}. The offset imposes that, all else equal, doubling exposure doubles the expected number of accidents. This assumption can be checked by including $\log E_{it}$ as a covariate with a free coefficient: a coefficient near 1 supports it, and a smaller one indicates that the exposure measure grows faster than risk.
+}
+
+\pt{%
+No Poisson, a variância é igual à média. Dados de acidentes costumam ter variância maior (superdispersão), porque veículos e períodos diferem em risco por fatores não medidos. A binomial negativa resulta de supor que a taxa de Poisson tem uma variação gama multiplicativa, e na parametrização usual (NB2) tem
+}
+\en{%
+In the Poisson model, the variance equals the mean. Accident data usually show a larger variance (overdispersion), because vehicles and periods differ in risk due to unmeasured factors. The negative binomial results from assuming a multiplicative gamma variation in the Poisson rate, and in the usual parameterization (NB2) has
+}
+\begin{equation}
+\label{eq:nb2}
+\mathbb{E}(Y_{it}) = \mu_{it}, \qquad \text{Var}(Y_{it}) = \mu_{it} + \mu_{it}^2/\phi,
+\end{equation}
+\pt{%
+em que $\phi > 0$ controla a dispersão e o Poisson é o limite $\phi \to \infty$ \parencite{cameron2013}. A literatura de frequência de acidentes adota a binomial negativa como ponto de partida e discute extensões com efeitos aleatórios, parâmetros aleatórios e estruturas espaciais e temporais \parencite{lord2010,mannering2014}.
+}
+\en{%
+where $\phi > 0$ controls dispersion and the Poisson is the limit $\phi \to \infty$ \parencite{cameron2013}. The crash frequency literature adopts the negative binomial as the starting point and discusses extensions with random effects, random parameters and spatial and temporal structures \parencite{lord2010,mannering2014}.
+}
+
+\pt{%
+Quando há mais zeros do que a binomial negativa prevê, uma opção é o modelo com inflação de zeros, que mistura uma massa em zero com a distribuição de contagem \parencite{lambert1992}. Em segurança viária, esse modelo foi criticado por supor um estado ``seguro'', com risco exatamente nulo, que não tem interpretação física: o excesso de zeros costuma vir de exposição pequena, períodos curtos ou heterogeneidade não modelada, e se resolve melhor com a exposição correta e efeitos aleatórios \parencite{lord2005}. Por isso a inflação de zeros entra aqui só como alternativa a ser testada, e não como modelo principal.
+}
+\en{%
+When there are more zeros than the negative binomial predicts, one option is the zero-inflated model, which mixes a point mass at zero with the count distribution \parencite{lambert1992}. In road safety this model has been criticized for assuming a ``safe'' state with exactly zero risk, which has no physical interpretation: excess zeros usually come from small exposure, short periods or unmodeled heterogeneity, and are better handled with the right exposure and random effects \parencite{lord2005}. That is why zero inflation enters here only as an alternative to be tested, not as the main model.
+}
+
+\section{\tr{Modelos hierárquicos, encolhimento e Bayes empírico}{Hierarchical models and empirical Bayes}}
+\label{sec:fund-hierarquicos}
+
+\pt{%
+Os dados têm estrutura aninhada: meses dentro de veículos e veículos dentro de unidades. Efeitos aleatórios de veículo ($v_i$) e de unidade ($u_s$) acrescentados ao preditor linear capturam a correlação entre observações do mesmo grupo e permitem estimar a variação de risco entre grupos ($\sigma_v^2$, $\sigma_u^2$) \parencite{gelman2007}. Ignorar essa correlação trata meses do mesmo veículo como independentes e subestima os erros-padrão das covariáveis que variam entre veículos; a alternativa sem efeitos aleatórios são erros-padrão robustos por agrupamento \parencite{cameron2015}.
+}
+\en{%
+The data have a nested structure: months within vehicles and vehicles within sites. Vehicle ($v_i$) and site ($u_s$) random effects added to the linear predictor capture the correlation between observations in the same group and allow estimating the risk variation across groups ($\sigma_v^2$, $\sigma_u^2$) \parencite{gelman2007}. Ignoring this correlation treats months of the same vehicle as independent and underestimates the standard errors of covariates that vary across vehicles; the alternative without random effects is cluster-robust standard errors \parencite{cameron2015}.
+}
+
+\pt{%
+O efeito aleatório produz encolhimento: a estimativa da taxa de cada grupo fica entre a taxa observada no grupo e a média geral, mais perto da observada quanto mais informação o grupo tem. A ideia é a mesma do estimador de Stein e do Bayes empírico \parencite{efron1975}. No caso mais simples, com taxas de unidade $\lambda_s$ vindas de uma gama com média $m$ e variância $v$, e $Y_s \mid \lambda_s \sim \text{Poisson}(E_s \lambda_s)$, a média a posteriori é
+}
+\en{%
+The random effect produces shrinkage: each group's rate estimate lies between the group's observed rate and the overall mean, closer to the observed one the more information the group has. The idea is the same as Stein's estimator and empirical Bayes \parencite{efron1975}. In the simplest case, with site rates $\lambda_s$ drawn from a gamma with mean $m$ and variance $v$, and $Y_s \mid \lambda_s \sim \text{Poisson}(E_s \lambda_s)$, the posterior mean is
+}
+\begin{equation}
+\label{eq:eb}
+\hat{\lambda}_s^{\text{BE}} = \frac{Y_s + m^2/v}{E_s + m/v} = w_s \, \frac{Y_s}{E_s} + (1 - w_s)\, m, \qquad w_s = \frac{E_s}{E_s + m/v},
+\end{equation}
+\pt{%
+e $m$ e $v$ são estimados com os dados de todas as unidades, daí o nome Bayes empírico. Unidades com muita exposição têm peso $w_s$ perto de 1 e ficam com a própria taxa; unidades pequenas são puxadas para a média. O método é usado há décadas no mapeamento de doenças \parencite{clayton1987} e na segurança viária, onde corrige a regressão à média na escolha de locais críticos e na avaliação antes e depois de intervenções \parencite{hauer1997,hauer2002}.
+}
+\en{%
+and $m$ and $v$ are estimated from the data of all sites, hence the name empirical Bayes. Sites with large exposure have weight $w_s$ near 1 and keep their own rate; small sites are pulled toward the mean. The method has been used for decades in disease mapping \parencite{clayton1987} and in road safety, where it corrects regression to the mean when selecting hazardous locations and evaluating interventions before and after \parencite{hauer1997,hauer2002}.
+}
+
+\pt{%
+Comparar instituições por rankings tem limites conhecidos: a incerteza sobre a posição de cada unidade costuma ser tão grande que só os extremos se distinguem com segurança, e os intervalos das posições devem acompanhar qualquer tabela \parencite{goldstein1996}. O gráfico de funil é uma alternativa ao ranking: a taxa de cada unidade é plotada contra sua exposição, com limites de controle que se estreitam à medida que a exposição cresce, e só as unidades fora dos limites são destacadas \parencite{spiegelhalter2005}.
+}
+\en{%
+Comparing institutions by rankings has known limits: the uncertainty about each unit's position is usually so large that only the extremes can be told apart with confidence, and position intervals should accompany any table \parencite{goldstein1996}. The funnel plot is an alternative to ranking: each site's rate is plotted against its exposure, with control limits that narrow as exposure grows, and only sites outside the limits are flagged \parencite{spiegelhalter2005}.
+}
+
+\pt{%
+Modelos lineares generalizados mistos com binomial negativa podem ser ajustados por máxima verossimilhança com a integral dos efeitos aleatórios aproximada pelo método de Laplace, como no pacote glmmTMB \parencite{brooks2017}, construído sobre diferenciação automática \parencite{kristensen2016}, ou de forma bayesiana, com amostragem de Monte Carlo \parencite{burkner2017}.
+}
+\en{%
+Negative binomial generalized linear mixed models can be fitted by maximum likelihood with the random effects integral approximated by the Laplace method, as in the glmmTMB package \parencite{brooks2017}, built on automatic differentiation \parencite{kristensen2016}, or in a Bayesian way, with Monte Carlo sampling \parencite{burkner2017}.
+}
+
+\section{\tr{Subnotificação e captura e recaptura}{Underreporting and capture-recapture}}
+\label{sec:fund-subnotificacao}
+
+\pt{%
+A subnotificação de lesões de trabalho é grande e bem documentada. Nos EUA, estimativas indicam que o levantamento oficial deixa de contar uma parte considerável das lesões não fatais \parencite{leigh2004}, e estudos de captura e recaptura que cruzam o levantamento com outros registros chegaram a conclusões semelhantes, com grande variação entre estados \parencite{rosenman2006,boden2008}. Dentro das empresas, a subnotificação é maior onde o clima de segurança é pior e a supervisão cobra menos as práticas seguras \parencite{probst2008,probst2010}. Para este trabalho, a consequência é que a taxa de relato pode variar entre unidades e distorcer qualquer comparação feita só com relatos (H3b).
+}
+\en{%
+Underreporting of work injuries is large and well documented. In the US, estimates indicate that the official survey misses a considerable share of nonfatal injuries \parencite{leigh2004}, and capture-recapture studies that cross-match the survey with other records reached similar conclusions, with large variation across states \parencite{rosenman2006,boden2008}. Within companies, underreporting is higher where safety climate is worse and supervisors enforce safe practices less \parencite{probst2008,probst2010}. For this work, the consequence is that the reporting rate may vary across sites and distort any comparison based only on reports (H3b).
+}
+
+\pt{%
+Quando o mesmo tipo de evento é registrado por duas fontes imperfeitas, a sobreposição entre elas informa quantos eventos nenhuma das duas captou \parencite{iwgdmf1995,hook1995}. Com $n_1$ eventos na fonte 1, $n_2$ na fonte 2 e $m$ em ambas, o estimador de Lincoln e Petersen do total é
+}
+\en{%
+When the same type of event is recorded by two imperfect sources, the overlap between them informs how many events neither captured \parencite{iwgdmf1995,hook1995}. With $n_1$ events in source 1, $n_2$ in source 2 and $m$ in both, the Lincoln-Petersen estimator of the total is
+}
+\begin{equation}
+\label{eq:lp}
+\hat{N} = \frac{n_1 \, n_2}{m},
+\end{equation}
+\pt{%
+e $m/n_2$ estima a probabilidade de captura da fonte 1. O estimador supõe população fechada, eventos corretamente pareados entre as fontes, e independência entre as fontes com probabilidade de captura homogênea. Com dependência positiva (um evento captado por uma fonte tem mais chance de ser captado pela outra) ou heterogeneidade, o total é subestimado; com dependência negativa, superestimado \parencite{hook1995}. Com duas fontes, a dependência não é identificável pelos dados, e o que se pode fazer é estratificar por fatores que afetam a captura, usar estimadores para captura heterogênea \parencite{chao1987} ou apresentar o resultado como limite sob hipóteses explícitas. O pareamento de eventos entre as fontes é um problema de ligação de registros \parencite{fellegi1969}, e erros de ligação viram erros de $m$.
+}
+\en{%
+and $m/n_2$ estimates the capture probability of source 1. The estimator assumes a closed population, events correctly matched across sources, and independence between sources with homogeneous capture probability. With positive dependence (an event captured by one source is more likely to be captured by the other) or heterogeneity, the total is underestimated; with negative dependence, overestimated \parencite{hook1995}. With two sources, dependence is not identifiable from the data, and what one can do is stratify by factors that affect capture, use estimators for heterogeneous capture \parencite{chao1987} or present the result as a bound under explicit assumptions. Matching events across sources is a record linkage problem \parencite{fellegi1969}, and linkage errors become errors in $m$.
+}
+
+\section{\tr{Avaliação de modelos e previsão probabilística}{Model evaluation and probabilistic forecasting}}
+\label{sec:fund-avaliacao}
+
+\pt{%
+Um modelo de risco produz, para cada veículo e mês, uma distribuição de probabilidade do número de acidentes, não um número. A avaliação adequada é por regras de pontuação próprias, que só são otimizadas em média pela distribuição verdadeira \parencite{gneiting2007}. A mais usada para contagens é o escore logarítmico, $\log p(y)$, a log-probabilidade que o modelo atribuiu ao valor observado. Para contagens, a calibração é verificada pela transformada integral de probabilidade não aleatorizada e por diagramas de calibração marginal \parencite{czado2009}. No ajuste, os resíduos quantílicos aleatorizados \parencite{dunn1996}, na versão simulada para modelos mistos do pacote DHARMa \parencite{hartig2026}, têm distribuição uniforme sob o modelo correto e permitem testar superdispersão e excesso de zeros.
+}
+\en{%
+A risk model produces, for each vehicle and month, a probability distribution for the number of accidents, not a number. Proper evaluation uses proper scoring rules, which are optimized in expectation only by the true distribution \parencite{gneiting2007}. The most widely used one for counts is the log score, $\log p(y)$, the log probability the model assigned to the observed value. For counts, calibration is checked with the nonrandomized probability integral transform and marginal calibration diagrams \parencite{czado2009}. In fitting, randomized quantile residuals \parencite{dunn1996}, in the simulated version for mixed models of the DHARMa package \parencite{hartig2026}, are uniformly distributed under the correct model and allow testing for overdispersion and excess zeros.
+}
+
+\pt{%
+A comparação de dois modelos pelo escore médio fora da amostra precisa considerar que as diferenças de escore são correlacionadas no tempo e dentro do mesmo veículo; o teste de \textcite{diebold1995} formaliza a comparação de acurácia preditiva para séries, e aqui é adaptado com bootstrap por veículo. A avaliação fora da amostra em séries temporais usa origem móvel: o modelo é reajustado a cada ponto de corte e avaliado nos períodos seguintes \parencite{tashman2000}.
+}
+\en{%
+Comparing two models by their mean out-of-sample score must account for score differences being correlated over time and within the same vehicle; the \textcite{diebold1995} test formalizes the comparison of predictive accuracy for series, and here it is adapted with a bootstrap by vehicle. Out-of-sample evaluation of time series uses a rolling origin: the model is refitted at each cutoff and evaluated on the following periods \parencite{tashman2000}.
+}
+
+\pt{%
+Para a extensão de previsão, as horas futuras são previstas como distribuição com métodos de séries temporais \parencite{hyndman2021}. O alisamento exponencial com tendência amortecida, que evita extrapolar tendências que tendem a não persistir, é um ponto de partida robusto \parencite{gardner1985}. A avaliação usa o CRPS e a perda quantílica \parencite{gneiting2007}.
+}
+\en{%
+For the forecasting extension, future hours are forecast as a distribution with time series methods \parencite{hyndman2021}. Exponential smoothing with a damped trend, which avoids extrapolating trends that tend not to persist, is a robust starting point \parencite{gardner1985}. Evaluation uses the CRPS and the quantile loss \parencite{gneiting2007}.
+}
+
+\section{\tr{Testes de equivalência e testes múltiplos}{Equivalence and multiple tests}}
+\label{sec:fund-testes}
+
+\pt{%
+Um teste de significância que não rejeita $H_0$ não mostra que o efeito é nulo: pode ter faltado poder. Para afirmar que um efeito é desprezível, inverte-se a hipótese nula. No procedimento de dois testes unilaterais \parencite{schuirmann1987}, fixa-se uma margem $(\delta_L,\ \delta_U)$ de efeitos considerados irrelevantes e testa-se $H_0\colon \theta \le \delta_L$ ou $\theta \ge \delta_U$ contra $H_1\colon \delta_L < \theta < \delta_U$. Rejeitar os dois testes unilaterais ao nível $\alpha$ equivale a o intervalo de confiança de $1 - 2\alpha$ caber inteiro dentro da margem; com $\alpha = 0{,}05$, usa-se o intervalo de 90\% \parencite{lakens2017}. A margem precisa ser fixada antes de ver os resultados finais, com justificativa substantiva.
+}
+\en{%
+A significance test that fails to reject $H_0$ does not show that the effect is null: power may have been lacking. To claim that an effect is negligible, the null hypothesis is inverted. In the two one-sided tests procedure \parencite{schuirmann1987}, a margin $(\delta_L,\ \delta_U)$ of effects deemed irrelevant is fixed and one tests $H_0\colon \theta \le \delta_L$ or $\theta \ge \delta_U$ against $H_1\colon \delta_L < \theta < \delta_U$. Rejecting both one-sided tests at level $\alpha$ is equivalent to the $1 - 2\alpha$ confidence interval lying entirely within the margin; with $\alpha = 0.05$, the 90\% interval is used \parencite{lakens2017}. The margin must be fixed before seeing the final results, with a substantive justification.
+}
+
+\pt{%
+Quando vários tipos de evento de condução são testados, a chance de ao menos um falso positivo cresce com o número de testes. O método de \textcite{holm1979} ordena os valores-$p$ e compara o $k$-ésimo menor a $\alpha/(m - k + 1)$, controlando a taxa de erro da família com mais poder que a correção de Bonferroni.
+}
+\en{%
+When several driving event types are tested, the chance of at least one false positive grows with the number of tests. The \textcite{holm1979} method orders the $p$-values and compares the $k$-th smallest to $\alpha/(m - k + 1)$, controlling the familywise error rate with more power than the Bonferroni correction.
+}
+
+\section{\tr{Síntese e lacuna}{Summary and gap}}
+\label{sec:fund-lacuna}
+
+\pt{%
+Os métodos necessários existem e são maduros: modelos de contagem com exposição e efeitos aleatórios, Bayes empírico e gráficos de funil, captura e recaptura, regras de pontuação e testes de equivalência. O que falta é aplicá-los juntos ao pátio. A literatura de logística trata do pátio pela eficiência; a de segurança de caminhões, da estrada; a de segurança em armazéns, das empilhadeiras. O caminhão de manobra, que anda pouco, manobra muito e tem acidentes de baixa velocidade sujeitos a subnotificação, não tem estudo próprio. Este trabalho testa se o que funciona na estrada (telemetria como indicador de risco, detecção automática de colisão) funciona no pátio, e propõe uma forma defensável de comparar o risco entre unidades.
+}
+\en{%
+The required methods exist and are mature: count models with exposure and random effects, empirical Bayes and funnel plots, capture-recapture, scoring rules and equivalence tests. What is missing is applying them together to the yard. The logistics literature treats the yard from the efficiency side; truck safety research, the road; warehouse safety research, forklifts. The yard truck, which travels little, maneuvers a lot and has low-speed accidents subject to underreporting, has no study of its own. This work tests whether what works on the road (telematics as a risk indicator, automatic crash detection) works in the yard, and proposes a defensible way to compare risk across sites.
+}

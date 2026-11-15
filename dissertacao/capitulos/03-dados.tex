@@ -1,0 +1,115 @@
+\chapter{\tr{Dados}{Data}}
+\label{cap:dados}
+
+\section{\tr{Dados da operação}{Operational data}}
+\label{sec:dados-operacao}
+
+\pt{%
+O estudo usa apenas dados que a empresa já coleta na rotina; não há coleta própria. A Tabela~\ref{tab:fontes} resume as quatro fontes, com ordens de grandeza de um levantamento preliminar \preencher{atualizar período, cobertura e escala depois da autorização formal da empresa; até lá, só ordens de grandeza}.
+}
+\en{%
+The study uses only data the company already collects routinely; there is no new data collection. Table~\ref{tab:fontes} summarizes the four sources, with orders of magnitude from a preliminary survey \preencher{update period, coverage and scale after the company's formal authorization; until then, orders of magnitude only}.
+}
+
+\begin{table}[ht]
+\centering
+\small
+\caption{\tr{Fontes de dados da operação}{Operational data sources}}
+\label{tab:fontes}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.0cm} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{3.6cm}}
+\toprule
+\tr{Fonte}{Source} & \tr{Conteúdo}{Content} & \tr{Escala aproximada}{Approximate scale} \\
+\midrule
+\tr{Relatos de acidentes}{Accident reports} &
+\tr{Data, tipo de evento, unidade, número do veículo, gravidade, descrição, situação da revisão}%
+   {Date, event type, site, vehicle number, severity, description, review status} &
+\tr{Centenas de relatos por ano}{Hundreds of reports per year} \\
+\tr{Telemetria veicular}{Vehicle telematics} &
+\tr{Viagens (distância, duração), eventos de condução por tipo, colisões detectadas e resultado da revisão, unidade do veículo}%
+   {Trips (distance, duration), driving events by type, detected collisions and review outcome, vehicle site} &
+\tr{Algumas centenas de veículos; mais de um milhão de viagens}{A few hundred vehicles; over one million trips} \\
+\tr{Horas trabalhadas}{Hours worked} &
+\tr{Horas por unidade, departamento e mês, com horas extras}%
+   {Hours per site, department and month, with overtime} &
+\tr{Dezenas de unidades}{Dozens of sites} \\
+\tr{Manutenção}{Maintenance} &
+\tr{Ordens de reparo por veículo e data, com motivo (dano, acidente, preventiva)}%
+   {Repair orders by vehicle and date, with reason (damage, accident, preventive)} &
+\tr{Centenas de ordens por dano}{Hundreds of damage orders} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{\tr{Relatos de acidentes}{Accident reports}}
+
+\pt{%
+Os relatos são registrados por supervisores e motoristas num aplicativo próprio e revisados pela área de segurança. Cada relato traz data e hora, unidade, número do caminhão, tipo de evento (colisão com carreta, doca, estrutura fixa, outro veículo; lesão; quase-acidente), gravidade e uma descrição em texto livre. Antes do aplicativo, os relatos eram feitos por formulário eletrônico, com campos menos padronizados. O aplicativo teve um período de implantação em que relatos de teste se misturaram aos reais, e parte dos relatos fica pendente de revisão por algum tempo.
+}
+\en{%
+Reports are recorded by supervisors and drivers in an in-house application and reviewed by the safety team. Each report carries date and time, site, truck number, event type (collision with trailer, dock, fixed structure, other vehicle; injury; near miss), severity and a free-text description. Before the application, reports were filed through an electronic form with less standardized fields. The application had a roll-out period in which test reports were mixed with real ones, and some reports stay pending review for a while.
+}
+
+\subsection{\tr{Telemetria}{Telematics}}
+
+\pt{%
+Os caminhões têm um dispositivo de telemetria comercial que registra cada viagem (início, fim, distância, duração), eventos de condução detectados por limiares de aceleração, velocidade e regras de trânsito, e colisões detectadas automaticamente por pico de aceleração. Cada detecção de colisão passa por uma revisão que a confirma ou descarta como falso alarme. O cadastro associa cada veículo a uma unidade por meio de etiquetas que usam o mesmo código de unidade da folha de pagamento. A sincronização desses dados com o ambiente analítico da empresa foi interrompida e precisa ser retomada para cobrir o período completo do projeto \preencher{confirmar o período efetivamente disponível}.
+}
+\en{%
+The trucks carry a commercial telematics device that records each trip (start, end, distance, duration), driving events detected by acceleration, speed and traffic-rule thresholds, and collisions detected automatically by acceleration peaks. Each crash detection goes through a review that confirms it or dismisses it as a false alarm. The registry assigns each vehicle to a site through tags that use the same site code as payroll. Syncing these data into the company's analytics environment was paused and must be resumed to cover the project's full period \preencher{confirm the period actually available}.
+}
+
+\subsection{\tr{Horas trabalhadas e manutenção}{Hours worked and maintenance}}
+
+\pt{%
+A folha de pagamento fornece horas trabalhadas por unidade e mês, inclusive horas extras, sem identificar pessoas na extração usada. Ela é a medida de exposição do plano alternativo (Seção~\ref{sec:met-alternativo}) e uma segunda medida de exposição para comparar com o tempo de viagem da telemetria. O sistema de manutenção registra ordens de reparo por veículo e data, com o motivo; as ordens abertas por dano ou acidente são a segunda fonte para a subnotificação (Seção~\ref{sec:met-subnotificacao}) \preencher{verificar se o motivo ``acidente'' é atribuído só depois do relato, o que tornaria as fontes dependentes por construção}.
+}
+\en{%
+Payroll provides hours worked per site and month, including overtime, without identifying people in the extraction used. It is the exposure measure of the fallback plan (Section~\ref{sec:met-alternativo}) and a second exposure measure to compare with telematics trip time. The maintenance system records repair orders by vehicle and date, with the reason; orders opened for damage or accident are the second source for underreporting (Section~\ref{sec:met-subnotificacao}) \preencher{check whether the ``accident'' reason is assigned only after the report, which would make the sources dependent by construction}.
+}
+
+\subsection{\tr{Definições}{Definitions}}
+\label{sec:definicoes}
+
+\pt{%
+\begin{description}[leftmargin=0.6cm,style=nextline]
+  \item[\textnormal{\textit{Unidade de análise.}}] Veículo $\times$ mês. A unidade (site) de cada veículo é a do cadastro da telemetria no mês; veículos que mudam de unidade contribuem para mais de uma.
+  \item[\textnormal{\textit{Desfecho principal.}}] Número de colisões relatadas no mês, com ou sem lesão, depois de excluir relatos de teste e duplicados. Lesões e quase-acidentes entram como definições alternativas em análise de sensibilidade.
+  \item[\textnormal{\textit{Exposição principal.}}] Horas de viagem registradas pela telemetria. A distância percorrida é a exposição alternativa.
+  \item[\textnormal{\textit{Tipo de uso.}}] Manobra no pátio (\textit{spotting}), transferência entre instalações (\textit{shuttling}) e uso local, atribuído a cada veículo pelo padrão de viagens e conferido com o cadastro \preencher{documentar a regra de atribuição}.
+  \item[\textnormal{\textit{Eventos de condução.}}] Taxas de cada tipo de evento por hora de viagem no mês, padronizadas (média zero e desvio padrão um) para que as razões de taxas sejam comparáveis entre tipos \preencher{listar os tipos de evento usados}.
+\end{description}
+}
+\en{%
+\begin{description}[leftmargin=0.6cm,style=nextline]
+  \item[\textnormal{\textit{Unit of analysis.}}] Vehicle $\times$ month. Each vehicle's site is the one in the telematics registry for that month; vehicles that move between sites contribute to more than one.
+  \item[\textnormal{\textit{Main outcome.}}] Number of reported collisions in the month, with or without injury, after excluding test and duplicate reports. Injuries and near misses enter as alternative definitions in a sensitivity analysis.
+  \item[\textnormal{\textit{Main exposure.}}] Trip hours recorded by telematics. Distance traveled is the alternative exposure.
+  \item[\textnormal{\textit{Use type.}}] Yard spotting, shuttling between facilities and local use, assigned to each vehicle by its trip pattern and checked against the registry \preencher{document the assignment rule}.
+  \item[\textnormal{\textit{Driving events.}}] Rates of each event type per trip hour in the month, standardized (zero mean and unit standard deviation) so that rate ratios are comparable across types \preencher{list the event types used}.
+\end{description}
+}
+
+\subsection{\tr{Ligação entre as fontes e qualidade}{Linkage across sources and quality}}
+
+\pt{%
+O número do caminhão informado nos relatos coincide com o identificador da telemetria na maior parte dos casos depois de uma normalização simples (caixa, espaços, prefixos), e o restante é tratado por comparação aproximada (Seção~\ref{sec:met-painel}). Os problemas de qualidade já conhecidos são: relatos de teste no período de implantação; unidade e veículo digitados em texto livre em parte dos relatos; viagens com registro de fim inválido; veículos sem unidade fixa, como os da oficina central; e mudanças de veículos entre unidades. Cada regra de limpeza é documentada, e seu efeito sobre os resultados é testado em análise de sensibilidade.
+}
+\en{%
+The truck number given in reports matches the telematics identifier in most cases after simple normalization (case, spaces, prefixes), and the rest is handled by approximate matching (Section~\ref{sec:met-painel}). Known quality issues are: test reports during the roll-out period; site and vehicle typed as free text in some reports; trips with invalid end records; vehicles without a fixed site, such as those of the central workshop; and vehicles moving between sites. Every cleaning rule is documented, and its effect on results is tested in a sensitivity analysis.
+}
+
+\begin{nota}[\tr{Privacidade e confidencialidade}{Privacy and confidentiality}]
+\tr%
+  {Nenhum dado identifica pessoas. A análise usa veículo, unidade e mês; identificadores de motorista, nomes, imagens de câmera e trajetos de GPS não são usados. Os dados não saem do ambiente da empresa; só tabelas agregadas entram no repositório da pesquisa e no texto, que não nomeia a empresa, seus clientes nem suas unidades. As unidades aparecem mascaradas (Unidade 01, 02...) e os resultados são apresentados como valores relativos e ordens de grandeza.}%
+  {No data identifies people. The analysis uses vehicle, site and month; driver identifiers, names, camera footage and GPS tracks are not used. Data stays within the company's environment; only aggregated tables enter the research repository and the text, which does not name the company, its clients or its sites. Sites appear masked (Site 01, 02...) and results are presented as relative values and orders of magnitude.}
+\end{nota}
+
+\section{\tr{Dados públicos usados nos estudos preliminares}{Public data used in the preliminary studies}}
+\label{sec:dados-publicos}
+
+\pt{%
+O conjunto \textit{Logistics Operations Database} \parencite{yogape2025}, publicado no Kaggle sob licença MIT, simula uma transportadora fictícia dos EUA entre 2022 e 2024, com 14 tabelas ligadas por chaves: caminhões, terminais, viagens, cargas e incidentes de segurança, além de uma tabela mensal por caminhão com milhas rodadas. Ele é usado aqui só como \emph{estrutura realista} (quantos caminhões, quanto cada um roda por mês, como o volume varia por semana), porque os incidentes do conjunto se mostraram praticamente independentes de caminhão, terminal e exposição (\texttt{notas/05-datasets-publicos.md}). Os acidentes usados nos estudos de poder são, portanto, simulados sobre essa estrutura, com efeitos conhecidos (Seção~\ref{sec:poder}).
+}
+\en{%
+The \textit{Logistics Operations Database} \parencite{yogape2025}, published on Kaggle under the MIT license, simulates a fictitious US trucking company from 2022 to 2024, with 14 linked tables: trucks, terminals, trips, loads and safety incidents, plus a monthly truck table with miles driven. It is used here only as a \emph{realistic structure} (how many trucks, how much each drives per month, how volume varies by week), because the incidents in the dataset turned out to be practically independent of truck, terminal and exposure. The accidents used in the power studies are therefore simulated on this structure, with known effects (Section~\ref{sec:poder}).
+}

@@ -1,0 +1,217 @@
+\chapter{\tr{Estudos preliminares de viabilidade}{Preliminary feasibility studies}}
+\label{cap:viabilidade}
+
+\pt{%
+Antes de ter acesso aos dados da operação, dois estudos usam a estrutura de um conjunto público (Capítulo~\ref{cap:dados}) para responder perguntas de viabilidade: (i) com o volume de acidentes esperado, os modelos têm poder para testar as hipóteses? (ii) a previsão da exposição, base do objetivo opcional (f), é útil? Os números deste capítulo vêm de \texttt{analise/viabilidade/poder.py} e \texttt{previsao.py} e são de dados simulados: indicam ordens de grandeza, não resultados. A Seção~\ref{sec:viab-real} completa o capítulo com uma exploração agregada dos dados da operação, que verifica se os dados reais sustentam as hipóteses.
+}
+\en{%
+Before accessing operational data, two studies use the structure of a public dataset (Chapter~\ref{cap:dados}) to answer feasibility questions: (i) given the expected accident volume, do the models have power to test the hypotheses? (ii) is the exposure forecast, which underlies optional objective (f), useful? Numbers in this chapter come from \texttt{analise/viabilidade/poder.py} and \texttt{previsao.py} and are from simulated data: they indicate orders of magnitude, not results. Section~\ref{sec:viab-real} completes the chapter with an aggregated exploration of the operational data, which checks whether the real data support the hypotheses.
+}
+
+\section{\tr{Poder estatístico (semi-sintético)}{Statistical power (semi-synthetic)}}
+\label{sec:poder}
+
+\pt{%
+A exposição (milhas por caminhão e mês) e a estrutura de caminhões e terminais vêm do conjunto público; os acidentes são simulados com efeitos conhecidos: efeito de telemetria $\beta \in \{0;\ 0{,}15;\ 0{,}30\}$ no log da taxa por desvio padrão, efeito aleatório de site (desvio padrão 0,40) e de caminhão (0,30), superdispersão adicional, detecção de 35\% das colisões pelos sensores e probabilidade de relato por site com média 0,65. O total esperado de acidentes relatados no período foi fixado em 70, 300 e 600. Duas bases: o painel do conjunto como está (92 caminhões, 24 terminais, 36 meses) e uma base na \emph{escala do projeto} (280 caminhões em 40 sites por 14 meses, com milhas reamostradas). O desenho segue a estrutura usual de estudos de simulação: objetivos, mecanismo gerador dos dados, estimandos, métodos e medidas de desempenho \parencite{morris2019}. Foram 200 repetições por cenário; o modelo ajustado é a binomial negativa com efeito fixo de site e milhas como \textit{offset}, ainda sem efeito aleatório de caminhão.
+}
+\en{%
+Exposure (miles per truck and month) and the truck and terminal structure come from the public dataset; accidents are simulated with known effects: telematics effect $\beta \in \{0, 0.15, 0.30\}$ on the log rate per standard deviation, site (standard deviation 0.40) and truck (0.30) random effects, extra overdispersion, sensor detection of 35\% of collisions and a site reporting probability with mean 0.65. The expected number of reported accidents in the period was set to 70, 300 and 600. Two bases: the dataset panel as is (92 trucks, 24 terminals, 36 months) and a base at \emph{project scale} (280 trucks in 40 sites over 14 months, with resampled miles). The design follows the usual structure of simulation studies: aims, data-generating mechanism, estimands, methods and performance measures \parencite{morris2019}. There were 200 replications per scenario; the fitted model is the negative binomial with site fixed effects and miles as offset, still without a truck random effect.
+}
+
+\begin{table}[ht]
+\centering\small
+\caption{\tr{Proporção de repetições com $p < 0{,}05$ para o efeito de telemetria. Com $\beta = 0$, é a taxa de falso positivo (o ideal é 0,05).}%
+            {Share of replications with $p < 0.05$ for the telematics effect. With $\beta = 0$, it is the false positive rate (ideal: 0.05).}}
+\label{tab:poder}
+\begin{tabular}{l r r r r}
+\toprule
+\tr{Base}{Base} & \tr{Acidentes}{Accidents} & $\beta = 0$ & $\beta = 0{,}15$ & $\beta = 0{,}30$ \\
+\midrule
+\tabinput{tabelas/tab_poder.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{\arqfig{fig_poder}}
+\caption{\tr{Poder para detectar o efeito de telemetria. Linhas cinza: 0,80 e 0,05.}{Power to detect the telematics effect. Grey lines: 0.80 and 0.05.}}
+\label{fig:poder}
+\end{figure}
+
+\pt{%
+\textbf{H2 (telemetria).} Na escala do projeto, com cerca de 300 acidentes relatados, o poder é 0,75 para um efeito moderado ($\beta = 0{,}15$, cerca de 16\% a mais de risco por desvio padrão) e praticamente 1 para $\beta = 0{,}30$; com 600 acidentes, 0,89 e 1. Com 70 acidentes, só um efeito grande tem chance razoável (0,53). \textbf{Implicação:} o desfecho principal precisa incluir todas as colisões com dano relatadas, não só os acidentes graves; uma definição estreita derruba o poder.
+}
+\en{%
+\textbf{H2 (telematics).} At project scale, with about 300 reported accidents, power is 0.75 for a moderate effect ($\beta = 0.15$, about 16\% more risk per standard deviation) and practically 1 for $\beta = 0.30$; with 600 accidents, 0.89 and 1. With 70 accidents, only a large effect has a reasonable chance (0.53). \textbf{Implication:} the main outcome must include all reported damage collisions, not only severe accidents; a narrow definition kills power.
+}
+
+\pt{%
+\textbf{Falso positivo.} Na base do Kaggle com 600 acidentes, o efeito nulo saiu significativo em 15\% das repetições, três vezes o nominal. A causa provável é ignorar a correlação entre os meses do mesmo caminhão (36 meses por caminhão nessa base), justamente o que o efeito aleatório de veículo do modelo hierárquico trata. \textbf{Implicação:} o modelo final precisa do efeito aleatório de caminhão ou de erros-padrão robustos por caminhão; a versão sem ele não serve para inferência.
+}
+\en{%
+\textbf{False positives.} In the Kaggle base with 600 accidents, the null effect was significant in 15\% of replications, three times the nominal rate. The likely cause is ignoring the correlation between months of the same truck (36 months per truck in this base), exactly what the hierarchical model's vehicle random effect handles. \textbf{Implication:} the final model needs a truck random effect or truck-clustered robust standard errors; the version without it is not fit for inference.
+}
+
+\begin{table}[ht]
+\centering\small
+\caption{\tr{H1: correlação de postos (Spearman) entre o indicador por site e o risco verdadeiro do site; média das repetições.}%
+            {H1: rank correlation (Spearman) between the site indicator and the site's true risk; mean over replications.}}
+\label{tab:poder_h1}
+\begin{tabular}{l r r r r}
+\toprule
+\tr{Base}{Base} & \tr{Acidentes}{Accidents} & \tr{Contagem}{Count} & \tr{Taxa bruta}{Raw rate} & \tr{Bayes empírico}{Empirical Bayes} \\
+\midrule
+\tabinput{tabelas/tab_poder_h1.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\pt{%
+\textbf{H1 (ranking de sites).} A contagem bruta é o pior indicador (correlação de 0,30 com o risco verdadeiro na escala do projeto com 300 acidentes), porque mede sobretudo o tamanho do site. Taxa bruta e Bayes empírico ficam bem acima (0,51 e 0,54), com vantagem pequena, mas consistente, do Bayes empírico na escala do projeto. Mesmo com 600 acidentes, a correlação não passa de cerca de 0,6. \textbf{Implicação:} ranking de 40 sites com um ano de dados é ruidoso por natureza; a dissertação deve apresentar intervalos (gráfico de funil) e grupos de risco, não posições exatas, e a contribuição de H1 está mais em trocar a contagem pela taxa ajustada do que no ganho do encolhimento.
+}
+\en{%
+\textbf{H1 (site ranking).} The raw count is the worst indicator (correlation of 0.30 with true risk at project scale with 300 accidents), because it mostly measures site size. Raw rate and empirical Bayes are well above (0.51 and 0.54), with a small but consistent advantage for empirical Bayes at project scale. Even with 600 accidents, the correlation does not exceed about 0.6. \textbf{Implication:} ranking 40 sites with one year of data is inherently noisy; the dissertation should present intervals (funnel plot) and risk groups, not exact positions, and H1's contribution lies more in replacing counts with adjusted rates than in the gain from shrinkage.
+}
+
+\begin{table}[ht]
+\centering\small
+\caption{\tr{H3: erro absoluto médio da probabilidade de relato por site.}{H3: mean absolute error of the site reporting probability.}}
+\label{tab:poder_h3}
+\begin{tabular}{l r r r r}
+\toprule
+\tr{Base}{Base} & \tr{Acidentes}{Accidents} & \tr{Colisões detectadas}{Detected collisions} & \tr{Bruta}{Raw} & \tr{Com encolhimento}{Shrunk} \\
+\midrule
+\tabinput{tabelas/tab_poder_h3.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\pt{%
+\textbf{H3 (subnotificação).} A estimativa bruta da probabilidade de relato por site erra em média 0,23 na escala do projeto com 300 acidentes (cerca de 160 colisões detectadas); o encolhimento reduz o erro para 0,11. \textbf{Implicação:} estimar a subnotificação por site é viável só com encolhimento, e a média geral de relato é bem mais precisa que os valores por site.
+}
+\en{%
+\textbf{H3 (underreporting).} The raw site reporting probability estimate errs by 0.23 on average at project scale with 300 accidents (about 160 detected collisions); shrinkage reduces the error to 0.11. \textbf{Implication:} estimating underreporting per site is feasible only with shrinkage, and the overall reporting rate is much more precise than site values.
+}
+
+\section{\tr{Previsão da exposição (objetivo f)}{Exposure forecasting (objective f)}}
+\label{sec:previsao}
+
+\pt{%
+Com as horas de viagem semanais de \nsitesprev{} cidades de origem do conjunto público (\nsemanas{} semanas), as horas das quatro semanas seguintes foram previstas como distribuição, em origem móvel ao longo do último ano, por três métodos.
+}
+\en{%
+Using weekly trip hours from \nsitesprev{} origin cities in the public dataset (\nsemanas{} weeks), hours for the next four weeks were forecast as a distribution, with a rolling origin over the last year, by three methods.
+}
+
+\begin{table}[ht]
+\centering\small
+\caption{\tr{Previsão das horas das 4 semanas seguintes: perda quantílica média relativa ($q = 0{,}1;\ 0{,}5;\ 0{,}9$), cobertura do intervalo de 80\% e erro relativo mediano da mediana.}%
+            {Forecast of the next 4 weeks' hours: mean relative quantile loss ($q = 0.1, 0.5, 0.9$), 80\% interval coverage and median relative error of the median.}}
+\label{tab:previsao}
+\begin{tabular}{l r r r}
+\toprule
+\tr{Método}{Method} & \tr{Perda quantílica}{Quantile loss} & \tr{Cobertura 80\%}{80\% coverage} & \tr{Erro da mediana}{Median error} \\
+\midrule
+\tabinput{tabelas/tab_previsao.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{\arqfig{fig_previsao}}
+\caption{\tr{Previsão das horas do mês seguinte no site de maior volume (dados públicos).}{Next month's hours forecast at the highest-volume site (public data).}}
+\label{fig:previsao}
+\end{figure}
+
+\pt{%
+O ETS amortecido foi o melhor nas três métricas, com erro mediano de cerca de 8\% e cobertura um pouco abaixo da nominal. O achado mais importante, porém, é outro: para um site com cerca de 1 acidente esperado por mês (a ordem de grandeza do projeto), só cerca de \fracexposicao\% da variância do número de acidentes vem da incerteza sobre a exposição; o resto é a variação de Poisson. \textbf{Implicação:} prever a exposição quase não melhora a projeção de acidentes de um site no mês seguinte. O objetivo (f) deve ser reposicionado: usar a previsão de exposição para planejamento de escala e supervisão em si, ou projetar acidentes em horizontes e agregados maiores (trimestre, região), onde a exposição pesa mais. Decisão (2026-11-08): a extensão passa a ser a previsão da exposição para planejamento de escala e supervisão, com projeção de acidentes só em níveis agregados; o pré-projeto já reflete isso.
+}
+\en{%
+Damped ETS was best on all three metrics, with a median error of about 8\% and coverage slightly below nominal. The most important finding, however, is another: for a site with about 1 expected accident per month (the project's order of magnitude), only about \fracexposicao\% of the variance of the accident count comes from exposure uncertainty; the rest is Poisson variation. \textbf{Implication:} forecasting exposure barely improves next month's accident projection for a site. Objective (f) should be repositioned: use the exposure forecast for staffing and supervision planning in itself, or project accidents over longer horizons and larger aggregates (quarter, region), where exposure matters more. Decision (2026-11-08): the extension becomes the exposure forecast for staffing and supervision planning, with accident projection only at aggregate levels; the pre-proposal already reflects this.
+}
+
+\section{\tr{Exploração dos dados da operação}{Exploration of operational data}}
+\label{sec:viab-real}
+
+\pt{%
+Como responsável pela área de dados, o autor explorou os dados da operação no ambiente da empresa, apenas com consultas agregadas, sem dados pessoais e com as unidades anonimizadas. O painel cobriu doze meses comuns às três fontes principais, com algumas centenas de acidentes relatados ligados a veículos com telemetria e cerca de duas mil combinações de veículo e mês. As hipóteses foram testadas com os procedimentos da Seção~\ref{sec:testes} numa versão simplificada: exposição pelo tempo de viagem, e modelo de H2 com tipo de uso e efeito aleatório de veículo, mas sem efeito de unidade nem de calendário. Os números vêm de \texttt{analise/real/testes.py} e \texttt{r/h2\_misto.R}; a Figura~\ref{fig:real} e o texto mostram só valores relativos e arredondados.
+}
+\en{%
+As head of the data area, the author explored the operational data inside the company's environment, using only aggregate queries, with no personal data and with sites anonymized. The panel covered twelve months common to the three main sources, with a few hundred reported accidents linked to vehicles with telematics and about two thousand vehicle-month combinations. The hypotheses were tested with the procedures of Section~\ref{sec:testes} in a simplified version: exposure by trip time, and an H2 model with use type and a vehicle random effect, but no site or calendar effect. Numbers come from \texttt{analise/real/testes.py} and \texttt{r/h2\_misto.R}; Figure~\ref{fig:real} and the text show relative and rounded values only.
+}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{\arqfig{fig_real}}
+\caption{\tr%
+  {Exploração dos dados da operação. (a)~Taxa de acidentes de cada tipo de uso relativa à do caminhão de manobra (\textit{spotter}), por milha e por hora de viagem. (b)~Gráfico de funil: taxa de cada unidade relativa à média, bruta e por Bayes empírico, contra a exposição relativa à mediana; linhas: limites de 95\% e 99,8\%. (c)~Razão de taxas de acidente por desvio padrão da taxa de cada tipo de evento de condução, sem ajuste e com tipo de uso e efeito aleatório de veículo; \corpb{faixa azul-clara}{faixa cinza}: margem de equivalência. (d)~Proporção de acidentes relatados com detecção automática de colisão no mesmo veículo em até dois dias, por tipo de uso, e proporção de detecções descartadas na revisão. Barras de erro: intervalos de 95\%.}%
+  {Exploration of operational data. (a)~Accident rate of each use type relative to the yard truck (spotter), per mile and per trip hour. (b)~Funnel plot: each site's rate relative to the mean, raw and empirical Bayes, against exposure relative to the median; lines: 95\% and 99.8\% limits. (c)~Accident rate ratio per standard deviation of each driving event rate, unadjusted and with use type and vehicle random effect; \corpb{light blue band}{grey band}: equivalence margin. (d)~Share of reported accidents with an automatic crash detection on the same vehicle within two days, by use type, and share of detections dismissed in review. Error bars: 95\% intervals.}}
+\label{fig:real}
+\end{figure}
+
+\pt{%
+\textbf{Exposição e tipo de uso.} O caminhão de manobra anda pouco e manobra muito: por milha, sua taxa de acidentes é mais de vinte vezes a dos veículos de uso local; por hora, cerca de três vezes (Figura~\ref{fig:real}a). A escolha da medida de exposição muda a ordem de grandeza da comparação. \textbf{Implicação:} o tempo de viagem é a exposição principal, e o tipo de uso entra como ajuste obrigatório.
+}
+\en{%
+\textbf{Exposure and use type.} The yard truck travels little and maneuvers a lot: per mile, its accident rate is more than twenty times that of local-use vehicles; per hour, about three times (Figure~\ref{fig:real}a). The choice of exposure measure changes the order of magnitude of the comparison. \textbf{Implication:} trip time is the main exposure, and use type enters as a mandatory adjustment.
+}
+
+\pt{%
+\textbf{H1.} As taxas variaram entre unidades além do acaso: a homogeneidade foi rejeitada ($p < 0{,}001$), e cerca de um sexto das unidades ficou fora do limite de 95\% do funil, contra 5\% esperados (H1b; Figura~\ref{fig:real}b). A taxa por Bayes empírico previu a taxa do semestre seguinte com erro menor que a taxa bruta ($p \approx 0{,}02$; H1a). A contagem bruta acompanhou o tamanho da unidade (correlação de postos de cerca de 0,8), e a taxa por Bayes empírico não (intervalo de 90\% dentro de $\pm 0{,}3$; H1c). Ainda assim, a ordenação das unidades mudou muito de um semestre para o outro. \textbf{Implicação:} os resultados da simulação se confirmam; a comunicação deve ser por intervalos e grupos.
+}
+\en{%
+\textbf{H1.} Rates varied across sites beyond chance: homogeneity was rejected ($p < 0.001$), and about one sixth of the sites fell outside the funnel's 95\% limit, against 5\% expected (H1b; Figure~\ref{fig:real}b). The empirical Bayes rate predicted the next semester's rate with smaller error than the raw rate ($p \approx 0.02$; H1a). The raw count tracked site size (rank correlation of about 0.8), whereas the empirical Bayes rate did not (90\% interval within $\pm 0.3$; H1c). Even so, the ordering of sites changed considerably from one semester to the next. \textbf{Implication:} the simulation results are confirmed; communication should be through intervals and groups.
+}
+
+\pt{%
+\textbf{H2.} Sem ajuste, alguns tipos de evento pareciam associados a acidentes. Com tipo de uso e efeito de veículo, nenhum dos dez tipos rejeitou $H_0$ após a correção de Holm, e o modelo com telemetria teve escore fora da amostra ligeiramente pior que o modelo sem ela (H2a). Sete tipos tiveram efeito declarado desprezível; frenagem brusca, excesso grave de velocidade e parada incompleta ficaram inconclusivos (H2b; Figura~\ref{fig:real}c). \textbf{Implicação:} a associação aparente vinha do tipo de operação; o modelo completo e mais meses de dados vão decidir os três casos inconclusivos.
+}
+\en{%
+\textbf{H2.} Without adjustment, some event types seemed associated with accidents. With use type and vehicle effect, none of the ten types rejected $H_0$ after Holm correction, and the model with telematics had a slightly worse out-of-sample score than the model without it (H2a). Seven types had their effect declared negligible; harsh braking, severe speeding and rolling stops were inconclusive (H2b; Figure~\ref{fig:real}c). \textbf{Implication:} the apparent association came from the type of operation; the full model and more months of data will settle the three inconclusive cases.
+}
+
+\pt{%
+\textbf{H3 e detecção automática.} Menos de um décimo dos acidentes relatados teve alguma detecção automática no mesmo veículo em até dois dias, proporção igual nos três tipos de uso, e mais de quatro quintos das detecções foram descartadas como falso alarme na revisão (Figura~\ref{fig:real}d). Os sensores foram calibrados para impactos de estrada, e o acidente típico do pátio é de baixa velocidade. \textbf{Implicação:} a detecção automática não serve como segunda fonte no pátio; a captura e recaptura passa a usar a manutenção (Seção~\ref{sec:met-subnotificacao}).
+}
+\en{%
+\textbf{H3 and automatic detection.} Fewer than one tenth of reported accidents had any automatic detection on the same vehicle within two days, an equal proportion across the three use types, and more than four fifths of detections were dismissed as false alarms in review (Figure~\ref{fig:real}d). The sensors are calibrated for road impacts, and the typical yard accident is low-speed. \textbf{Implication:} automatic detection does not work as a second source in the yard; capture-recapture now uses maintenance (Section~\ref{sec:met-subnotificacao}).
+}
+
+\pt{%
+\textbf{Modelo e extensão.} O efeito aleatório de veículo foi significativo, e os resíduos quantílicos simulados não indicaram superdispersão residual nem excesso de zeros, o que sustenta a binomial negativa com efeito de veículo, sem inflação de zeros, como ponto de partida. As horas semanais trabalhadas foram previstas com erro de cerca de 6\% num horizonte de oito semanas.
+}
+\en{%
+\textbf{Model and extension.} The vehicle random effect was significant, and simulated quantile residuals showed no residual overdispersion or excess zeros, which supports the negative binomial with a vehicle effect and no zero inflation as the starting point. Weekly hours worked were forecast with an error of about 6\% over an eight-week horizon.
+}
+
+\pt{%
+São resultados exploratórios, de um único ano e com uma versão simplificada do modelo; servem para orientar o desenho, não como conclusão do trabalho.
+}
+\en{%
+These are exploratory results, from a single year and with a simplified version of the model; they guide the design and are not conclusions of the work.
+}
+
+\section{\tr{Síntese}{Summary}}
+
+\pt{%
+\begin{enumerate}
+  \item O projeto é viável na escala esperada se o desfecho incluir todas as colisões relatadas (centenas no período).
+  \item O efeito aleatório de caminhão não é opcional: sem ele, a inferência sobre telemetria fica otimista. Nos dados reais, sua variância foi significativa.
+  \item O tipo de uso e a exposição por tempo são obrigatórios: sem eles, a comparação entre veículos e a associação com a telemetria refletem o tipo de operação.
+  \item Ranking de unidades é ruidoso: comunicar com intervalos e grupos, e destacar a troca de contagem por taxa ajustada. Os dados reais confirmaram a variação real entre unidades e a vantagem da taxa com encolhimento.
+  \item A subnotificação por unidade só é estimável com encolhimento, e a segunda fonte tem de ser a manutenção, não a detecção automática.
+  \item A extensão (f) foi reposicionada para o planejamento de escala.
+\end{enumerate}
+}
+\en{%
+\begin{enumerate}
+  \item The project is feasible at the expected scale if the outcome includes all reported collisions (hundreds in the period).
+  \item The truck random effect is not optional: without it, inference on telematics is optimistic. In the real data, its variance was significant.
+  \item Use type and time-based exposure are mandatory: without them, the comparison between vehicles and the association with telematics reflect the type of operation.
+  \item Site ranking is noisy: communicate with intervals and groups, and stress replacing counts with adjusted rates. The real data confirmed real variation across sites and the advantage of the shrinkage rate.
+  \item Site-level underreporting is only estimable with shrinkage, and the second source must be maintenance, not automatic detection.
+  \item Extension (f) was repositioned toward staffing planning.
+\end{enumerate}
+}
