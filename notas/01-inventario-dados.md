@@ -259,6 +259,26 @@ O Domo não foi consultado. O que se sabe pelo Confluence e pelo Jira, sem confe
 
 As consultas de volume do Yard Commander e do ADP listadas em `03-perguntas-em-aberto.md` ainda não foram rodadas. Agora posso rodá-las pelo mesmo acesso.
 
+### 3.6 Terceira rodada: relatos, auditorias e manutenção (2026-11-15)
+
+Só metadados e agregados, pelo usuário de serviço; nenhum valor de texto livre ou campo pessoal foi lido. Scripts no scratchpad da sessão (`safety_meta.py`, `fontes_extra.py`, `manutencao.py`), fora do repositório.
+
+**Relatos: `RAW.ACCIDENTS_INJURIES.INCIDENTS` é a fonte única.** É a cópia do YardSafe e já inclui o histórico do MS Forms: as contagens mensais de set/2025 a fev/2026 são praticamente iguais às da `SAFETY_INCIDENT_REPORTING_LOAD` (carga parada em 2026-03-16, 275 linhas). A carga antiga não acrescenta relatos; serve só para auditar a migração.
+
+- 648 relatos, de 2025-09-15 a 2026-11-14 (cerca de 14 meses), na ordem de 40 a 60 por mês (todos os tipos).
+- **Hora do acidente:** preenchida e convertível em 97% dos relatos (`ACTUAL_INCIDENT_TIME`). Dá para atribuir turno, o que viabiliza a ideia da carga de trabalho por turno (`notas/10`). Os acidentes se espalham pelas 24 horas, sem turno vazio. Na carga antiga, só cerca de dois terços das horas convertem no formato `HH12:MI AM`.
+- Os campos de RH sensíveis (data de nascimento, admissão, raça, sexo) estão vazios na cópia do Snowflake. Não usar de qualquer forma.
+- O mart do dbt `MARTS.FACT_ACCIDENTS_INJURIES` continua com as 275 linhas do MS Forms (defasado).
+
+**Fonte nova: auditorias de segurança por site.** `DOMOVIEW."cust_mmmm_0034_2137".ACCIDENTS_INJURIES_POWER_APPS_RAW` (258 linhas) **não é de acidentes**, apesar do nome: são avaliações de segurança feitas por auditores em cada site (data, tipo de avaliação, pontuação obtida e possível, percentual, status do relatório), vindas do Power Apps via Domo. Cobre de mar/2026 a nov/2026, com volume regular a partir de jun/2026 (30 a 60 por mês) e cerca de 66 sites. **Uso possível:** a pontuação da auditoria como medida de clima ou prática de segurança por site e mês, covariável para o risco (H1) e, principalmente, para a probabilidade de relato (H3b), na linha de `probst2008` e `probst2010`. Limites: começa tarde, a pontuação falta em parte das linhas e há dois tipos de avaliação.
+
+**Manutenção: `EDW_PROD_100460` (banco compartilhado).** Não aparece em `ACCOUNT_USAGE.TABLES`, por isso a busca por nome não acha.
+
+- `FCT_AMORDERSEC` (seções de ordem): 46,6 mil linhas, de mar/2023 a nov/2026, com `REPREASON`. **Atenção:** os motivos vêm com e sem espaços no fim (`DAMAGE` e `DAMAGE      `); sempre usar `TRIM`.
+- **Mudança de regime em nov/2025:** até out/2025, as ordens de dano usam a grafia com espaços, somam 10 a 35 por mês e têm `ACC-REPORTED` frequente. A partir de nov/2025, a grafia sem espaços, quase só `DAMAGE`, 20 a 90 por mês, e `ACC-REPORTED` praticamente some. Parece troca de sistema ou de regra de preenchimento. Consequência: no período comum com o YardSafe (nov/2025 em diante), a dúvida sobre `ACC-REPORTED` quase não pesa, mas é preciso entender o que passou a entrar como `DAMAGE` e por que o volume subiu **[não verificado]**.
+- **Veículo da ordem:** não está em `FCT_AMORDERSEC`. O caminho é `FCT_AMORDERSEC.ORDERID` → `FCT_AMORDERS` (`UNITID`, `COMPANYUNIT`) → `DIM_AMUNITS` (`UNITNUMBER`, `PHYLOCATION` e campos livres da unidade). Falta medir quanto o `UNITNUMBER` casa com o nome do veículo na Samsara e com o `TRUCK_NUMBER` do YardSafe, e se `PHYLOCATION` dá a unidade do veículo **[próxima consulta]**.
+- O banco também tem tabelas de outro sistema de transporte (`AGG_TS*`, inclusive relatórios de segurança com 0 ou 1 linha); não servem.
+
 ## 4. Jira e Confluence
 
 Projeto **DA** com 384 tickets (37 bugs). Espaços do Confluence: DA (Data Analytics) e YM (Yard Management).
