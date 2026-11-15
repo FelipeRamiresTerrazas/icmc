@@ -1,21 +1,22 @@
-\chapter{\tr{Resultados}{Results}}
+\chapter{\tr{Análise preditiva}{Predictive analysis}}
+\label{cap:preditiva}
 \label{cap:resultados}
 
 \pt{%
-Este capítulo depende dos dados completos da operação, depois da autorização formal da empresa e da retomada da sincronização da telemetria. A estrutura abaixo segue as etapas do Capítulo~\ref{cap:metodos}, com o que cada seção vai mostrar. Todos os números serão apresentados como valores relativos, porcentagens arredondadas e ordens de grandeza.
+Este capítulo ajusta e avalia os modelos de risco e testa as hipóteses, partindo das distribuições descritas no Capítulo~\ref{cap:descritiva}. Depende dos dados completos da operação, depois da autorização formal da empresa e da retomada da sincronização da telemetria. A estrutura abaixo segue as etapas do Capítulo~\ref{cap:metodos}, com o que cada seção vai mostrar. Todos os números serão apresentados como valores relativos, porcentagens arredondadas e ordens de grandeza.
 }
 \en{%
-This chapter depends on the full operational data, after the company's formal authorization and the resumption of the telematics sync. The structure below follows the stages of Chapter~\ref{cap:metodos}, with what each section will show. All numbers will be presented as relative values, rounded percentages and orders of magnitude.
+This chapter fits and evaluates the risk models and tests the hypotheses, starting from the distributions described in Chapter~\ref{cap:descritiva}. It depends on the full operational data, after the company's formal authorization and the resumption of the telematics sync. The structure below follows the stages of Chapter~\ref{cap:metodos}, with what each section will show. All numbers will be presented as relative values, rounded percentages and orders of magnitude.
 }
 
-\section{\tr{Descrição do painel}{Panel description}}
+\section{\tr{Painel final e qualidade da ligação}{Final panel and linkage quality}}
 \label{sec:res-painel}
 
 \pt{%
-Período coberto, número de veículos, unidades e veículo-meses, em ordens de grandeza; distribuição da exposição por tipo de uso; distribuição do número de acidentes por veículo e mês; qualidade da ligação (precisão e cobertura na amostra revisada) e efeito de cada regra de limpeza no número de relatos. \preencher{Tabela descritiva e figura da distribuição das contagens.}
+Atualização das métricas do Capítulo~\ref{cap:descritiva} com o período completo; qualidade da ligação (precisão e cobertura na amostra revisada) e efeito de cada regra de limpeza no número de relatos. \preencher{Rodar de novo \texttt{analise/real/descritiva.py} e \texttt{r/descritiva.R} com o período completo.}
 }
 \en{%
-Period covered, number of vehicles, sites and vehicle-months, as orders of magnitude; exposure distribution by use type; distribution of accidents per vehicle-month; linkage quality (precision and coverage in the reviewed sample) and the effect of each cleaning rule on the number of reports. \preencher{Descriptive table and figure of the count distribution.}
+Update of the Chapter~\ref{cap:descritiva} metrics with the full period; linkage quality (precision and coverage in the reviewed sample) and the effect of each cleaning rule on the number of reports. \preencher{Rerun \texttt{analise/real/descritiva.py} and \texttt{r/descritiva.R} with the full period.}
 }
 
 \section{\tr{Seleção de modelo (objetivo b)}{Model selection (objective b)}}
