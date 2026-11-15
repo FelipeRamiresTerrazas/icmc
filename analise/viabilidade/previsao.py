@@ -32,6 +32,7 @@ import pandas as pd
 RAIZ = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ / "analise"))
 import dados_publicos  # noqa: E402
+import estilo_fig as ef  # noqa: E402
 
 TABELAS = RAIZ / "dissertacao" / "tabelas"
 FIGURAS = RAIZ / "dissertacao" / "figuras"
@@ -137,21 +138,28 @@ def main() -> None:
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    plt.rcParams.update({"font.family": "serif", "font.size": 9})
+    ef.aplicar(9)
     site = s.mean().idxmax()
     ex = r[(r["site"] == site) & (r["metodo"] == "ets")].sort_values("origem")
-    fig, ax = plt.subplots(figsize=(6.3, 2.6))
-    datas = s.index
-    ax.plot(datas, s[site].rolling(H).sum().shift(-(H - 1)), color="0.6", lw=0.8, label="horas em 4 semanas (observado)")
-    x = datas[ex["origem"]]
-    ax.fill_between(x, ex["q10"], ex["q90"], color="0.85", label="intervalo de 80% (ETS)")
-    ax.plot(x, ex["q50"], "k.", ms=4, label="mediana prevista")
-    ax.set_ylabel("horas de viagem")
-    ax.set_title(f"Previsão de exposição, site com maior volume (dados públicos)", fontsize=9)
-    ax.legend(frameon=False, fontsize=7, loc="lower left")
-    fig.tight_layout()
+    textos = (dict(obs="horas em 4 semanas (observado)", faixa="intervalo de 80% (ETS)", med="mediana prevista",
+                   y="horas de viagem", titulo="Previsão de exposição, site com maior volume (dados públicos)"),
+              dict(obs="4-week hours (observed)", faixa="80% interval (ETS)", med="forecast median",
+                   y="trip hours", titulo="Exposure forecast, highest-volume site (public data)"))
     FIGURAS.mkdir(parents=True, exist_ok=True)
-    fig.savefig(FIGURAS / "fig_previsao.pdf")
+    for lang, modo in ef.variantes():
+        t, P = textos[lang], ef.paleta(modo)
+        fig, ax = plt.subplots(figsize=(ef.LARGURA, 2.6))
+        datas = s.index
+        ax.plot(datas, s[site].rolling(H).sum().shift(-(H - 1)), color=P["secundaria"], lw=0.8, label=t["obs"])
+        x = datas[ex["origem"]]
+        ax.fill_between(x, ex["q10"], ex["q90"], color=P["faixa"], label=t["faixa"])
+        ax.plot(x, ex["q50"], ".", color=P["principal"], ms=4, label=t["med"])
+        ax.set_ylabel(t["y"])
+        ax.set_title(t["titulo"], fontsize=9)
+        ax.legend(frameon=False, fontsize=7, loc="lower left")
+        fig.tight_layout()
+        fig.savefig(FIGURAS / f"fig_previsao{ef.sufixo(lang, modo)}.pdf")
+        plt.close(fig)
 
 
 if __name__ == "__main__":

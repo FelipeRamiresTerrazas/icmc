@@ -43,6 +43,7 @@ RAIZ = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ / "analise"))
 import dados_publicos  # noqa: E402
 import modelos  # noqa: E402
+import estilo_fig as ef  # noqa: E402
 
 SAIDA_BRUTA = RAIZ / "resultados" / "viabilidade"
 TABELAS = RAIZ / "dissertacao" / "tabelas"
@@ -167,7 +168,7 @@ def tabelas_e_figura(r: pd.DataFrame) -> None:
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    plt.rcParams.update({"font.family": "serif", "font.size": 9})
+    ef.aplicar(9)
     # mesma figura em portugues (fig_poder.pdf) e em ingles (fig_poder_en.pdf)
     textos = {
         "": dict(titulos=("Kaggle (92 × 36)", "Escala do projeto (280 × 14)"), x="acidentes relatados no período",
@@ -175,11 +176,13 @@ def tabelas_e_figura(r: pd.DataFrame) -> None:
         "_en": dict(titulos=("Kaggle (92 × 36)", "Project scale (280 × 14)"), x="reported accidents in the period",
                     y="power (p < 0.05)", num=lambda b: f"{b:.2f}"),
     }
-    for sufixo, t in textos.items():
-        fig, axes = plt.subplots(1, 2, figsize=(6.3, 2.6), sharey=True)
+    for (sufixo, t), modo in [(item, modo) for modo in ef.MODOS for item in textos.items()]:
+        P = ef.paleta(modo)
+        cores = (P["neutro"], P["secundaria"], P["principal"])
+        fig, axes = plt.subplots(1, 2, figsize=(ef.LARGURA, 2.6), sharey=True)
         for ax, base, titulo in zip(axes, BASES, t["titulos"]):
-            for beta, est in zip(BETAS, (":", "--", "-")):
-                ax.plot(ALVOS, [p.loc[(base, a), beta] for a in ALVOS], "k" + est, marker="o", ms=3,
+            for beta, est, cor in zip(BETAS, (":", "--", "-"), cores):
+                ax.plot(ALVOS, [p.loc[(base, a), beta] for a in ALVOS], est, color=cor, marker="o", ms=3,
                         label=f"β = {t['num'](beta)}")
             ax.axhline(0.8, color="0.6", lw=0.6)
             ax.axhline(0.05, color="0.6", lw=0.6)
@@ -189,7 +192,7 @@ def tabelas_e_figura(r: pd.DataFrame) -> None:
         axes[0].set_ylabel(t["y"])
         axes[1].legend(frameon=False, fontsize=8)
         fig.tight_layout()
-        fig.savefig(FIGURAS / f"fig_poder{sufixo}.pdf")
+        fig.savefig(FIGURAS / f"fig_poder{sufixo}{'_pb' if modo == 'pb' else ''}.pdf")
         plt.close(fig)
 
 
