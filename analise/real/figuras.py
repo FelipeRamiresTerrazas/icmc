@@ -7,6 +7,7 @@ analise/real/testes.py e r/h2_misto.R em resultados/real/.
 Uso (na raiz do repo):  .venv/Scripts/python.exe analise/real/figuras.py
 """
 
+import sys
 from pathlib import Path
 
 import matplotlib
@@ -16,6 +17,9 @@ from scipy import stats
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import estilo_fig as ef  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parents[2]
 R = RAIZ / "resultados" / "real"
@@ -69,7 +73,7 @@ def wilson(k, n, z=1.96):
 
 
 def main():
-    plt.rcParams.update({"font.family": "serif", "font.size": 8})
+    ef.aplicar()
     p = pd.read_csv(R / "painel_h2.csv")
     sites = pd.read_csv(R / "sites_h1.csv")
     h2 = pd.read_csv(R / "h2_misto.csv")
@@ -87,15 +91,16 @@ def main():
     grade = np.geomspace(sites.horas.min(), sites.horas.max(), 200)
     esp = m0 * grade / 1e3
 
-    for lang, suf in [(0, ""), (1, "_en")]:
+    for lang, modo in ef.variantes():
+        suf, P = ef.sufixo(lang, modo), ef.paleta(modo)
         t = TXT[lang]
         fig, ax = plt.subplots(2, 2, figsize=(6.3, 6.0), gridspec_kw=dict(hspace=0.55, wspace=0.55))
 
         # (a) exposicao
         a = ax[0, 0]
         x = np.arange(len(usos))
-        a.bar(x - 0.18, [taxa_m[u] / taxa_m[usos[0]] for u in usos], 0.36, color="0.75", edgecolor="k", lw=0.5, label=t["milha"])
-        a.bar(x + 0.18, [taxa_h[u] / taxa_h[usos[0]] for u in usos], 0.36, color="0.25", edgecolor="k", lw=0.5, label=t["hora"])
+        a.bar(x - 0.18, [taxa_m[u] / taxa_m[usos[0]] for u in usos], 0.36, color=P["clara"], edgecolor="k", lw=0.5, label=t["milha"])
+        a.bar(x + 0.18, [taxa_h[u] / taxa_h[usos[0]] for u in usos], 0.36, color=P["principal"], edgecolor="k", lw=0.5, label=t["hora"])
         a.set_yscale("log")
         a.set_ylim(0.02, 2)
         a.axhline(1, color="0.5", lw=0.6)
@@ -112,8 +117,8 @@ def main():
             hi = stats.poisson.ppf(1 - (1 - nivel) / 2, esp) / esp
             b.plot(grade / med, lo, "k" + est, lw=0.7)
             b.plot(grade / med, hi, "k" + est, lw=0.7, label=f"{nivel:.1%}".replace(".", "," if lang == 0 else "."))
-        b.scatter(sites.horas / med, sites.rel, s=12, facecolors="none", edgecolors="k", lw=0.6, label=t["bruta"])
-        b.scatter(sites.horas / med, sites.rel_eb, s=10, color="0.45", label=t["eb"])
+        b.scatter(sites.horas / med, sites.rel, s=12, facecolors="none", edgecolors=P["principal"], lw=0.6, label=t["bruta"])
+        b.scatter(sites.horas / med, sites.rel_eb, s=10, color=P["secundaria"], label=t["eb"])
         b.axhline(1, color="0.5", lw=0.6)
         b.set_xscale("log")
         b.set_ylim(-0.1, 4.5)
@@ -128,9 +133,9 @@ def main():
         c = ax[1, 0]
         ordem = list(ROT)
         y = np.arange(len(ordem))[::-1]
-        c.axvspan(0.8, 1.25, color="0.9", zorder=0, label=t["c_eq"])
+        c.axvspan(0.8, 1.25, color=P["faixa"], zorder=0, label=t["c_eq"])
         c.axvline(1, color="0.5", lw=0.6)
-        for modelo, dy, mk, cor in [("bruto", 0.17, "o", "white"), ("ajustado", -0.17, "s", "k")]:
+        for modelo, dy, mk, cor in [("bruto", 0.17, "o", "white"), ("ajustado", -0.17, "s", P["principal"])]:
             d = h2[h2.modelo == modelo].set_index("rotulo").loc[ordem]
             c.errorbar(d.irr, y + dy, xerr=[d.irr - d.ic95_lo, d.ic95_hi - d.irr], fmt=mk, ms=3.5, mfc=cor,
                        mec="k", ecolor="k", elinewidth=0.7, capsize=1.5, label=t["c_b"] if modelo == "bruto" else t["c_a"])
@@ -156,7 +161,7 @@ def main():
             lo_.append(100 * lo)
             hi_.append(100 * hi)
         yy = np.arange(len(nomes))[::-1]
-        cores = ["0.75"] * len(usos) + ["0.45", "0.25"]
+        cores = [P["clara"]] * len(usos) + [P["secundaria"], P["principal"]]
         d.barh(yy, val, color=cores, edgecolor="k", lw=0.5)
         d.errorbar(val, yy, xerr=[np.array(val) - lo_, np.array(hi_) - val], fmt="none", ecolor="k", elinewidth=0.7, capsize=1.5)
         d.set_yticks(yy, nomes)
