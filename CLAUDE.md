@@ -34,7 +34,7 @@ Regras do MECAI resumidas em `programa/README.md` (36 meses, sem qualificação,
 - `referencias/`: PDFs de artigos e livros da bibliografia (o Felipe vai colocando). Nome do arquivo = chave do `referencias.bib` (ex.: `lord2010.pdf`).
 - `notas/`: notas de trabalho internas (inventário, ideias, perguntas, datasets públicos).
 - `dados/`: fora do git. `dados/publicos/` tem datasets públicos baixados por `analise/dados_publicos.py`.
-- LaTeX compila dentro da pasta do documento com `TEXINPUTS=".;../;"` e `-outdir=output` (PDFs e auxiliares em `<doc>/output/`; use `python compilar.py`) (o estilo fica em `estilo/`, compartilhado com a futura dissertação).
+- LaTeX compila dentro da pasta do documento com `TEXINPUTS=".;../;"` e `-outdir=output` (PDFs e auxiliares em `<doc>/output/`; use `python compilar.py`; o `latexmkrc` de cada documento força `output/` mesmo sem a opção, e o `.gitignore` barra PDF solto na pasta do documento) (o estilo fica em `estilo/`, compartilhado com a futura dissertação).
 
 ## Dissertação (rascunho)
 
