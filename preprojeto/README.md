@@ -1,17 +1,19 @@
 # Pré-projeto ICMC (MECAI), bilíngue
 
-Um único código gera o PDF em português e em inglês.
+Um único código gera quatro PDFs: português e inglês, colorido e preto e branco.
 
 ## Compilar
 
-Dentro desta pasta:
+Na raiz do repositório: `python compilar.py preprojeto` (as quatro versões) ou, por exemplo, `python compilar.py preprojeto --lingua en --modo pb`. À mão, dentro desta pasta:
 
 ```
-TEXINPUTS=".;../;" latexmk -pdf -jobname=PreProjeto_MECAI_Felipe_Terrazas main.tex       # português
-TEXINPUTS=".;../;" latexmk -pdf -jobname=PreProjeto_MECAI_Felipe_Terrazas_EN main.tex    # inglês
+TEXINPUTS=".;../;" latexmk -pdf -outdir=output -jobname=PreProjeto_MECAI_Felipe_Terrazas main.tex        # português, cor
+TEXINPUTS=".;../;" latexmk -pdf -outdir=output -jobname=PreProjeto_MECAI_Felipe_Terrazas_EN main.tex     # inglês, cor
+TEXINPUTS=".;../;" latexmk -pdf -outdir=output -jobname=PreProjeto_MECAI_Felipe_Terrazas_PB main.tex     # português, P&B
+TEXINPUTS=".;../;" latexmk -pdf -outdir=output -jobname=PreProjeto_MECAI_Felipe_Terrazas_EN_PB main.tex  # inglês, P&B
 ```
 
-Com `_PB` no fim do nome (`..._PB` ou `..._EN_PB`) sai a versão preto e branco. A língua troca também a hifenização, os rótulos ("Tabela"/"Table"), o título das referências e o estilo das citações (ABNT em português, autor-ano em inglês).
+A língua troca também a hifenização, os rótulos ("Tabela"/"Table"), o título das referências e o estilo das citações (ABNT em português, autor-ano em inglês). O modo P&B troca as cores do texto e das caixas e as figuras.
 
 ## Como escrever
 
@@ -27,6 +29,8 @@ Text in English.
 ```
 
 Trechos curtos (títulos, células, itens de lista): `\tr{português}{English}`.
+
+Figuras: `\includegraphics[width=\textwidth]{\arqfig{fig_nome}}`. A macro escolhe `fig_nome.pdf`, `fig_nome_en.pdf`, `fig_nome_pb.pdf` ou `fig_nome_en_pb.pdf` conforme a versão; os scripts de figura sempre geram as quatro. Se a legenda cita uma cor, use `\corpb{versão colorida}{versão P\&B}`, por exemplo `\corpb{faixa azul-clara}{faixa cinza}`.
 
 Fórmulas, tabelas e referências cruzadas ficam fora dos comandos de língua quando são iguais nas duas versões (exemplo: a equação do modelo em `partes/05-metodologia.tex`).
 
