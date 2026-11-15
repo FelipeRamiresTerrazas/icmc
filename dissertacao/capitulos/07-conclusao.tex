@@ -1,5 +1,77 @@
 \chapter{\tr{Conclusão}{Conclusion}}
 \label{cap:conclusao}
 
-\pt{\preencher{A escrever.}}
-\en{\preencher{To be written.}}
+\pt{%
+\preencher{Versão provisória, escrita antes dos resultados finais. Revisar depois do Capítulo~\ref{cap:resultados}.}
+}
+\en{%
+\preencher{Provisional version, written before the final results. Revise after Chapter~\ref{cap:resultados}.}
+}
+
+\section{\tr{Síntese do trabalho}{Summary of the work}}
+
+\pt{%
+O trabalho propôs medir o risco de acidentes em operações de pátio de forma comparável entre veículos e unidades, ajustando pela exposição e pelo tipo de operação, com a incerteza explícita, e testar duas promessas da telemetria de estrada nesse contexto: os eventos de condução como indicador de risco e a detecção automática de colisão como fonte de acidentes. Os estudos preliminares já mostraram que o desenho é viável na escala da operação, desde que o desfecho inclua todas as colisões relatadas e o modelo tenha efeito de veículo, e que a escolha da exposição e o ajuste pelo tipo de uso mudam as conclusões. \preencher{Resumir os resultados finais de H1, H2 e H3.}
+}
+\en{%
+The work set out to measure accident risk in yard operations comparably across vehicles and sites, adjusting for exposure and type of operation, with explicit uncertainty, and to test two promises of road telematics in this setting: driving events as a risk indicator and automatic crash detection as a source of accidents. The preliminary studies already showed that the design is feasible at the operation's scale, provided the outcome includes all reported collisions and the model has a vehicle effect, and that the choice of exposure and the adjustment for use type change the conclusions. \preencher{Summarize the final results for H1, H2 and H3.}
+}
+
+\section{\tr{Contribuições}{Contributions}}
+
+\pt{%
+\begin{itemize}
+  \item \textbf{Para a gestão de segurança:} um indicador de risco por unidade que não se confunde com o tamanho da unidade e que prevê o período seguinte melhor que a taxa bruta, comunicado por grupos de risco e gráficos de funil em vez de rankings.
+  \item \textbf{Para a literatura de segurança:} evidência, num tipo de operação sem estudo próprio, sobre o limite da telemetria de estrada quando aplicada ao pátio; um resultado nulo bem delimitado, por testes de equivalência, é informativo, porque indica quais indicadores não vale a pena acompanhar.
+  \item \textbf{Para a prática estatística:} um estudo de simulação calibrado em dados públicos que mostra, para frotas de algumas centenas de veículos, o número de acidentes necessário e o custo de omitir o efeito de veículo.
+\end{itemize}
+\preencher{Ajustar às conclusões finais.}
+}
+\en{%
+\begin{itemize}
+  \item \textbf{For safety management:} a site risk indicator that is not confounded with site size and predicts the next period better than the raw rate, communicated through risk groups and funnel plots instead of rankings.
+  \item \textbf{For the safety literature:} evidence, in a type of operation with no study of its own, on the limits of road telematics when applied to the yard; a well-bounded null result, through equivalence tests, is informative, because it shows which indicators are not worth tracking.
+  \item \textbf{For statistical practice:} a simulation study calibrated on public data showing, for fleets of a few hundred vehicles, the number of accidents required and the cost of omitting the vehicle effect.
+\end{itemize}
+\preencher{Adjust to the final conclusions.}
+}
+
+\section{\tr{Limitações}{Limitations}}
+
+\pt{%
+\begin{itemize}
+  \item \textbf{Estudo observacional.} As associações com a telemetria não são efeitos causais: motorista, unidade e tipo de manobra podem gerar ao mesmo tempo eventos e acidentes. O trabalho mede valor preditivo, não o efeito de mudar o comportamento de condução.
+  \item \textbf{Uma empresa e um período curto.} Os dados vêm de uma única empresa, com pouco mais de um ano comum às fontes; a generalização para outras operações de pátio depende de processos de relato e de frotas semelhantes.
+  \item \textbf{Desfecho sujeito a relato.} O desfecho principal é o acidente relatado. A Etapa~4 estima a subnotificação, mas só entre os acidentes que danificam o próprio caminhão, e o total estimado é um limite sob hipóteses sobre a dependência entre as fontes.
+  \item \textbf{Ligação imperfeita.} Parte dos relatos tem veículo e unidade digitados em texto livre; erros de ligação afetam tanto o desfecho por veículo quanto o pareamento da captura e recaptura.
+  \item \textbf{Telemetria de estrada.} Os eventos de condução usam limiares calibrados para a estrada; um resultado nulo diz respeito a esses eventos, não a qualquer medida de condução no pátio.
+\end{itemize}
+}
+\en{%
+\begin{itemize}
+  \item \textbf{Observational study.} Associations with telematics are not causal effects: driver, site and type of maneuver can generate both events and accidents. The work measures predictive value, not the effect of changing driving behavior.
+  \item \textbf{One company and a short period.} The data come from a single company, with a little over one year common to the sources; generalizing to other yard operations depends on similar reporting processes and fleets.
+  \item \textbf{Outcome subject to reporting.} The main outcome is the reported accident. Stage~4 estimates underreporting, but only among accidents that damage the truck itself, and the estimated total is a bound under assumptions about dependence between sources.
+  \item \textbf{Imperfect linkage.} Some reports have vehicle and site typed as free text; linkage errors affect both the per-vehicle outcome and the capture-recapture matching.
+  \item \textbf{Road telematics.} Driving events use thresholds calibrated for the road; a null result concerns these events, not any measure of yard driving.
+\end{itemize}
+}
+
+\section{\tr{Trabalhos futuros}{Future work}}
+
+\pt{%
+\begin{itemize}
+  \item \textbf{Exposição própria do pátio.} Usar o número de movimentos de carreta registrados pelo sistema de gestão de pátio como exposição, se ele puder ser ligado ao caminhão; é uma medida mais próxima da manobra que o tempo de viagem.
+  \item \textbf{Eventos próprios do pátio.} Definir, com os dados brutos dos sensores, eventos de condução com limiares de baixa velocidade (ré, engate, aproximação da doca) e testar se eles têm o sinal que os eventos de estrada não têm.
+  \item \textbf{Mais fontes para a subnotificação.} Acrescentar uma terceira fonte (por exemplo, reclamações de clientes por dano à carreta), o que permite modelar a dependência entre fontes com modelos log-lineares \parencite{iwgdmf1995}.
+  \item \textbf{Intervenções.} Usar o indicador ajustado para avaliar treinamentos e mudanças de supervisão, com o Bayes empírico para corrigir a regressão à média na escolha das unidades \parencite{hauer1997}.
+\end{itemize}
+}
+\en{%
+\begin{itemize}
+  \item \textbf{Yard-specific exposure.} Use the number of trailer moves recorded by the yard management system as exposure, if it can be linked to the truck; it is a measure closer to maneuvering than trip time.
+  \item \textbf{Yard-specific events.} Define, from raw sensor data, driving events with low-speed thresholds (reversing, coupling, dock approach) and test whether they carry the signal that road events do not.
+  \item \textbf{More sources for underreporting.} Add a third source (for example, client claims for trailer damage), which allows modeling dependence between sources with log-linear models \parencite{iwgdmf1995}.
+  \item \textbf{Interventions.} Use the adjusted indicator to evaluate training and supervision changes, with empirical Bayes to correct regression to the mean in site selection \parencite{hauer1997}.
+\end{itemize}
+}
