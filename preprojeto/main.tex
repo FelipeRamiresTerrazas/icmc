@@ -1,0 +1,66 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{estilo/icmc}
+\addbibresource{../referencias.bib}
+\graphicspath{{../dissertacao/figuras/}}  % figuras geradas por analise/viabilidade/ e analise/real/
+% numeros da analise descritiva (gerados por analise/real/descritiva.py e r/descritiva.R)
+\input{dissertacao/tabelas/num_descritiva}
+\input{dissertacao/tabelas/num_descritiva_r}
+
+% Compilar dentro desta pasta. O mesmo codigo gera as duas linguas:
+%   portugues:  TEXINPUTS=".;../;" latexmk -pdf -jobname=PreProjeto_MECAI_Felipe_Terrazas main.tex
+%   ingles:     TEXINPUTS=".;../;" latexmk -pdf -jobname=PreProjeto_MECAI_Felipe_Terrazas_EN main.tex
+% Acrescente _PB no fim (..._PB ou ..._EN_PB) para a versao preto e branco.
+% Convencao de escrita: ver README.md desta pasta.
+
+\newcommand{\titulo}{\tr%
+  {Risco de acidentes em operações de pátio: modelos hierárquicos de contagem com exposição e telemetria veicular}%
+  {Accident risk in yard operations: hierarchical count models with exposure and vehicle telematics}}
+
+\hypersetup{pdftitle={\titulo}}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+{\large\bfseries \tr{UNIVERSIDADE DE SÃO PAULO}{UNIVERSITY OF SÃO PAULO}\par}
+{\large\bfseries \tr{INSTITUTO DE CIÊNCIAS MATEMÁTICAS E DE COMPUTAÇÃO}{INSTITUTE OF MATHEMATICAL AND COMPUTER SCIENCES}\par}
+\vspace{0.4cm}
+{\normalsize \tr%
+  {Mestrado Profissional em Matemática, Estatística e Computação Aplicadas à Indústria (MECAI)}%
+  {Professional Master's Program in Mathematics, Statistics and Computing Applied to Industry (MECAI)}\par}
+{\normalsize \tr{Ênfase em Ciência de Dados}{Emphasis in Data Science}\par}
+\vspace{3.5cm}
+{\large Felipe Ramires Terrazas\par}
+\vspace{2.5cm}
+{\Large\bfseries\color{destaque}\titulo\par}
+\vspace{1.2cm}
+{\large \tr{Pré-projeto de pesquisa}{Research pre-proposal}\par}
+\vspace{0.6cm}
+{\normalsize \tr{Linha de pesquisa: Modelagem de Risco}{Research line: Risk Modeling}\par}
+{\normalsize \tr{Orientador(a): a definir pela coordenação}{Advisor: to be assigned by the program}\par}
+\vfill
+{\normalsize São Carlos\par}
+{\normalsize 2027\par}
+\end{titlepage}
+
+\setcounter{page}{2}
+\input{partes/00-resumo}
+\clearpage
+\tableofcontents
+\clearpage
+\input{partes/01-introducao}
+\input{partes/02-objetivos}
+\input{partes/03-fundamentacao}
+\input{partes/04-dados}
+\input{partes/05-metodologia}
+\input{partes/06-resultados-esperados}
+\input{partes/07-viabilidade}
+\input{partes/08-cronograma}
+
+\begingroup
+\singlespacing
+\setlength{\bibitemsep}{\baselineskip}
+\printbibliography[title={\tr{Referências}{References}}]
+\endgroup
+
+\end{document}
