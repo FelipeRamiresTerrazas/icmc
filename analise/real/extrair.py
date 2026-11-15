@@ -115,6 +115,35 @@ select week_start, timecard_work_department as site, pay_code_category, sum(hour
 from ANALYTICS_DB.MARTS.FACT_TIMECARD_SUPERVISOR_PAY_CODE
 where week_start is not null group by 1, 2, 3
 """,
+    # capitulo descritivo: relatos por hora, dia da semana, tipo e status (sem texto livre)
+    "horario": """
+select hour(try_to_time(actual_incident_time)) as hora,
+       dayofweekiso(try_to_date(actual_incident_date)) as dia_semana,
+       date_trunc('month', try_to_date(actual_incident_date))::date as mes,
+       incident_type, truck_type, status,
+       iff(status = 'pending' and try_to_date(submitted_at) between '2026-05-01' and '2026-10-31', 1, 0) as suspeito_teste,
+       count(*) as n
+from RAW.ACCIDENTS_INJURIES.INCIDENTS group by 1, 2, 3, 4, 5, 6, 7
+""",
+    # capitulo descritivo: categorias fechadas de causa (nenhum campo de texto livre)
+    "causas": """
+select incident_type, truck_type, accident_root_cause, work_injury_root_cause, status,
+       date_trunc('month', try_to_date(actual_incident_date))::date as mes, count(*) as n
+from RAW.ACCIDENTS_INJURIES.INCIDENTS group by 1, 2, 3, 4, 5, 6
+""",
+    # ordens de manutencao por dano, por mes (motivo com TRIM; grafia com espacos marca o regime antigo)
+    "manutencao": """
+select date_trunc('month', opened_date)::date as mes, trim(repreason) as motivo,
+       iff(repreason <> trim(repreason), 1, 0) as com_espacos, count(distinct orderid) as ordens
+from EDW_PROD_100460.EDW_PROD_100460.FCT_AMORDERSEC
+where trim(repreason) in ('DAMAGE', 'ACC-REPORTED') group by 1, 2, 3
+""",
+    # auditorias de seguranca por site: uma linha por avaliacao, site so como hash, sem nomes de auditores
+    "auditorias": """
+select date_trunc('month', "AssessmentDate")::date as mes, "AssessmentType" as tipo, "Status" as status,
+       md5("Site") as site_h, "ScorePercent" as pct, "TotalPointsEarned" as pontos, "TotalPointsPossible" as pontos_max
+from DOMOVIEW."cust_mmmm_0034_2137".ACCIDENTS_INJURIES_POWER_APPS_RAW
+""",
     # cobertura dos relatos por mes do incidente e status (todos os tipos)
     "relatos": """
 select date_trunc('month', try_to_date(actual_incident_date))::date as mes, status, incident_type,
