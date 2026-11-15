@@ -19,21 +19,21 @@
   },
   "latex-workshop.latex.tools": [
     { "name": "pp-pt", "command": "latexmk", "env": { "TEXINPUTS": ".;../;" },
-      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-jobname=PreProjeto_MECAI_Felipe_Terrazas", "%DOC%"] },
+      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-outdir=%OUTDIR%", "-jobname=PreProjeto_MECAI_Felipe_Terrazas", "%DOC%"] },
     { "name": "pp-en", "command": "latexmk", "env": { "TEXINPUTS": ".;../;" },
-      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-jobname=PreProjeto_MECAI_Felipe_Terrazas_EN", "%DOC%"] },
+      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-outdir=%OUTDIR%", "-jobname=PreProjeto_MECAI_Felipe_Terrazas_EN", "%DOC%"] },
     { "name": "pp-pt-pb", "command": "latexmk", "env": { "TEXINPUTS": ".;../;" },
-      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-jobname=PreProjeto_MECAI_Felipe_Terrazas_PB", "%DOC%"] },
+      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-outdir=%OUTDIR%", "-jobname=PreProjeto_MECAI_Felipe_Terrazas_PB", "%DOC%"] },
     { "name": "pp-en-pb", "command": "latexmk", "env": { "TEXINPUTS": ".;../;" },
-      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-jobname=PreProjeto_MECAI_Felipe_Terrazas_EN_PB", "%DOC%"] },
+      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-outdir=%OUTDIR%", "-jobname=PreProjeto_MECAI_Felipe_Terrazas_EN_PB", "%DOC%"] },
     { "name": "diss-pt", "command": "latexmk", "env": { "TEXINPUTS": ".;../;" },
-      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-jobname=Dissertacao_MECAI_Felipe_Terrazas", "%DOC%"] },
+      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-outdir=%OUTDIR%", "-jobname=Dissertacao_MECAI_Felipe_Terrazas", "%DOC%"] },
     { "name": "diss-en", "command": "latexmk", "env": { "TEXINPUTS": ".;../;" },
-      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-jobname=Dissertacao_MECAI_Felipe_Terrazas_EN", "%DOC%"] },
+      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-outdir=%OUTDIR%", "-jobname=Dissertacao_MECAI_Felipe_Terrazas_EN", "%DOC%"] },
     { "name": "diss-pt-pb", "command": "latexmk", "env": { "TEXINPUTS": ".;../;" },
-      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-jobname=Dissertacao_MECAI_Felipe_Terrazas_PB", "%DOC%"] },
+      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-outdir=%OUTDIR%", "-jobname=Dissertacao_MECAI_Felipe_Terrazas_PB", "%DOC%"] },
     { "name": "diss-en-pb", "command": "latexmk", "env": { "TEXINPUTS": ".;../;" },
-      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-jobname=Dissertacao_MECAI_Felipe_Terrazas_EN_PB", "%DOC%"] }
+      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-outdir=%OUTDIR%", "-jobname=Dissertacao_MECAI_Felipe_Terrazas_EN_PB", "%DOC%"] }
   ],
   "latex-workshop.latex.recipes": [
     { "name": "Pré-projeto: PT + EN, cor", "tools": ["pp-pt", "pp-en"] },
@@ -46,6 +46,6 @@
     { "name": "Dissertação: só PT, cor", "tools": ["diss-pt"] }
   ],
   "latex-workshop.latex.recipe.default": "lastUsed",
-  "latex-workshop.latex.outDir": "%DIR%",
+  "latex-workshop.latex.outDir": "%DIR%/output",
   "latex-workshop.view.pdf.viewer": "tab"
 }
