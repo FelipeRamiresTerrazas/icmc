@@ -1,0 +1,32 @@
+# Dados da empresa nunca entram no git (so agregados ficam em dados/, local)
+dados/
+resultados/
+*.csv
+*.csv.gz
+*.xlsx
+*.parquet
+*.json
+!.vscode/settings.json
+.env*
+
+# Python
+.venv/
+__pycache__/
+.pytest_cache/
+
+# LaTeX (auxiliares; os PDFs oficiais em preprojeto/ sao versionados)
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*_bibertool.bib
+*.bcf-SAVE-ERROR
