@@ -2,6 +2,10 @@
 
 Um único código gera quatro PDFs: português e inglês, colorido e preto e branco.
 
+## Projeto curto da inscrição (`admissao.tex`)
+
+Versão de no máximo 5 páginas para anexar à inscrição no processo seletivo, com o roteiro do item 3.4.2 do edital (título e resumo; introdução com motivação, justificativa e objetivos; principais pontos e metodologia; cronograma; bibliografia). É um documento à parte, que apresenta só a ideia: não cita o estudo preliminar, os resultados com os dados da operação nem a dissertação. Compilar com `python compilar.py admissao` (PDFs `output/Projeto_MECAI_Felipe_Terrazas[_EN][_PB].pdf`). Depois de qualquer mudança, conferir que as quatro versões continuam com 5 páginas.
+
 ## Compilar
 
 Na raiz do repositório: `python compilar.py preprojeto` (as quatro versões) ou, por exemplo, `python compilar.py preprojeto --lingua en --modo pb`. À mão, dentro desta pasta:

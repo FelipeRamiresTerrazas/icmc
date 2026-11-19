@@ -1,0 +1,224 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{estilo/icmc}
+\addbibresource{../referencias.bib}
+
+% Projeto curto (no maximo 5 paginas) para a inscricao no processo seletivo do MECAI.
+% Segue o roteiro do item 3.4.2 do edital: titulo e resumo; introducao (motivacao,
+% justificativa e objetivos); corpo (principais pontos e metodologia); cronograma;
+% bibliografia. E independente do pre-projeto completo (main.tex): apresenta a
+% IDEIA, sem estudo preliminar, sem resultados com os dados e sem a dissertacao.
+%
+% Compilar na raiz: python compilar.py admissao   (ou --lingua pt --modo cor)
+% A mao, dentro desta pasta:
+%   TEXINPUTS=".;../;" latexmk -pdf -outdir=output -jobname=Projeto_MECAI_Felipe_Terrazas admissao.tex
+% Acrescente _EN, _PB ou _EN_PB ao jobname para as outras versoes.
+
+\newcommand{\titulo}{\tr%
+  {Risco de acidentes em operações de pátio: modelos hierárquicos de contagem com exposição e telemetria veicular}%
+  {Accident risk in yard operations: hierarchical count models with exposure and vehicle telematics}}
+
+\hypersetup{pdftitle={\titulo}}
+% titulos um pouco mais proximos do texto, para caber em 5 paginas
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+\titlespacing*{\subsection}{0pt}{8pt}{4pt}
+
+\begin{document}
+
+\begin{center}
+\singlespacing
+{\small\bfseries \tr{UNIVERSIDADE DE SÃO PAULO}{UNIVERSITY OF SÃO PAULO}\\
+\tr{INSTITUTO DE CIÊNCIAS MATEMÁTICAS E DE COMPUTAÇÃO}{INSTITUTE OF MATHEMATICAL AND COMPUTER SCIENCES}\par}
+\vspace{2pt}
+{\small \tr%
+  {Mestrado Profissional em Matemática, Estatística e Computação Aplicadas à Indústria (MECAI), ênfase em Ciência de Dados}%
+  {Professional Master's Program in Mathematics, Statistics and Computing Applied to Industry (MECAI), Data Science emphasis}\par}
+\vspace{10pt}
+{\large\bfseries\color{destaque}\titulo\par}
+\vspace{8pt}
+{\normalsize Felipe Ramires Terrazas\par}
+{\small \tr{Projeto de pesquisa para o processo seletivo}{Research proposal for the admission process}
+  \enspace·\enspace \tr{Linha de pesquisa: Modelagem de Risco}{Research line: Risk Modeling}\par}
+\end{center}
+
+\section*{\tr{Resumo}{Abstract}}
+
+\pt{%
+Acidentes em operações de pátio logístico, como colisões de caminhões de manobra com carretas, docas e estruturas, são raros, caros e desigualmente distribuídos entre veículos e unidades. A gestão de segurança costuma comparar unidades por contagens brutas de acidentes, que confundem risco com volume de operação, oscilam por acaso e dependem de quanto cada unidade relata. Este projeto propõe estimar o risco por veículo e por unidade com modelos hierárquicos de contagem (Poisson e binomial negativa com efeitos aleatórios), usando como exposição o tempo de operação registrado pela telemetria embarcada e, como preditores, taxas de eventos de condução, como frenagens bruscas. Propõe também estimar a subnotificação, cruzando os relatos de acidente com as ordens de manutenção abertas por dano. Espera-se obter um indicador de risco ajustado por exposição e com incerteza explícita, aplicável à gestão de segurança, e uma avaliação do valor da telemetria, desenhada para a estrada, num ambiente de baixa velocidade e muitas manobras.
+}
+\en{%
+Accidents in logistics yard operations, such as collisions of yard trucks with trailers, docks and structures, are rare, costly and unevenly distributed across vehicles and sites. Safety management often compares sites by raw accident counts, which confuse risk with operating volume, fluctuate by chance and depend on how much each site reports. This project proposes to estimate risk per vehicle and per site with hierarchical count models (Poisson and negative binomial with random effects), using the operating time recorded by on-board telematics as exposure and driving event rates, such as harsh braking, as predictors. It also proposes to estimate underreporting by cross-matching accident reports with maintenance orders opened for damage. The expected outcome is an exposure-adjusted risk indicator with explicit uncertainty, usable by safety management, and an assessment of the value of road-oriented telematics in a low-speed, maneuver-heavy setting.
+}
+
+\smallskip
+\noindent\textbf{\tr{Palavras-chave}{Keywords}:} \tr%
+  {Modelos de contagem. Modelos hierárquicos. Exposição ao risco. Telemetria veicular. Subnotificação.}%
+  {count models; hierarchical models; risk exposure; vehicle telematics; underreporting.}
+
+\section{\tr{Introdução}{Introduction}}
+
+\pt{%
+Centros de distribuição e plantas industriais dependem de operações de pátio: a movimentação de carretas entre vagas, docas e portarias por caminhões de manobra. A atividade é de baixa velocidade, mas tem manobras frequentes em espaço restrito, marcha a ré, engates e pedestres por perto. Colisões causam danos materiais, paradas na operação e, às vezes, lesões. O candidato é gestor de inteligência artificial e \textit{analytics} numa empresa que presta esse serviço em dezenas de unidades e trabalha no dia a dia com as fontes que o projeto pretende integrar: relatos formais de acidentes, telemetria embarcada (tempo de operação, distância e eventos de condução detectados por sensores), horas trabalhadas por unidade e ordens de manutenção por veículo. Hoje as unidades são comparadas pela contagem bruta de acidentes.
+}
+\en{%
+Distribution centers and industrial plants depend on yard operations: moving trailers between parking spots, docks and gates with yard trucks. The activity runs at low speed, but involves frequent maneuvers in tight spaces, reversing, coupling and nearby pedestrians. Collisions cause property damage, downtime and sometimes injuries. The candidate is the head of artificial intelligence and analytics at a company that provides this service at dozens of sites, and works daily with the sources the project intends to integrate: formal accident reports, on-board telematics (operating time, distance and sensor-detected driving events), hours worked per site and maintenance orders per vehicle. Today sites are compared by raw accident counts.
+}
+
+\pt{%
+A contagem bruta é um indicador fraco por quatro motivos. A exposição varia muito: uma unidade com o triplo de horas tende a ter mais acidentes sem ser mais arriscada. Com eventos raros, o acaso pesa, e uma unidade pequena com um acidente no mês pode parecer a pior da empresa \parencite{spiegelhalter2005}. O tipo de operação muda o risco: o caminhão que só manobra no pátio e o que faz transferências entre instalações não são comparáveis. E nem todo acidente é relatado: a propensão a relatar varia com o clima de segurança e a supervisão \parencite{probst2010}, e incentivos ligados a indicadores de segurança podem reduzir o relato.
+}
+\en{%
+The raw count is a weak indicator for four reasons. Exposure varies widely: a site with three times the hours tends to have more accidents without being riskier. With rare events chance weighs heavily, and a small site with one accident in a month can look like the worst in the company \parencite{spiegelhalter2005}. The type of operation changes risk: the truck that only maneuvers in the yard and the one that shuttles between facilities are not comparable. And not every accident is reported: the propensity to report varies with safety climate and supervision \parencite{probst2010}, and incentives tied to safety indicators may reduce reporting.
+}
+
+\pt{%
+A segurança viária trata problemas parecidos com modelos de contagem com exposição, superdispersão e efeitos aleatórios \parencite{lord2010} e com o Bayes empírico \parencite{hauer1997}, e, em caminhões de estrada, eventos de telemetria se associam a colisões e a sinistros com dano \parencite{cai2021,driessen2024}. No pátio, porém, os estudos tratam sobretudo de terminais portuários \parencite{filom2022} e de empilhadeiras em armazéns \parencite{collins1999}; o risco de caminhões de manobra, que andam pouco e manobram muito, parece pouco estudado, o que será verificado por revisão sistemática. O projeto se justifica na prática, por entregar um indicador de risco que oriente treinamento, inspeção e supervisão, e no método, por reunir modelos hierárquicos, exposição medida por telemetria e subnotificação num mesmo arcabouço. É ciência de dados aplicada à infraestrutura logística, ligada diretamente à atividade profissional do candidato.
+}
+\en{%
+Road safety research addresses similar problems with count models that include exposure, overdispersion and random effects \parencite{lord2010} and with empirical Bayes \parencite{hauer1997}, and, for road trucks, telematics events are associated with crashes and damage incidents \parencite{cai2021,driessen2024}. In the yard, however, studies deal mostly with port terminals \parencite{filom2022} and with forklifts in warehouses \parencite{collins1999}; the risk of yard trucks, which travel little and maneuver a lot, seems little studied, which will be checked by a systematic review. The project is justified in practice, by delivering a risk indicator to guide training, inspection and supervision, and methodologically, by bringing hierarchical models, telematics-based exposure and underreporting into a single framework. It is data science applied to logistics infrastructure, directly tied to the candidate's professional activity.
+}
+
+\subsection{\tr{Objetivos}{Objectives}}
+
+\pt{%
+O objetivo geral é estimar o risco de acidentes em operações de pátio, por veículo e por unidade, ajustado pela exposição e com incerteza quantificada. Os objetivos específicos são:
+}
+\en{%
+The general objective is to estimate accident risk in yard operations, per vehicle and per site, adjusted for exposure and with quantified uncertainty. The specific objectives are:
+}
+\begin{enumerate}[label=\alph*)]
+  \item \tr%
+    {integrar as fontes num painel veículo $\times$ mês e comparar modelos de contagem com exposição quanto ao desempenho preditivo fora da amostra;}%
+    {integrate the sources into a vehicle $\times$ month panel and compare count models with exposure by out-of-sample predictive performance;}
+  \item \tr%
+    {testar se indicadores ajustados e com encolhimento preveem o risco do período seguinte melhor que as contagens brutas, sem se confundir com o tamanho da unidade (H1);}%
+    {test whether adjusted, shrunk indicators predict next-period risk better than raw counts, without being confounded with site size (H1);}
+  \item \tr%
+    {medir quanto as taxas de eventos de condução acrescentam à previsão, além da exposição e do tipo de uso do veículo (H2);}%
+    {measure how much driving event rates add to prediction beyond exposure and vehicle use type (H2);}
+  \item \tr%
+    {estimar a subnotificação e testar se ela varia entre unidades (H3).}%
+    {estimate underreporting and test whether it varies across sites (H3).}
+\end{enumerate}
+
+\section{\tr{Principais pontos e metodologia}{Main points and methodology}}
+
+\pt{%
+O trabalho tem quatro etapas, integração, modelos, validação e subnotificação, precedidas por um estudo de simulação.
+}
+\en{%
+The work has four stages, integration, models, validation and underreporting, preceded by a simulation study.
+}
+
+\subsection{\tr{Dados e cuidados éticos}{Data and ethical safeguards}}
+
+\pt{%
+O estudo usa só dados que a empresa já coleta, na ordem de grandeza de centenas de veículos com telemetria, dezenas de unidades e centenas de relatos por ano. A empresa autorizou o uso desses dados na pesquisa, com estas regras: nenhum dado que identifique pessoas; empresa, clientes, unidades e veículos substituídos por códigos; análise dentro do ambiente de dados da empresa; e divulgação só de resultados agregados, conforme a Lei Geral de Proteção de Dados Pessoais (LGPD). Os relatos serão ligados aos veículos por regras determinísticas e comparação aproximada, com a qualidade medida numa amostra revisada à mão.
+}
+\en{%
+The study uses only data the company already collects, on the order of hundreds of telematics-equipped vehicles, dozens of sites and hundreds of reports per year. The company has authorized the use of these data in the research, under these rules: no data that identifies people; company, clients, sites and vehicles replaced by codes; analysis inside the company's data environment; and only aggregated results disclosed, in line with the Brazilian General Data Protection Law (LGPD). Reports will be linked to vehicles with deterministic rules and approximate matching, with quality measured on a manually reviewed sample.
+}
+
+\subsection{\tr{Modelos de risco}{Risk models}}
+
+\pt{%
+Seja $Y_{it}$ o número de acidentes do veículo $i$ no mês $t$ e $E_{it}$ sua exposição. O modelo principal é uma binomial negativa hierárquica:
+}
+\en{%
+Let $Y_{it}$ be the number of accidents of vehicle $i$ in month $t$ and $E_{it}$ its exposure. The main model is a hierarchical negative binomial:
+}
+\begin{equation}
+\label{eq:modelo}
+\begin{gathered}
+Y_{it} \sim \text{NB}(\mu_{it}, \phi), \qquad
+\log \mu_{it} = \log E_{it} + \mathbf{x}_{it}^\top \bm{\beta} + \gamma_{t} + u_{s(i,t)} + v_i, \\
+u_s \sim \mathcal{N}(0, \sigma_u^2), \qquad v_i \sim \mathcal{N}(0, \sigma_v^2),
+\end{gathered}
+\end{equation}
+\pt{%
+em que $s(i,t)$ é a unidade do veículo no mês, $\mathbf{x}_{it}$ reúne as taxas de eventos de condução e o tipo de uso do veículo, $\gamma_t$ capta tendência e sazonalidade e $\phi$ é a dispersão. O termo $\log E_{it}$ torna $\exp(\mathbf{x}_{it}^\top \bm{\beta})$ uma taxa por unidade de exposição; a binomial negativa acomoda a variância maior que a média, comum em acidentes \parencite{lord2010}; e os efeitos aleatórios tratam a dependência dentro de veículos e unidades e encolhem as taxas de grupos pequenos em direção à média, a lógica do Bayes empírico \parencite{hauer1997}. Ele será comparado a alternativas (Poisson, sem efeitos aleatórios, com inflação de zeros) e ajustado por máxima verossimilhança com aproximação de Laplace \parencite{brooks2017}. Como o caminhão de manobra anda pouco e manobra muito, a distância tende a subestimar sua exposição: o tempo de operação será a medida principal, e a distância, uma análise de sensibilidade.
+}
+\en{%
+where $s(i,t)$ is the vehicle's site in that month, $\mathbf{x}_{it}$ holds the driving event rates and vehicle use type, $\gamma_t$ captures trend and seasonality and $\phi$ is the dispersion. The $\log E_{it}$ term makes $\exp(\mathbf{x}_{it}^\top \bm{\beta})$ a rate per unit of exposure; the negative binomial accommodates variance larger than the mean, common in accident data \parencite{lord2010}; and the random effects handle dependence within vehicles and sites and shrink the rates of small groups toward the mean, the empirical Bayes logic \parencite{hauer1997}. It will be compared with alternatives (Poisson, without random effects, zero-inflated) and fitted by maximum likelihood with the Laplace approximation \parencite{brooks2017}. Since the yard truck travels little and maneuvers a lot, distance tends to understate its exposure: operating time will be the main measure and distance a sensitivity analysis.
+}
+
+\pt{%
+\textbf{Telemetria (H2).} No pátio, com velocidades baixas, não é óbvio quais eventos carregam sinal. Cada tipo de evento será testado em modelo próprio, com correção para comparações múltiplas, e o ganho preditivo será medido pelo escore logarítmico fora da amostra, com e sem telemetria. Como não rejeitar a hipótese nula não prova ausência de efeito, a afirmação de que um evento é irrelevante usará testes de equivalência \parencite{lakens2017}. Os coeficientes serão lidos como associações, não como efeitos causais.
+}
+\en{%
+\textbf{Telematics (H2).} In the yard, with low speeds, it is not obvious which events carry signal. Each event type will be tested in its own model, with correction for multiple comparisons, and the predictive gain will be measured by the out-of-sample log score, with and without telematics. Since failing to reject the null does not prove absence of effect, claims that an event is irrelevant will use equivalence tests \parencite{lakens2017}. Coefficients will be read as associations, not causal effects.
+}
+
+\pt{%
+\textbf{Subnotificação (H3).} Cada ordem de manutenção por dano será comparada aos relatos do mesmo veículo numa janela de tempo, e a probabilidade de relato será estimada por unidade com um modelo logístico hierárquico. A sobreposição entre duas fontes imperfeitas informa quantos eventos nenhuma captou, pelo princípio de captura e recaptura \parencite{iwgdmf1995}; como acidentes graves tendem a ser relatados e reparados ao mesmo tempo, o total será apresentado como limite inferior, com sensibilidade à dependência entre as fontes. Também será medida a cobertura da detecção automática de colisão.
+}
+\en{%
+\textbf{Underreporting (H3).} Each damage maintenance order will be compared with reports for the same vehicle within a time window, and the reporting probability will be estimated per site with a hierarchical logistic model. The overlap between two imperfect sources informs how many events neither captured, by the capture-recapture principle \parencite{iwgdmf1995}; since severe accidents tend to be both reported and repaired, the total will be presented as a lower bound, with sensitivity to the dependence between sources. The coverage of automatic crash detection will also be measured.
+}
+
+\subsection{\tr{Validação e comunicação}{Validation and communication}}
+
+\pt{%
+A avaliação será fora da amostra, com validação temporal e deixando uma unidade de fora por vez, pelo escore logarítmico e pela calibração da distribuição prevista \parencite{gneiting2007}. Para H1, o indicador do modelo e as contagens e taxas brutas de um semestre serão usados para prever a taxa do semestre seguinte. Como ordenar dezenas de unidades com poucos acidentes é ruidoso, os resultados serão comunicados com intervalos, em gráficos de funil \parencite{spiegelhalter2005}, e em grupos de risco, não como posições num ranking.
+}
+\en{%
+Evaluation will be out of sample, with temporal validation and leaving one site out at a time, by the log score and the calibration of the predictive distribution \parencite{gneiting2007}. For H1, the model indicator and the raw counts and rates of one semester will be used to predict the next semester's rate. Since ranking dozens of sites with few accidents is noisy, results will be communicated with intervals, in funnel plots \parencite{spiegelhalter2005}, and in risk groups, not as ranking positions.
+}
+
+\subsection{\tr{Técnicas e plano alternativo}{Techniques and fallback plan}}
+
+\pt{%
+Em estatística, o projeto usa modelos lineares generalizados de contagem, modelos mistos, Bayes empírico, testes de hipótese e de equivalência, \textit{bootstrap}, regras de pontuação e captura e recaptura; em matemática, distribuições de probabilidade para contagens, otimização numérica da verossimilhança e simulação de Monte Carlo; em computação, extração em SQL, ligação de registros, Python e R, com código reprodutível. Antes dos dados reais, uma simulação com efeitos conhecidos, sobre a estrutura de um conjunto público de operações de transporte \parencite{yogape2025}, verificará se os modelos recuperam esses efeitos e qual o poder dos testes; ela é também o plano alternativo, caso o acesso aos dados seja perdido. Se só a telemetria for restrita, o mesmo arcabouço será aplicado por unidade e mês, com horas trabalhadas como exposição.
+}
+\en{%
+In statistics, the project uses generalized linear count models, mixed models, empirical Bayes, hypothesis and equivalence tests, bootstrap, scoring rules and capture-recapture; in mathematics, probability distributions for counts, numerical likelihood optimization and Monte Carlo simulation; in computing, SQL extraction, record linkage, Python and R, with reproducible code. Before the real data, a simulation with known effects, on the structure of a public transportation operations dataset \parencite{yogape2025}, will check whether the models recover these effects and how much power the tests have; it is also the fallback plan if data access is lost. If only telematics is restricted, the same framework will be applied per site and month, with hours worked as exposure.
+}
+
+\pt{%
+\textbf{Resultados esperados.} Um indicador de risco ajustado por exposição e com incerteza, pronto para a gestão de segurança; uma resposta sobre o valor da telemetria no pátio, útil mesmo se negativa; uma estimativa da subnotificação e de sua variação entre unidades; código aberto reaplicável a outras operações; e dois artigos, só com dados anonimizados.
+}
+\en{%
+\textbf{Expected results.} An exposure-adjusted risk indicator with uncertainty, ready for safety management; an answer on the value of telematics in the yard, useful even if negative; an estimate of underreporting and its variation across sites; open-source code reusable by other operations; and two papers, with anonymized data only.
+}
+
+\section{\tr{Cronograma}{Timeline}}
+
+\pt{%
+O prazo máximo do programa é de 36 meses, sem qualificação, mas o plano é concluir em 24 meses (Tabela~\ref{tab:cronograma}), com o restante como margem de segurança.
+}
+\en{%
+The program's maximum deadline is 36 months, with no qualifying exam, but the plan is to finish in 24 months (Table~\ref{tab:cronograma}), with the rest as a safety margin.
+}
+
+\newcommand{\marca}{$\bullet$}
+\begin{table}[h]
+\centering
+\small
+\singlespacing
+\caption{\tr{Cronograma por semestre}{Timeline by semester}}
+\label{tab:cronograma}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}X *{4}{c}}
+\toprule
+\tr{Atividade}{Activity} & S1 & S2 & S3 & S4 \\
+\midrule
+\tr{Disciplinas}{Coursework} & \marca & \marca & \marca & \\
+\tr{Proficiência em inglês}{English proficiency} & \marca & & & \\
+\tr{Revisão bibliográfica, termo de uso dos dados e simulação}{Literature review, data use agreement and simulation} & \marca & & & \\
+\tr{Integração das fontes e painel}{Source integration and panel} & \marca & \marca & & \\
+\tr{Modelos de risco e telemetria (H1, H2)}{Risk models and telematics (H1, H2)} & & \marca & \marca & \\
+\tr{Validação fora da amostra}{Out-of-sample validation} & & & \marca & \\
+\tr{Subnotificação (H3)}{Underreporting (H3)} & & & \marca & \marca \\
+\tr{Artigo 1 (H1) e artigo 2 (H2, H3)}{Paper 1 (H1) and paper 2 (H2, H3)} & & & \marca & \marca \\
+\tr{Redação da dissertação (S3 e S4), depósito e defesa (S4)}{Dissertation writing (S3 and S4), submission and defense (S4)} & & & \marca & \marca \\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+{\footnotesize \tr{Fonte: elaborado pelo autor.}{Source: prepared by the author.}\par}
+\end{table}
+
+\begingroup
+\singlespacing
+\setlength{\bibitemsep}{0.5\baselineskip}
+\printbibliography[title={\tr{Referências}{References}}]
+\endgroup
+
+\end{document}

@@ -28,7 +28,8 @@ icmc/
 │   ├── 08-viabilidade-dados-reais.md  conclusões e testes com os dados reais (interno)
 │   ├── 09-plano-de-artigos.md     três artigos planejados (periódicos e congresso)
 │   ├── 10-escala-de-motoristas.md app de escala por turno: método, ponte com a tese (interno)
-│   └── 11-contexto-claude-desktop.md  contexto para colar no projeto do Claude Desktop (sem nome da empresa)
+│   ├── 11-contexto-claude-desktop.md  contexto para colar no projeto do Claude Desktop (sem nome da empresa)
+│   └── 12-conversa-aluno-mecai.md  conversa com aluno do MECAI: seleção, disciplinas, docentes (interno)
 ├── analise/           código: modelos, painel sintético, datasets públicos, testes
 │   ├── viabilidade/   poder.py (poder semi-sintético) e previsao.py (previsão da exposição)
 │   └── real/          dados reais, só agregados: extrair, explorar, testes, figuras, descritiva
