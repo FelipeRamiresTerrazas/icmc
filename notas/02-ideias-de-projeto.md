@@ -254,10 +254,14 @@ Motivos:
 
 6. A Samsara, verificada em 2026-11-08, dá exposição medida (milhas, horas) e comportamento de direção por caminhão, ligável aos relatos em 71% dos casos. A unidade de análise pode descer de site para caminhão sem usar dado pessoal de motorista.
 
-Condições para confirmar a escolha (detalhes em `03-perguntas-em-aberto.md`):
+Condições para confirmar a escolha (detalhes em `../risco-patio/notas/03-perguntas-em-aberto.md`):
 
 - Autorização escrita da YMX para usar dados internos agregados numa dissertação pública.
 - Confirmação da limpeza dos relatos de teste.
 - Acesso às horas ADP agregadas por departamento e dia.
 - Contagem real de movimentos por campus no histórico.
 - Leitura do edital 002/2026 (formato e limite de páginas).
+
+## Ideia 9. RateIQ: recomendação de salário e taxa de motoristas por região (2026-11-23)
+
+Surgiu depois do ranking acima, em conversas no trabalho, e ainda não foi pontuada na tabela. Projeto da empresa planejado para 2027 (epics DA-489 a DA-491): salário de mercado e taxa a cobrar por ZIP3, função e turno, combinando dados públicos dos EUA (BLS, BEA, Census) com poucos dados internos. Escopo e ângulo de pesquisa em `../rateiq/notas/`. Pasta própria: `../rateiq/`. A Ideia 1 continua sendo a do pré-projeto até decisão em contrário.

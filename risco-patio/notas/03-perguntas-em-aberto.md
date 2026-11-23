@@ -108,7 +108,7 @@ Observações sobre as consultas:
 
 ## H. Disciplinas e regras do MECAI (para a secretaria, mecai@icmc.usp.br, e/ou a Profa. Cibele)
 
-Origem: levantamento de disciplinas de 2026-11-11 (ver `04-disciplinas.md`). Nenhuma resposta verificada ainda.
+Origem: levantamento de disciplinas de 2026-11-11 (ver `../../notas/04-disciplinas.md`). Nenhuma resposta verificada ainda.
 
 26. Existe prazo mínimo formal para concluir o mestrado?
 27. Quais disciplinas são oferecidas todo semestre, e em qual modalidade (presencial ou não presencial)?

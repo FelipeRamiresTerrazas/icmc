@@ -47,7 +47,7 @@ Anotações da conversa do Felipe com um aluno do mestrado profissional, traduzi
 - **Vínculo e dados:** o programa exigiria vínculo empregatício e acesso aos dados da empresa na matrícula. O edital exige só o comprovante de vínculo (atual ou dos últimos 2 anos); o acesso aos dados não aparece nele.
   - **Risco:** perder o emprego ou o acesso aos dados no meio do curso pode inviabilizar a pesquisa.
   - **A coordenação recomenda** ter um acordo formal de uso de dados com a empresa **ou** usar dados públicos desde o início.
-  - Isso reforça o plano alternativo com dados públicos (`05-datasets-publicos.md`, estudo de simulação) e o pedido de autorização com acordo de confidencialidade.
+  - Isso reforça o plano alternativo com dados públicos (`../risco-patio/notas/05-datasets-publicos.md`, estudo de simulação) e o pedido de autorização com acordo de confidencialidade.
 - **Projeto do aluno:** risco de crédito contra rentabilidade numa empresa do setor bancário. O acesso aos dados está incerto pelo cenário de inadimplência, e ele precisa rever o escopo com o orientador.
 - **Projeto do Felipe, como foi apresentado na conversa:** modelo de pontuação de risco de acidente por unidade logística.
   - Variáveis citadas: motoristas por período, horas trabalhadas, **horas extras**, **treinamento** e tamanho da unidade.
