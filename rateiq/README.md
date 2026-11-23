@@ -9,12 +9,15 @@ Segunda ideia de tese, surgida em conversas no trabalho em novembro de 2026. Ain
 ```
 rateiq/
 ├── README.md
+├── preprojeto/
+│   ├── admissao.tex          projeto curto da inscrição (até 5 páginas), bilíngue, mesmo formato do da ideia 1
+│   └── output/               PDFs (PT, EN, cor, P&B): python compilar.py rateiq
 └── notas/
     ├── 01-origem-e-escopo.md     o que as epics do Jira planejam (sem nomes, volumes em ordem de grandeza)
     └── 02-angulo-de-pesquisa.md  perguntas, hipóteses candidatas, dados, riscos e comparação com a ideia 1
 ```
 
-Quando a ideia avançar, esta pasta ganha a mesma estrutura da primeira: `preprojeto/`, `analise/`, `dados/` e `resultados/` (os dois últimos fora do git).
+Quando a ideia avançar, esta pasta ganha `analise/`, `dados/` e `resultados/` (os dois últimos fora do git), como a primeira.
 
 ## Cuidados
 

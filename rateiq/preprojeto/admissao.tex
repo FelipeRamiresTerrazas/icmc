@@ -1,0 +1,222 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{estilo/icmc}
+\addbibresource{../../referencias.bib}
+
+% Projeto curto (no maximo 5 paginas) para a inscricao no processo seletivo do MECAI,
+% para a ideia 2 (recomendacao de salario e taxa por regiao). Mesmo formato do projeto
+% curto da ideia 1 (risco-patio/preprojeto/admissao.tex) e mesmo roteiro do item 3.4.2
+% do edital: titulo e resumo; introducao (motivacao, justificativa e objetivos); corpo
+% (principais pontos e metodologia); cronograma; bibliografia. Apresenta a IDEIA, sem
+% resultados. Nao nomeia a empresa nem o produto interno.
+%
+% Compilar na raiz: python compilar.py rateiq   (ou --lingua pt --modo cor)
+% A mao, dentro desta pasta:
+%   TEXINPUTS=".;../../;" latexmk -pdf -outdir=output -jobname=Projeto_Precificacao_MECAI_Felipe_Terrazas admissao.tex
+% Acrescente _EN, _PB ou _EN_PB ao jobname para as outras versoes.
+
+\newcommand{\titulo}{\tr%
+  {Precificação de mão de obra em novas regiões: estimação de salários em pequenas áreas com incerteza calibrada}%
+  {Pricing labor in new regions: small area wage estimation with calibrated uncertainty}}
+
+\hypersetup{pdftitle={\titulo}}
+\usepackage{placeins}  % \FloatBarrier: o cronograma sai antes das referencias
+% titulos um pouco mais proximos do texto, para caber em 5 paginas
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+\titlespacing*{\subsection}{0pt}{8pt}{4pt}
+
+\begin{document}
+
+\begin{center}
+\singlespacing
+{\small\bfseries \tr{UNIVERSIDADE DE SÃO PAULO}{UNIVERSITY OF SÃO PAULO}\\
+\tr{INSTITUTO DE CIÊNCIAS MATEMÁTICAS E DE COMPUTAÇÃO}{INSTITUTE OF MATHEMATICAL AND COMPUTER SCIENCES}\par}
+\vspace{2pt}
+{\small \tr%
+  {Mestrado Profissional em Matemática, Estatística e Computação Aplicadas à Indústria (MECAI), ênfase em Ciência de Dados}%
+  {Professional Master's Program in Mathematics, Statistics and Computing Applied to Industry (MECAI), Data Science emphasis}\par}
+\vspace{10pt}
+{\large\bfseries\color{destaque}\titulo\par}
+\vspace{8pt}
+{\normalsize Felipe Ramires Terrazas\par}
+{\small \tr{Projeto de pesquisa para o processo seletivo}{Research proposal for the admission process}
+  \enspace·\enspace \tr{Linha de pesquisa: Modelagem de Risco}{Research line: Risk Modeling}\par}
+\end{center}
+
+\section*{\tr{Resumo}{Abstract}}
+
+\pt{%
+Empresas que terceirizam mão de obra operacional precisam, a cada proposta comercial, decidir quanto pagar aos trabalhadores numa região e quanto cobrar do cliente por hora. Em regiões novas, esse valor costuma ser pesquisado à mão e combinado com pesos fixos, sem medida de incerteza. Este projeto propõe estimar o salário de mercado de motoristas de caminhão e operadores de pátio por área pequena (código postal de três dígitos, nos Estados Unidos) e, a partir dele, a taxa de serviço por hora, combinando estatísticas públicas de salário e de custo de vida, publicadas em outras geografias, com os poucos dados internos de pagamento e faturamento. O método central é um modelo hierárquico de estimação em pequenas áreas, que pondera cada fonte pela sua precisão e aproxima as estimativas de áreas com pouca informação de um modelo de regressão, com a incerteza propagada até a taxa recomendada. A avaliação será fora da amostra, deixando áreas e unidades de fora, e medirá o erro e a cobertura dos intervalos, comparando o modelo à média de pesos fixos e à predição conformal. Propõe-se também modelar a probabilidade de ganhar uma proposta em função da razão entre o preço e o mercado, para escolher a margem sob incerteza. Espera-se obter um método reprodutível, validado sobretudo com dados públicos, para precificar mão de obra em regiões sem histórico.
+}
+\en{%
+Companies that outsource operational labor must decide, for every commercial proposal, how much to pay workers in a region and how much to charge the client per hour. In new regions, this value is usually researched by hand and combined with fixed weights, with no measure of uncertainty. This project proposes to estimate the market wage of truck drivers and yard operators per small area (three-digit postal code, in the United States) and, from it, the hourly service rate, by combining public wage and cost-of-living statistics, published at other geographies, with the scarce internal pay and billing data. The core method is a hierarchical small area estimation model, which weights each source by its precision and pulls the estimates of areas with little information toward a regression model, with uncertainty propagated to the recommended rate. Evaluation will be out of sample, leaving areas and sites out, and will measure error and interval coverage, comparing the model with the fixed-weight average and with conformal prediction. The project also proposes to model the probability of winning a proposal as a function of the ratio between price and market, in order to choose the margin under uncertainty. The expected outcome is a reproducible method, validated mostly on public data, for pricing labor in regions with no history.
+}
+
+\smallskip
+\noindent\textbf{\tr{Palavras-chave}{Keywords}:} \tr%
+  {Estimação em pequenas áreas. Modelos hierárquicos. Predição conformal. Precificação. Mercado de trabalho.}%
+  {small area estimation; hierarchical models; conformal prediction; pricing; labor market.}
+
+\section{\tr{Introdução}{Introduction}}
+
+\pt{%
+Empresas que prestam serviços de operação de pátio logístico, como a movimentação de carretas em centros de distribuição, vendem horas de trabalho de motoristas e operadores. A cada proposta comercial, duas decisões se repetem: quanto pagar ao trabalhador naquela região, para contratar e manter a equipe, e quanto cobrar do cliente por hora, para cobrir salário, encargos, horas não faturáveis e margem. O candidato é gestor de inteligência artificial e \textit{analytics} numa empresa desse setor, com operação nos Estados Unidos em dezenas de unidades, e trabalha no dia a dia com as fontes que o projeto pretende integrar: estatísticas públicas de salário e de custo de vida, folha de pagamento, faturamento por hora e histórico de propostas. Hoje a taxa de cada proposta é pesquisada à mão em algumas fontes e combinada com pesos fixos.
+}
+\en{%
+Companies that provide logistics yard operation services, such as moving trailers at distribution centers, sell the working hours of drivers and operators. For every commercial proposal, two decisions recur: how much to pay the worker in that region, to hire and retain the team, and how much to charge the client per hour, to cover wages, payroll burden, non-billable hours and margin. The candidate is the head of artificial intelligence and analytics at a company in this sector, operating in the United States at dozens of sites, and works daily with the sources the project intends to integrate: public wage and cost-of-living statistics, payroll, hourly billing and proposal history. Today the rate for each proposal is researched by hand in a few sources and combined with fixed weights.
+}
+
+\pt{%
+O problema tem três dificuldades. A primeira é que as fontes públicas estão em geografias diferentes da decisão: a principal pesquisa de salários por ocupação dos Estados Unidos, a \textit{Occupational Employment and Wage Statistics} (OEWS), do \textit{Bureau of Labor Statistics} (BLS), publica estimativas por área metropolitana e por estado \parencite{bls2025oews}, assim como o índice regional de preços do \textit{Bureau of Economic Analysis} (BEA) \parencite{bea2025rpp}, enquanto a proposta é para um endereço; passar de uma geografia para outra é um problema de mudança de suporte \parencite{gotway2002}. A segunda é que cada estimativa pública tem erro amostral, maior nas áreas pequenas, e uma média de pesos fixos trata do mesmo jeito fontes precisas e imprecisas. A terceira é que os dados internos são escassos, na ordem de dezenas de clientes faturados por hora e de dezenas de propostas ganhas: pouco para treinar um modelo flexível, mas valioso para calibrar o nível de mercado à realidade da empresa.
+}
+\en{%
+The problem has three difficulties. The first is that public sources are published at geographies that differ from the decision: the main occupational wage survey in the United States, the Occupational Employment and Wage Statistics (OEWS) of the Bureau of Labor Statistics (BLS), publishes estimates by metropolitan area and by state \parencite{bls2025oews}, as does the regional price index of the Bureau of Economic Analysis (BEA) \parencite{bea2025rpp}, while the proposal is for an address; moving from one geography to another is a change of support problem \parencite{gotway2002}. The second is that each public estimate has sampling error, larger in small areas, and a fixed-weight average treats precise and imprecise sources alike. The third is that internal data are scarce, on the order of dozens of clients billed by the hour and dozens of won proposals: too little to train a flexible model, but valuable to calibrate the market level to the company's reality.
+}
+
+\pt{%
+A estimação em pequenas áreas trata exatamente dessa situação: combina uma estimativa direta ruidosa com um modelo de regressão, com pesos dados pela precisão de cada um, como no modelo de \textcite{fay1979}, proposto para estimar renda em localidades pequenas \parencite{rao2015}. É a mesma ideia de encolhimento dos modelos multinível \parencite{gelman2007}. Para a incerteza, a predição conformal produz intervalos com cobertura garantida sob hipóteses fracas \parencite{lei2018}, e a literatura de precificação de propostas modela a chance de ganhar em função do preço \parencite{friedman1956}. A aplicação à precificação de mão de obra terceirizada por área pequena, com poucos dados internos, parece pouco estudada, o que será verificado por revisão bibliográfica. O projeto se justifica na prática, por dar a cada proposta uma taxa explicável e com faixa de incerteza, e no método, por comparar a média de pesos fixos, o modelo hierárquico e a predição conformal num problema real de dados escassos. É ciência de dados aplicada à gestão de serviços logísticos, ligada diretamente à atividade profissional do candidato.
+}
+\en{%
+Small area estimation deals with exactly this situation: it combines a noisy direct estimate with a regression model, with weights given by the precision of each, as in the model of \textcite{fay1979}, proposed to estimate income in small places \parencite{rao2015}. It is the same shrinkage idea as in multilevel models \parencite{gelman2007}. For uncertainty, conformal prediction yields intervals with guaranteed coverage under weak assumptions \parencite{lei2018}, and the proposal pricing literature models the chance of winning as a function of price \parencite{friedman1956}. The application to pricing outsourced labor per small area, with scarce internal data, seems little studied, which will be checked by a literature review. The project is justified in practice, by giving each proposal an explainable rate with an uncertainty band, and methodologically, by comparing the fixed-weight average, the hierarchical model and conformal prediction on a real problem with scarce data. It is data science applied to the management of logistics services, directly tied to the candidate's professional activity.
+}
+
+\subsection{\tr{Objetivos}{Objectives}}
+
+\pt{%
+O objetivo geral é estimar, para qualquer área pequena, função e turno, o salário de mercado e a taxa de serviço por hora, com incerteza quantificada e calibrada. Os objetivos específicos são:
+}
+\en{%
+The general objective is to estimate, for any small area, role and shift, the market wage and the hourly service rate, with quantified and calibrated uncertainty. The specific objectives are:
+}
+\begin{enumerate}[label=\alph*)]
+  \item \tr%
+    {integrar as fontes públicas e internas numa base por área pequena e ocupação, com correspondência geográfica ponderada;}%
+    {integrate public and internal sources into a dataset by small area and occupation, with weighted geographic correspondence;}
+  \item \tr%
+    {testar se um modelo hierárquico de pequenas áreas tem erro fora da amostra menor que a média de pesos fixos e que o método manual (H1);}%
+    {test whether a hierarchical small area model has lower out-of-sample error than the fixed-weight average and the manual method (H1);}
+  \item \tr%
+    {testar se os intervalos do modelo e os intervalos conformais atingem a cobertura nominal quando áreas e unidades são deixadas de fora (H2);}%
+    {test whether the model intervals and the conformal intervals reach nominal coverage when areas and sites are left out (H2);}
+  \item \tr%
+    {modelar a probabilidade de ganho em função da razão entre preço e mercado e avaliar a margem que maximiza a margem esperada (H3).}%
+    {model the probability of winning as a function of the price-to-market ratio and assess the margin that maximizes expected margin (H3).}
+\end{enumerate}
+
+\section{\tr{Principais pontos e metodologia}{Main points and methodology}}
+
+\pt{%
+O trabalho tem quatro etapas, integração, modelo de pequenas áreas, validação e precificação. As três primeiras podem ser feitas só com dados públicos; os dados internos entram para calibrar e validar.
+}
+\en{%
+The work has four stages, integration, small area model, validation and pricing. The first three can be carried out with public data alone; internal data come in to calibrate and validate.
+}
+
+\subsection{\tr{Dados e cuidados éticos}{Data and ethical safeguards}}
+
+\pt{%
+As fontes públicas, todas abertas, são a OEWS, com o salário por ocupação (motoristas de caminhão pesado e operadores de equipamento de movimentação de carga) e por área, acompanhado do erro padrão relativo; as paridades regionais de preço do BEA; estatísticas de emprego e salário por condado; e tabelas de correspondência entre códigos postais e condados, usadas como pesos de área. As internas são o salário pago por hora, a taxa faturada por hora e o histórico de propostas ganhas e perdidas. Salário e preço são informação comercial sensível, e o uso será formalizado com a empresa antes do início, com estas regras: nenhum dado que identifique pessoas; empresa, clientes e unidades substituídos por códigos; análise dentro do ambiente de dados da empresa; e divulgação só de resultados agregados ou relativos, sem valores individuais de pagamento.
+}
+\en{%
+The public sources, all open, are the OEWS, with wages by occupation (heavy truck drivers and material moving equipment operators) and by area, along with the relative standard error; the BEA regional price parities; county-level employment and wage statistics; and postal code to county correspondence tables, used as area weights. The internal ones are hourly pay, hourly billed rate and the history of won and lost proposals. Wages and prices are commercially sensitive, and their use will be formalized with the company before the start, under these rules: no data that identifies people; company, clients and sites replaced by codes; analysis inside the company's data environment; and only aggregated or relative results disclosed, with no individual pay values.
+}
+
+\subsection{\tr{Modelo de pequenas áreas}{Small area model}}
+
+\pt{%
+Seja $y_{go}$ o logaritmo do salário médio publicado para a área $g$ e a ocupação $o$, com variância amostral $\psi_{go}$ aproximada pelo quadrado do erro padrão relativo publicado. O modelo, na forma de \textcite{fay1979}, com uma camada para os dados internos, é:
+}
+\en{%
+Let $y_{go}$ be the logarithm of the mean wage published for area $g$ and occupation $o$, with sampling variance $\psi_{go}$ approximated by the square of the published relative standard error. The model, in the form of \textcite{fay1979}, with a layer for the internal data, is:
+}
+\begin{equation}
+\label{eq:modelo}
+\begin{gathered}
+y_{go} = \theta_{go} + e_{go}, \quad e_{go} \sim \mathcal{N}(0, \psi_{go}), \qquad
+\theta_{go} = \mathbf{x}_{g}^\top \bm{\beta}_o + u_{g}, \quad u_g \sim \mathcal{N}(0, \sigma_u^2), \\
+\log p_{s} = \textstyle\sum_{g} \omega_{a(s)g}\, \theta_{g\,o(s)} + \alpha + v_s, \qquad v_s \sim \mathcal{N}(0, \sigma_v^2),
+\end{gathered}
+\end{equation}
+\pt{%
+em que $\theta_{go}$ é o salário verdadeiro da área, $\mathbf{x}_g$ reúne covariáveis públicas (custo de vida, desemprego, salário mínimo, urbanização), $p_s$ é o salário pago pela empresa na unidade $s$, $a(s)$ é a área pequena da unidade, $\omega_{ag}$ são os pesos de correspondência entre a área pequena e as áreas publicadas e $\alpha$ mede quanto a empresa paga acima ou abaixo do mercado. A estimativa de $\theta_{go}$ combina o dado direto e a regressão com peso $\sigma_u^2/(\sigma_u^2+\psi_{go})$: áreas com estimativa precisa ficam perto dela, e áreas com estimativa ruidosa ou ausente se aproximam da regressão \parencite{rao2015}. A média de pesos fixos usada hoje é um caso particular, em que os pesos não dependem da precisão. O modelo será ajustado na forma bayesiana, e a taxa recomendada sairá da cadeia $b = p\,(1+c)\,h/(1-m)$, em que $c$ são os encargos sobre a folha, $h$ é a razão entre horas pagas e horas faturáveis e $m$ é a margem; as amostras da distribuição \textit{a posteriori} de $p$ e de $h$ dão o intervalo da taxa.
+}
+\en{%
+where $\theta_{go}$ is the area's true wage, $\mathbf{x}_g$ holds public covariates (cost of living, unemployment, minimum wage, urbanization), $p_s$ is the wage the company pays at site $s$, $a(s)$ is the site's small area, $\omega_{ag}$ are the correspondence weights between the small area and the published areas and $\alpha$ measures how much the company pays above or below the market. The estimate of $\theta_{go}$ combines the direct estimate and the regression with weight $\sigma_u^2/(\sigma_u^2+\psi_{go})$: areas with a precise estimate stay close to it, and areas with a noisy or missing estimate move toward the regression \parencite{rao2015}. The fixed-weight average used today is a special case, in which the weights do not depend on precision. The model will be fitted in Bayesian form, and the recommended rate will follow the chain $b = p\,(1+c)\,h/(1-m)$, where $c$ is the payroll burden, $h$ is the ratio of paid to billable hours and $m$ is the margin; posterior draws of $p$ and $h$ give the rate interval.
+}
+
+\subsection{\tr{Validação e comunicação}{Validation and communication}}
+
+\pt{%
+A validação terá duas frentes. Com dados públicos, cada área metropolitana será deixada de fora por vez, e seu salário publicado será previsto pelas demais áreas e pelas covariáveis, o que permite muitas repetições sem depender da empresa. Com dados internos, cada unidade será deixada de fora, e seu salário e sua taxa faturada serão previstos. Para H1, o modelo será comparado à média de pesos fixos e ao método manual pelo erro absoluto médio, em dólares por hora, com comparação pareada dos erros e intervalos por \textit{bootstrap}. Para H2, os intervalos do modelo e os conformais \parencite{lei2018} serão avaliados pela cobertura e pela largura, resumidas no escore de intervalo \parencite{gneiting2007}.
+}
+\en{%
+Validation will have two fronts. With public data, each metropolitan area will be left out in turn, and its published wage will be predicted from the other areas and the covariates, which allows many repetitions without depending on the company. With internal data, each site will be left out, and its wage and billed rate will be predicted. For H1, the model will be compared with the fixed-weight average and the manual method by mean absolute error, in dollars per hour, with paired error comparisons and bootstrap intervals. For H2, the model intervals and the conformal intervals \parencite{lei2018} will be assessed by coverage and width, summarized by the interval score \parencite{gneiting2007}.
+}
+
+\subsection{\tr{Probabilidade de ganho e margem}{Win probability and margin}}
+
+\pt{%
+Para cada proposta $j$, seja $r_j$ a razão entre o preço proposto e a taxa de mercado estimada. A probabilidade de ganho será modelada por regressão logística, $\Pr(\text{ganho}_j) = \operatorname{logit}^{-1}(\eta_0 + \eta_1 \log r_j + \mathbf{z}_j^\top \bm{\eta})$, em que $\mathbf{z}_j$ reúne características da proposta, e a margem será escolhida para maximizar a margem esperada, $m \Pr(\text{ganho} \mid m)$, na linha dos modelos clássicos de estratégia de propostas \parencite{friedman1956}. Com poucas propostas, e só as que foram de fato feitas, a estimativa terá muita incerteza e possível viés de seleção; por isso H3 será tratada como exploratória, com distribuições \textit{a priori} informativas e análise de sensibilidade.
+}
+\en{%
+For each proposal $j$, let $r_j$ be the ratio between the proposed price and the estimated market rate. The probability of winning will be modeled by logistic regression, $\Pr(\text{win}_j) = \operatorname{logit}^{-1}(\eta_0 + \eta_1 \log r_j + \mathbf{z}_j^\top \bm{\eta})$, where $\mathbf{z}_j$ holds proposal characteristics, and the margin will be chosen to maximize expected margin, $m \Pr(\text{win} \mid m)$, in line with classical bidding strategy models \parencite{friedman1956}. With few proposals, and only those actually made, the estimate will be very uncertain and possibly subject to selection bias; H3 will therefore be treated as exploratory, with informative priors and sensitivity analysis.
+}
+
+\subsection{\tr{Técnicas e plano alternativo}{Techniques and fallback plan}}
+
+\pt{%
+Em estatística, o projeto usa estimação em pequenas áreas, modelos hierárquicos bayesianos, encolhimento, regressão logística, predição conformal, validação cruzada e regras de pontuação; em matemática, mudança de suporte com pesos de área, propagação de incerteza por simulação de Monte Carlo e otimização da margem esperada; em computação, ingestão de dados públicos por API, SQL, Python e R, com código reprodutível. Antes, uma simulação com parâmetros conhecidos verificará se o modelo recupera o salário de áreas deixadas de fora. Como as três primeiras etapas dependem só de dados públicos, o plano alternativo, caso o acesso aos dados internos não se concretize, é conduzir H1 e H2 inteiramente com eles, deixando H3 como trabalho futuro.
+}
+\en{%
+In statistics, the project uses small area estimation, Bayesian hierarchical models, shrinkage, logistic regression, conformal prediction, cross-validation and scoring rules; in mathematics, change of support with area weights, uncertainty propagation by Monte Carlo simulation and expected margin optimization; in computing, public data ingestion through APIs, SQL, Python and R, with reproducible code. Beforehand, a simulation with known parameters will check whether the model recovers the wage of left-out areas. Since the first three stages depend only on public data, the fallback plan, if access to internal data does not materialize, is to carry out H1 and H2 entirely with them, leaving H3 as future work.
+}
+
+\pt{%
+\textbf{Resultados esperados.} Um método reprodutível para estimar salário e taxa de serviço por área pequena, com incerteza calibrada; uma comparação entre a média de pesos fixos, o modelo hierárquico e a predição conformal com poucos dados; uma regra de margem que leva em conta a chance de ganho; código aberto sobre dados públicos; e dois artigos, só com dados públicos ou anonimizados.
+}
+\en{%
+\textbf{Expected results.} A reproducible method to estimate wages and service rates per small area, with calibrated uncertainty; a comparison of the fixed-weight average, the hierarchical model and conformal prediction with scarce data; a margin rule that accounts for the chance of winning; open-source code on public data; and two papers, with public or anonymized data only.
+}
+
+\section{\tr{Cronograma}{Timeline}}
+
+\pt{%
+O prazo máximo do programa é de 36 meses, sem qualificação, mas o plano é concluir em 24 meses (Tabela~\ref{tab:cronograma}), com o restante como margem de segurança.
+}
+\en{%
+The program's maximum deadline is 36 months, with no qualifying exam, but the plan is to finish in 24 months (Table~\ref{tab:cronograma}), with the rest as a safety margin.
+}
+
+\newcommand{\marca}{$\bullet$}
+\begin{table}[h]
+\centering
+\small
+\singlespacing
+\caption{\tr{Cronograma por semestre}{Timeline by semester}}
+\label{tab:cronograma}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}X *{4}{c}}
+\toprule
+\tr{Atividade}{Activity} & S1 & S2 & S3 & S4 \\
+\midrule
+\tr{Disciplinas}{Coursework} & \marca & \marca & \marca & \\
+\tr{Proficiência em inglês}{English proficiency} & \marca & & & \\
+\tr{Revisão bibliográfica e termo de uso dos dados}{Literature review and data use agreement} & \marca & & & \\
+\tr{Ingestão dos dados públicos e correspondência geográfica}{Public data ingestion and geographic correspondence} & \marca & \marca & & \\
+\tr{Modelo de pequenas áreas e simulação}{Small area model and simulation} & & \marca & & \\
+\tr{Validação com dados públicos e internos (H1, H2)}{Validation with public and internal data (H1, H2)} & & \marca & \marca & \\
+\tr{Probabilidade de ganho e margem (H3)}{Win probability and margin (H3)} & & & \marca & \marca \\
+\tr{Artigo 1 (H1, H2) e artigo 2 (H3)}{Paper 1 (H1, H2) and paper 2 (H3)} & & & \marca & \marca \\
+\tr{Redação da dissertação (S3 e S4), depósito e defesa (S4)}{Dissertation writing (S3 and S4), submission and defense (S4)} & & & \marca & \marca \\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+{\footnotesize \tr{Fonte: elaborado pelo autor.}{Source: prepared by the author.}\par}
+\end{table}
+
+\FloatBarrier
+\begingroup
+\singlespacing
+\setlength{\bibitemsep}{0.5\baselineskip}
+\printbibliography[title={\tr{Referências}{References}}]
+\endgroup
+
+\end{document}

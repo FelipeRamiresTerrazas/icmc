@@ -7,7 +7,7 @@
 O repositório guarda duas ideias de tese, cada uma na sua pasta:
 
 - `risco-patio/`: **projeto 1**, risco de acidentes em operações de pátio. É a ideia do pré-projeto, do projeto curto da inscrição e do rascunho da dissertação. As seções "Pré-projeto e dissertação" e "Dados e segurança" abaixo se referem a ele.
-- `rateiq/`: **projeto 2**, RateIQ (recomendação de salário e taxa de motoristas por região). Ideia candidata desde 2026-11-23, só com notas. Base: epics DA-489, DA-490 e DA-491 do Jira da empresa (somente leitura). Ver seção "RateIQ".
+- `rateiq/`: **projeto 2**, RateIQ (recomendação de salário e taxa de motoristas por região). Ideia candidata desde 2026-11-23, com notas e um projeto curto da inscrição (`rateiq/preprojeto/admissao.tex`). Base: epics DA-489, DA-490 e DA-491 do Jira da empresa (somente leitura). Ver seção "RateIQ".
 
 Compartilhado na raiz: `estilo/`, `referencias.bib`, `referencias/`, `programa/`, `compilar.py`, `requirements.txt` (um `.venv` na raiz) e as notas gerais em `notas/`. Cada projeto tem `notas/`, e, quando precisar, `preprojeto/`, `analise/`, `dados/` e `resultados/` (os dois últimos fora do git). Os caminhos nas seções de cada projeto são relativos à pasta do projeto.
 
@@ -56,7 +56,7 @@ Regras do MECAI resumidas em `programa/README.md` (36 meses, sem qualificação,
 - Estrutura da dissertação em três níveis: cap. 4 descritivo, cap. 7 preditivo, cap. 8 prescritivo. O cap. 4 e a subseção "Descrição preliminar" do pré-projeto (Seção 4) usam figuras e números gerados por `analise/real/descritiva.py` e `r/descritiva.R` (`fig_desc_*`, `tabelas/tab_descritiva.tex`, `tabelas/num_descritiva*.tex`). O texto cita os números só pelas macros (`\descZeros` etc.), nunca digitados; o pré-projeto lê as mesmas macros. Se os scripts rodarem de novo, recompilar os dois documentos e reler os parágrafos, porque a interpretação pode mudar. Figuras e números desses scripts não mostram volumes absolutos da operação (só valores relativos, proporções ou ordens de grandeza).
 - Python e R: Python para extração, preparação, bootstrap, previsão e figuras; R para modelos mistos (glmmTMB, DHARMa), num projeto renv em `r/` (Rscript em `C:/Users/Usuario/AppData/Local/Programs/R/R-4.6.1/bin/Rscript.exe`, rodar dentro de `risco-patio/r/`). Python roda da raiz com `.venv/Scripts/python risco-patio/analise/...`; os scripts acham `dados/`, `resultados/` e `dissertacao/` relativos a `risco-patio/`.
 - Figuras: matplotlib (ou ggplot2 no R), PDF, fonte serifada, largura 6,3 polegadas, rótulos em português com vírgula decimal. Todo script de figura gera quatro variantes, `nome.pdf`, `nome_en.pdf`, `nome_pb.pdf` e `nome_en_pb.pdf`, com a paleta de `analise/estilo_fig.py` / `r/estilo_fig.R` (cores por papel; nunca cor fixa no script). No LaTeX, sempre `\includegraphics{\arqfig{nome}}`; legenda que cita cor usa `\corpb{colorido}{P&B}`. Marcadores, tracejados e hachuras iguais nos dois modos, para a figura funcionar impressa em P&B.
-- Compilar com `python compilar.py` (doze PDFs: pré-projeto, projeto curto e dissertação, em quatro versões cada) ou um subconjunto (`python compilar.py preprojeto --modo cor`).
+- Compilar com `python compilar.py` (dezesseis PDFs: pré-projeto, projeto curto e dissertação do projeto 1 e projeto curto do RateIQ, em quatro versões cada) ou um subconjunto (`python compilar.py preprojeto --modo cor`).
 
 ## RateIQ (projeto 2, caminhos relativos a `rateiq/`)
 
@@ -64,7 +64,7 @@ Regras do MECAI resumidas em `programa/README.md` (36 meses, sem qualificação,
 - `notas/01-origem-e-escopo.md` resume as epics DA-489 a DA-491 e as issues DA-492 a DA-500; se as epics mudarem no Jira, atualizar essa nota (só leitura no Jira).
 - Salário pago e taxa cobrada são informação comercial sensível: nunca no git, nem agregados por cliente ou site. A autorização de 2026-11-15 foi para o projeto 1; até o Felipe confirmar que cobre o RateIQ, não extrair dados internos de pagamento, faturamento ou CRM para esta pasta.
 - Dados públicos (BLS, BEA, Census, HUD) podem ser baixados para `rateiq/dados/publicos/` (fora do git) por script em `rateiq/analise/`.
-- Quando ganhar documento LaTeX, criar `rateiq/preprojeto/` com a mesma estrutura do projeto 1 e registrar em `compilar.py` e nas receitas do `.vscode/settings.json`.
+- `preprojeto/admissao.tex`: projeto curto da inscrição (até 5 páginas, nas quatro versões), no mesmo formato e com as mesmas regras do projeto curto do projeto 1: só a ideia, no futuro, sem resultados, sem nomear a empresa nem o produto interno (o nome RateIQ não aparece no texto). Compila com `python compilar.py rateiq` (PDF `Projeto_Precificacao_MECAI_Felipe_Terrazas`). O português é o que estoura primeiro; um `\FloatBarrier` mantém o cronograma antes das referências.
 
 ## Git
 
