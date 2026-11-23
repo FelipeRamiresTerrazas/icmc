@@ -57,4 +57,4 @@ Ementas: **não verificadas** para nenhuma disciplina.
 
 ## 5. Perguntas para a secretaria e a coordenação
 
-Registradas em `03-perguntas-em-aberto.md`, seção H (itens 26 a 32).
+Registradas em `../risco-patio/notas/03-perguntas-em-aberto.md`, seção H (itens 26 a 32).

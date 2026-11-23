@@ -2,7 +2,7 @@
 
 Levantamento feito em 2026-11-08, só com leitura. Nenhum arquivo, branch ou commit foi criado nos repositórios da YMX. Números são agregados; sites aparecem anonimizados (Site 01, 02...) e não há nome de motorista, funcionário ou cliente.
 
-Legenda: **[verificado]** = conferido no código, no banco ou no ticket citado; **[inferido]** = conclusão razoável a partir de evidência indireta; **[não verificado]** = precisa de confirmação (ver `03-perguntas-em-aberto.md`).
+Legenda: **[verificado]** = conferido no código, no banco ou no ticket citado; **[inferido]** = conclusão razoável a partir de evidência indireta; **[não verificado]** = precisa de confirmação (ver `../risco-patio/notas/03-perguntas-em-aberto.md`).
 
 ## 0. Repositório `mestrado`: estrutura, compilação e reaproveitamento
 
@@ -257,7 +257,7 @@ O Domo não foi consultado. O que se sabe pelo Confluence e pelo Jira, sem confe
 - **Domo:** existe um Domo App de Safety com "Incident-Free Days by Site", hoje calculado a partir de uma tabela estática (DA-450). O consumo de créditos caiu de 1.804 (jul/2026) para 1.276 (out/2026).
 - **Snowflake:** a cópia do YardSafe tinha 635 linhas em 2026-10-21.
 
-As consultas de volume do Yard Commander e do ADP listadas em `03-perguntas-em-aberto.md` ainda não foram rodadas. Agora posso rodá-las pelo mesmo acesso.
+As consultas de volume do Yard Commander e do ADP listadas em `../risco-patio/notas/03-perguntas-em-aberto.md` ainda não foram rodadas. Agora posso rodá-las pelo mesmo acesso.
 
 ### 3.6 Terceira rodada: relatos, auditorias e manutenção (2026-11-15)
 
