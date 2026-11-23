@@ -1,4 +1,4 @@
-# Dados da empresa nunca entram no git (so agregados ficam em dados/, local)
+# Dados da empresa nunca entram no git (dados/ e resultados/ de cada projeto ficam so locais)
 dados/
 resultados/
 *.csv
@@ -31,6 +31,6 @@ __pycache__/
 *_bibertool.bib
 *.bcf-SAVE-ERROR
 
-# PDFs dos documentos so em <doc>/output/ (latexmkrc); nunca soltos na pasta do documento
-/preprojeto/*.pdf
-/dissertacao/*.pdf
+# PDFs dos documentos so em <projeto>/<doc>/output/ (latexmkrc); nunca soltos na pasta do documento
+/*/preprojeto/*.pdf
+/*/dissertacao/*.pdf

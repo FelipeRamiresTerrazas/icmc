@@ -5,7 +5,8 @@ A lingua e o modo de cor saem do nome do PDF (-jobname), como define estilo/icmc
     <base>_EN.pdf     ingles, colorido
     <base>_PB.pdf     portugues, preto e branco
     <base>_EN_PB.pdf  ingles, preto e branco
-Os PDFs (e os auxiliares do LaTeX) saem em <doc>/output/.
+Os PDFs (e os auxiliares do LaTeX) saem em <projeto>/<doc>/output/.
+Cada projeto (risco-patio/, rateiq/) tem seus documentos; o estilo e o .bib ficam na raiz.
 As figuras acompanham sozinhas, via \\arqfig{nome} (arquivos nome[_en][_pb].pdf).
 
 Uso (na raiz do repo):
@@ -25,11 +26,13 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent
 SAIDA = "output"  # pasta dos PDFs dentro de cada documento
-# documento: (pasta, arquivo principal, nome base do PDF)
+# documento: (pasta relativa a raiz, arquivo principal, nome base do PDF)
+# Projeto 1, risco de acidentes em patio (risco-patio/)
 DOCS = {
-    "preprojeto": ("preprojeto", "main.tex", "PreProjeto_MECAI_Felipe_Terrazas"),
-    "admissao": ("preprojeto", "admissao.tex", "Projeto_MECAI_Felipe_Terrazas"),  # projeto curto da inscricao (5 paginas)
-    "dissertacao": ("dissertacao", "main.tex", "Dissertacao_MECAI_Felipe_Terrazas"),
+    "preprojeto": ("risco-patio/preprojeto", "main.tex", "PreProjeto_MECAI_Felipe_Terrazas"),
+    "admissao": ("risco-patio/preprojeto", "admissao.tex", "Projeto_MECAI_Felipe_Terrazas"),  # projeto curto da inscricao (5 paginas)
+    "dissertacao": ("risco-patio/dissertacao", "main.tex", "Dissertacao_MECAI_Felipe_Terrazas"),
+    # Projeto 2, RateIQ (rateiq/): ainda sem documento LaTeX
 }
 
 
@@ -37,8 +40,8 @@ def compilar(doc, en, pb):
     nome_pasta, principal, base = DOCS[doc]
     pasta = RAIZ / nome_pasta
     job = base + ("_EN" if en else "") + ("_PB" if pb else "")
-    env = dict(os.environ, TEXINPUTS=os.pathsep.join([".", "../", ""]))
-    # PDF e auxiliares vao para <doc>/output/ (os auxiliares sao ignorados pelo git)
+    env = dict(os.environ, TEXINPUTS=os.pathsep.join([".", "../../", ""]))  # ../../ = raiz (estilo/)
+    # PDF e auxiliares vao para <projeto>/<doc>/output/ (os auxiliares sao ignorados pelo git)
     r = subprocess.run(["latexmk", "-pdf", "-interaction=nonstopmode", f"-outdir={SAIDA}", f"-jobname={job}", principal],
                        cwd=pasta, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
     arq_log = pasta / SAIDA / f"{job}.log"
