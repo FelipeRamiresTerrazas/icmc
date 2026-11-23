@@ -11,10 +11,10 @@ Versão de no máximo 5 páginas para anexar à inscrição no processo seletivo
 Na raiz do repositório: `python compilar.py preprojeto` (as quatro versões) ou, por exemplo, `python compilar.py preprojeto --lingua en --modo pb`. À mão, dentro desta pasta:
 
 ```
-TEXINPUTS=".;../;" latexmk -pdf -outdir=output -jobname=PreProjeto_MECAI_Felipe_Terrazas main.tex        # português, cor
-TEXINPUTS=".;../;" latexmk -pdf -outdir=output -jobname=PreProjeto_MECAI_Felipe_Terrazas_EN main.tex     # inglês, cor
-TEXINPUTS=".;../;" latexmk -pdf -outdir=output -jobname=PreProjeto_MECAI_Felipe_Terrazas_PB main.tex     # português, P&B
-TEXINPUTS=".;../;" latexmk -pdf -outdir=output -jobname=PreProjeto_MECAI_Felipe_Terrazas_EN_PB main.tex  # inglês, P&B
+TEXINPUTS=".;../../;" latexmk -pdf -outdir=output -jobname=PreProjeto_MECAI_Felipe_Terrazas main.tex        # português, cor
+TEXINPUTS=".;../../;" latexmk -pdf -outdir=output -jobname=PreProjeto_MECAI_Felipe_Terrazas_EN main.tex     # inglês, cor
+TEXINPUTS=".;../../;" latexmk -pdf -outdir=output -jobname=PreProjeto_MECAI_Felipe_Terrazas_PB main.tex     # português, P&B
+TEXINPUTS=".;../../;" latexmk -pdf -outdir=output -jobname=PreProjeto_MECAI_Felipe_Terrazas_EN_PB main.tex  # inglês, P&B
 ```
 
 A língua troca também a hifenização, os rótulos ("Tabela"/"Table"), o título das referências e o estilo das citações (ABNT em português, autor-ano em inglês). O modo P&B troca as cores do texto e das caixas e as figuras.
@@ -43,7 +43,7 @@ Fluxo sugerido: edite só o português e peça "sincroniza o inglês"; os blocos
 ## Convenções
 
 - Pendências visíveis: `\preencher{...}` (vermelho). Nenhuma pode sobrar na versão enviada.
-- Referências: `../referencias.bib`. Toda entrada nova leva `note = {CONFERIR}` até ser checada na fonte; aparece em vermelho no texto e na lista.
+- Referências: `../../referencias.bib`. Toda entrada nova leva `note = {CONFERIR}` até ser checada na fonte; aparece em vermelho no texto e na lista.
 - O texto não nomeia a empresa, clientes nem unidades, e só usa ordens de grandeza dos dados (sem números internos exatos) até a autorização formal.
 - Sem travessão nem `---`.
 
