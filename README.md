@@ -5,7 +5,7 @@ Mestrado Profissional MECAI (ICMC-USP, ênfase em Ciência de Dados). Duas ideia
 | Pasta | Ideia | Situação |
 | :-- | :-- | :-- |
 | `risco-patio/` | 1. Risco de acidentes em operações de pátio: modelos hierárquicos de contagem com exposição e telemetria (linha Modelagem de Risco) | Pré-projeto, projeto curto da inscrição, viabilidade e rascunho da dissertação |
-| `rateiq/` | 2. RateIQ: recomendação de salário e taxa de motoristas por região, com dados públicos e internos | Ideia candidata (desde 2026-11-23): notas e projeto curto da inscrição |
+| `rateiq/` | 2. RateIQ: recomendação de salário e taxa de motoristas por região, com dados públicos e internos | Ideia candidata (desde 2026-11-23): notas e projeto da inscrição em versão completa |
 
 ```
 icmc/
@@ -18,7 +18,8 @@ icmc/
 │   ├── dados/         fora do git
 │   └── resultados/    fora do git
 ├── rateiq/            projeto 2 (ver rateiq/README.md)
-│   ├── preprojeto/    projeto curto da inscrição (admissao.tex), em LaTeX bilíngue
+│   ├── preprojeto/    projeto da inscrição (admissao.tex), versão completa, em LaTeX bilíngue
+│   ├── analise/       script da Figura 1 (cadeia de cálculo, exemplo fictício)
 │   └── notas/         origem e escopo (epics do Jira), ângulo de pesquisa
 ├── notas/             notas gerais, que valem para as duas ideias
 │   ├── 01-inventario-dados.md     fontes de dados da empresa (interno)
@@ -42,10 +43,10 @@ icmc/
 Cada documento sai em quatro versões, escolhidas pelo sufixo do PDF: português ou inglês (`_EN`) e colorido ou preto e branco (`_PB`). As figuras acompanham sozinhas (`\arqfig{nome}` pega `nome[_en][_pb].pdf`). Na raiz:
 
 ```
-python compilar.py                          # tudo: os três documentos do projeto 1 e o projeto curto do RateIQ
+python compilar.py                          # tudo: os três documentos do projeto 1 e o projeto da inscrição do RateIQ
 python compilar.py preprojeto               # só o pré-projeto, 4 versões
 python compilar.py admissao                 # só o projeto curto da inscrição (projeto 1)
-python compilar.py rateiq                   # projeto curto da inscrição do RateIQ (projeto 2)
+python compilar.py rateiq                   # projeto da inscrição do RateIQ (projeto 2)
 python compilar.py dissertacao --modo pb    # dissertação em P&B, PT e EN
 python compilar.py preprojeto --lingua pt --modo cor
 ```

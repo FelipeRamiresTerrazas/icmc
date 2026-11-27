@@ -13,7 +13,7 @@ Uso (na raiz do repo):
     python compilar.py                          # tudo: 4 documentos x 2 linguas x 2 modos
     python compilar.py preprojeto               # so o pre-projeto, 4 versoes
     python compilar.py admissao                 # so o projeto curto da inscricao, 4 versoes
-    python compilar.py rateiq                   # projeto curto da ideia 2 (rateiq/), 4 versoes
+    python compilar.py rateiq                   # projeto da inscricao da ideia 2 (rateiq/), 4 versoes
     python compilar.py dissertacao --modo pb    # dissertacao em P&B, PT e EN
     python compilar.py preprojeto --lingua pt --modo cor
 """
@@ -34,7 +34,7 @@ DOCS = {
     "admissao": ("risco-patio/preprojeto", "admissao.tex", "Projeto_MECAI_Felipe_Terrazas"),  # projeto curto da inscricao (5 paginas)
     "dissertacao": ("risco-patio/dissertacao", "main.tex", "Dissertacao_MECAI_Felipe_Terrazas"),
     # Projeto 2, RateIQ (rateiq/)
-    "rateiq": ("rateiq/preprojeto", "admissao.tex", "Projeto_Precificacao_MECAI_Felipe_Terrazas"),  # projeto curto da inscricao (5 paginas)
+    "rateiq": ("rateiq/preprojeto", "admissao.tex", "Projeto_Precificacao_MECAI_Felipe_Terrazas"),  # projeto da inscricao, versao completa (sem limite de paginas)
 }
 
 

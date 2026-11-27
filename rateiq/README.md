@@ -10,14 +10,19 @@ Segunda ideia de tese, surgida em conversas no trabalho em novembro de 2026. Ain
 rateiq/
 ├── README.md
 ├── preprojeto/
-│   ├── admissao.tex          projeto curto da inscrição (até 5 páginas), bilíngue, mesmo formato do da ideia 1
+│   ├── admissao.tex          projeto da inscrição, versão completa (cerca de 18 páginas), bilíngue
+│   ├── figuras/              Figura 1 nas quatro variantes, gerada por analise/fig_cadeia.py
+│   ├── tabelas/              números do exemplo fictício da Figura 1 (num_exemplo.tex), gerados pelo mesmo script
 │   └── output/               PDFs (PT, EN, cor, P&B): python compilar.py rateiq
+├── analise/
+│   └── fig_cadeia.py         Figura 1: cadeia de cálculo da taxa, com exemplo fictício (.venv/Scripts/python rateiq/analise/fig_cadeia.py)
 └── notas/
     ├── 01-origem-e-escopo.md     o que as epics do Jira planejam (sem nomes, volumes em ordem de grandeza)
-    └── 02-angulo-de-pesquisa.md  perguntas, hipóteses candidatas, dados, riscos e comparação com a ideia 1
+    ├── 02-angulo-de-pesquisa.md  perguntas, hipóteses candidatas, dados, riscos e comparação com a ideia 1
+    └── 03-licoes-projeto-nota-10.md  o que um projeto nota 10 da turma de 2026 faz bem e o que levar para o nosso
 ```
 
-Quando a ideia avançar, esta pasta ganha `analise/`, `dados/` e `resultados/` (os dois últimos fora do git), como a primeira.
+Quando a ideia avançar, esta pasta ganha `dados/` e `resultados/` (fora do git), como a primeira.
 
 ## Cuidados
 
